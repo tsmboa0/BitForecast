@@ -1585,11 +1585,17 @@ async function historyTab() {
 		const history_string0 = history_tab0.map(JSON.parse);
 
 		if (history_string0.length === 9) {
-			//Remove last item from Redis
+			// Remove last item from Redis
 			await Client.rpop("history_Tab");
-			// send to redis
+			// Send to redis
+			await Client.lpush("history_Tab", jsonString);
+		} else if (history_string0.length > 9) {
+			// Trim the list to keep only the first 9 items
+			await Client.ltrim("history_Tab", 0, 8);
+			// Send to redis
 			await Client.lpush("history_Tab", jsonString);
 		} else {
+			// Send to redis
 			await Client.lpush("history_Tab", jsonString);
 		}
 
