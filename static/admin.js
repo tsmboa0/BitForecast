@@ -1,4 +1,4 @@
-const contractAdress="0xD2C3457e6D424609232b29ADC55A8B7F8D40A4Aa";
+const contractAdress="0xC69F95d5E080e0515Acee0CcBfb357e051fB9a54";
 const abi =[
 	{
 		"inputs": [
@@ -73,24 +73,44 @@ const abi =[
 			{
 				"indexed": false,
 				"internalType": "uint256",
-				"name": "bullOdd",
+				"name": "bullAmount",
 				"type": "uint256"
 			},
 			{
 				"indexed": false,
 				"internalType": "uint256",
-				"name": "bearOdd",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "pool",
+				"name": "bearAmount",
 				"type": "uint256"
 			}
 		],
 		"name": "Betodds",
 		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "userAddress",
+				"type": "address"
+			}
+		],
+		"name": "BlackListInsert",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "userAddress",
+				"type": "address"
+			}
+		],
+		"name": "BlackListRemove",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
 	},
 	{
 		"anonymous": false,
@@ -214,10 +234,101 @@ const abi =[
 		"type": "event"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "price",
+				"type": "int256"
+			},
+			{
+				"internalType": "uint32",
+				"name": "timestamp",
+				"type": "uint32"
+			},
+			{
+				"internalType": "uint256",
+				"name": "betOnBull",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "betOnBear",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_wonOdd",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_rewardsClaimable",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint8",
+				"name": "_whoWon",
+				"type": "uint8"
+			}
+		],
+		"name": "Execute",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"anonymous": false,
 		"inputs": [],
 		"name": "ExecuteForced",
 		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "price",
+				"type": "int256"
+			},
+			{
+				"internalType": "uint32",
+				"name": "timestamp",
+				"type": "uint32"
+			},
+			{
+				"internalType": "uint256",
+				"name": "betOnBull",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "betOnBear",
+				"type": "uint256"
+			}
+		],
+		"name": "ForceExecute",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "value",
+				"type": "uint256"
+			}
+		],
+		"name": "FundsExtract",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "FundsInject",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
 	},
 	{
 		"anonymous": false,
@@ -269,19 +380,13 @@ const abi =[
 			{
 				"indexed": false,
 				"internalType": "uint256",
-				"name": "bullOdd",
+				"name": "bullAmount",
 				"type": "uint256"
 			},
 			{
 				"indexed": false,
 				"internalType": "uint256",
-				"name": "bearOdd",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "pool",
+				"name": "bearAmount",
 				"type": "uint256"
 			}
 		],
@@ -308,224 +413,6 @@ const abi =[
 		"type": "event"
 	},
 	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "previousOwner",
-				"type": "address"
-			},
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "newOwner",
-				"type": "address"
-			}
-		],
-		"name": "OwnershipTransferred",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "rewardRate",
-				"type": "uint256"
-			}
-		],
-		"name": "RewardRateUpdated",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "uint32",
-				"name": "newInterval",
-				"type": "uint32"
-			}
-		],
-		"name": "RoundIntervalUpdated",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "uint256",
-				"name": "epoch",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint32",
-				"name": "roundTimestamp",
-				"type": "uint32"
-			}
-		],
-		"name": "StartRound",
-		"type": "event"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			},
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"name": "Bets",
-		"outputs": [
-			{
-				"internalType": "uint8",
-				"name": "position",
-				"type": "uint8"
-			},
-			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			},
-			{
-				"internalType": "bool",
-				"name": "claimed",
-				"type": "bool"
-			},
-			{
-				"internalType": "bool",
-				"name": "isbet",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "userAddress",
-				"type": "address"
-			}
-		],
-		"name": "BlackListInsert",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "userAddress",
-				"type": "address"
-			}
-		],
-		"name": "BlackListRemove",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "int256",
-				"name": "price",
-				"type": "int256"
-			},
-			{
-				"internalType": "uint32",
-				"name": "timestamp",
-				"type": "uint32"
-			},
-			{
-				"internalType": "uint256",
-				"name": "betOnBull",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "betOnBear",
-				"type": "uint256"
-			}
-		],
-		"name": "Execute",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "int256",
-				"name": "price",
-				"type": "int256"
-			},
-			{
-				"internalType": "uint32",
-				"name": "timestamp",
-				"type": "uint32"
-			},
-			{
-				"internalType": "uint256",
-				"name": "betOnBull",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "betOnBear",
-				"type": "uint256"
-			}
-		],
-		"name": "ForceExecute",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "value",
-				"type": "uint256"
-			}
-		],
-		"name": "FundsExtract",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "FundsInject",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "IsPaused",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
 		"inputs": [],
 		"name": "OwnershipRenounce",
 		"outputs": [],
@@ -546,11 +433,43 @@ const abi =[
 		"type": "function"
 	},
 	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "previousOwner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "OwnershipTransferred",
+		"type": "event"
+	},
+	{
 		"inputs": [],
 		"name": "Pause",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "rewardRate",
+				"type": "uint256"
+			}
+		],
+		"name": "RewardRateUpdated",
+		"type": "event"
 	},
 	{
 		"inputs": [
@@ -592,6 +511,19 @@ const abi =[
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint32",
+				"name": "newInterval",
+				"type": "uint32"
+			}
+		],
+		"name": "RoundIntervalUpdated",
+		"type": "event"
 	},
 	{
 		"inputs": [
@@ -694,6 +626,25 @@ const abi =[
 		"type": "function"
 	},
 	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "epoch",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint32",
+				"name": "roundTimestamp",
+				"type": "uint32"
+			}
+		],
+		"name": "StartRound",
+		"type": "event"
+	},
+	{
 		"inputs": [],
 		"name": "Unpause",
 		"outputs": [],
@@ -701,23 +652,50 @@ const abi =[
 		"type": "function"
 	},
 	{
+		"inputs": [],
+		"name": "user_BetBear",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "user_BetBull",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
 		"inputs": [
 			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			},
+				"internalType": "uint256",
+				"name": "epoch",
+				"type": "uint256"
+			}
+		],
+		"name": "user_claimRound",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
 			{
 				"internalType": "uint256",
 				"name": "",
 				"type": "uint256"
 			}
 		],
-		"name": "UserBets",
+		"name": "_houseInfo",
 		"outputs": [
 			{
 				"internalType": "uint256",
-				"name": "",
+				"name": "houseBetBull",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "houseBetBear",
 				"type": "uint256"
 			}
 		],
@@ -809,19 +787,34 @@ const abi =[
 				"internalType": "uint256",
 				"name": "",
 				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
 			}
 		],
-		"name": "_houseInfo",
+		"name": "Bets",
 		"outputs": [
 			{
-				"internalType": "uint256",
-				"name": "houseBetBull",
-				"type": "uint256"
+				"internalType": "uint8",
+				"name": "position",
+				"type": "uint8"
 			},
 			{
 				"internalType": "uint256",
-				"name": "houseBetBear",
+				"name": "amount",
 				"type": "uint256"
+			},
+			{
+				"internalType": "bool",
+				"name": "claimed",
+				"type": "bool"
+			},
+			{
+				"internalType": "bool",
+				"name": "isbet",
+				"type": "bool"
 			}
 		],
 		"stateMutability": "view",
@@ -835,6 +828,19 @@ const abi =[
 				"internalType": "uint32",
 				"name": "",
 				"type": "uint32"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "IsPaused",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
 			}
 		],
 		"stateMutability": "view",
@@ -945,6 +951,30 @@ const abi =[
 		"type": "function"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "UserBets",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [],
 		"name": "userHistory",
 		"outputs": [
@@ -986,39 +1016,12 @@ const abi =[
 						"type": "bool"
 					}
 				],
-				"internalType": "struct BBbetsprediction.History[]",
+				"internalType": "struct BullesyesVault.History[]",
 				"name": "",
 				"type": "tuple[]"
 			}
 		],
 		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "user_BetBear",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "user_BetBull",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "epoch",
-				"type": "uint256"
-			}
-		],
-		"name": "user_claimRound",
-		"outputs": [],
-		"stateMutability": "nonpayable",
 		"type": "function"
 	}
 ];
@@ -1038,7 +1041,7 @@ async function Check(){
     
                 //detect network.
                 const network = await provider.getNetwork();
-                if(network.chainId==34){
+                if(network.chainId==137){
                     //Remove blinking...
                     document.getElementById('connect_button').classList.remove('blinking');
                 }else{
@@ -1076,7 +1079,7 @@ if(window.ethereum){
     
       window.ethereum.on('chainChanged', (chainId)=>{
         //code here
-        if(chainId==34){
+        if(chainId==137){
             //Remove blinking...
             document.getElementById('connect_button').classList.remove('blinking');
         }else{
@@ -1100,7 +1103,7 @@ async function connect(){
             document.getElementById('connect_button').innerText=(address).substring(0,5)+'...'+(address).substring((address.length)-5, (address).length);
             // document.getElementById('bnbBalance').innerText= balance+' BNB';
 
-            if(network.chainId==34){
+            if(network.chainId==137){
                 //Remove blinking...
                 document.getElementById('connect_button').classList.remove('blinking');
             }else{
@@ -1120,7 +1123,7 @@ async function connect(){
       try {
         await window.ethereum.request({
           method: 'wallet_switchEthereumChain',
-          params: [{ chainId: '0x22' }], // Corrected to '0x38' for BSC mainnet
+          params: [{ chainId: '0x89' }], // Corrected to '0x38' for BSC mainnet
         });
         document.getElementById('disconnectModal').style.display='none';
       } catch (error) {
@@ -1140,7 +1143,7 @@ async function connect(){
         const value = document.getElementById('fundsValue').value;
         const param = {value: ethers.utils.parseUnits(value.toString(), 18)};
 
-        if(network.chainId==34){
+        if(network.chainId==137){
             try{
                 const tx = await contract.FundsInject(param);
                 await contract.on("InjectFunds", (sender, event) => {
@@ -1150,8 +1153,8 @@ async function connect(){
                 alert(err.data.message);
             }
         }else{
-            //Change to SCAI Network
-            alert("You are not connected to SCAI Network. Click the blinking button at the top right to switch to SCAI Network");
+            //Change to POLYGON Network
+            alert("You are not connected to POLYGON Network. Click the blinking button at the top right to switch to POLYGON Network");
         }
 
     }
@@ -1167,15 +1170,15 @@ async function connect(){
         const param = {value: value};
         console.log(param.value);
 
-        if(network.chainId==34){
+        if(network.chainId==137){
             try{
                 const tx = await contract.FundsExtract(param.value);
             }catch(err){
                 alert(err.data.message);
             }
         }else{
-            //Change to SCAI Network
-            alert("You are not connected to SCAI Network. Click the blinking button at the top right to switch to SCAI Network");
+            //Change to POLYGON Network
+            alert("You are not connected to POLYGON Network. Click the blinking button at the top right to switch to POLYGON Network");
         }
 
     }
@@ -1188,7 +1191,7 @@ async function connect(){
         const network = await provider.getNetwork();
         const contract = new ethers.Contract(contractAdress, abi, signer);
 
-        if(network.chainId==34){
+        if(network.chainId==137){
             try{
                 const tx = await contract.Pause();
                 await contract.on("ContractPaused_", (epoch, event)=>{
@@ -1199,8 +1202,8 @@ async function connect(){
                 alert(err.data.message);
             }
         }else{
-            //Change to SCAI Network
-            alert("You are not connected to SCAI Network. Click the blinking button at the top right to switch to SCAI Network");
+            //Change to POLYGON Network
+            alert("You are not connected to POLYGON Network. Click the blinking button at the top right to switch to POLYGON Network");
         }
 
     }
@@ -1213,7 +1216,7 @@ async function connect(){
         const network = await provider.getNetwork();
         const contract = new ethers.Contract(contractAdress, abi, signer);
 
-        if(network.chainId==34){
+        if(network.chainId==137){
             try{
                 const tx = await contract.Unpause();
                 await contract.on("ContractUnpaused_", (epoch, event)=>{
@@ -1224,8 +1227,8 @@ async function connect(){
                 alert(err.data.message);
             }
         }else{
-            //Change to SCAI Network
-            alert("You are not connected to SCAI Network. Click the blinking button at the top right to switch to SCAI Network");
+            //Change to POLYGON Network
+            alert("You are not connected to POLYGON Network. Click the blinking button at the top right to switch to POLYGON Network");
         }
 
     }
@@ -1239,7 +1242,7 @@ async function connect(){
         const operatorAddress = document.getElementById('operatorAddress').value;
         const contract = new ethers.Contract(contractAdress, abi, signer);
 
-        if(network.chainId==34){
+        if(network.chainId==137){
             try{
                 const tx = await contract.SetOperator(operatorAddress);
                 document.getElementById('setOperatorModal').style.display='none';
@@ -1248,8 +1251,8 @@ async function connect(){
                 alert(err.data.message);
             }
         }else{
-            //Change to SCAI Network
-            alert("You are not connected to SCAI Network. Click the blinking button at the top right to switch to SCAI Network");
+            //Change to POLYGON Network
+            alert("You are not connected to POLYGON Network. Click the blinking button at the top right to switch to POLYGON Network");
         }
 
     }
@@ -1263,7 +1266,7 @@ async function connect(){
         const newRate = document.getElementById('newRewardRate').value;
         const contract = new ethers.Contract(contractAdress, abi, signer);
 
-        if(network.chainId==34){
+        if(network.chainId==137){
             try{
                 const tx = await contract.SetRewardRate(newRate);
                 document.getElementById('setRewardRateModal').style.display='none';
@@ -1272,8 +1275,8 @@ async function connect(){
                 alert(err.data.message);
             }
         }else{
-            //Change to SCAI Network
-            alert("You are not connected to SCAI Network. Click the blinking button at the top right to switch to SCAI Network");
+            //Change to POLYGON Network
+            alert("You are not connected to POLYGON Network. Click the blinking button at the top right to switch to POLYGON Network");
         }
 
     }
@@ -1287,7 +1290,7 @@ async function connect(){
         const user = document.getElementById('blacklistAdd').value;
         const contract = new ethers.Contract(contractAdress, abi, signer);
 
-        if(network.chainId==34){
+        if(network.chainId==137){
             try{
                 const tx = await contract.BlackListInsert(user);
                 document.getElementById('blacklistModal').style.display='none';
@@ -1296,8 +1299,8 @@ async function connect(){
                 alert(err.data.message);
             }
         }else{
-            //Change to SCAI Network
-            alert("You are not connected to SCAI Network. Click the blinking button at the top right to switch to SCAI Network");
+            //Change to POLYGON Network
+            alert("You are not connected to POLYGON Network. Click the blinking button at the top right to switch to POLYGON Network");
         }
 
     }
@@ -1311,7 +1314,7 @@ async function connect(){
         const user = document.getElementById('blacklistRemove').value;
         const contract = new ethers.Contract(contractAdress, abi, signer);
 
-        if(network.chainId==34){
+        if(network.chainId==137){
             try{
                 const tx = await contract.BlackListRemove(user);
                 document.getElementById('blacklistRemoveModal').style.display='none';
@@ -1320,8 +1323,8 @@ async function connect(){
                 alert(err.data.message);
             }
         }else{
-            //Change to SCAI Network
-            alert("You are not connected to SCAI Network. Click the blinking button at the top right to switch to SCAI Network");
+            //Change to POLYGON Network
+            alert("You are not connected to POLYGON Network. Click the blinking button at the top right to switch to POLYGON Network");
         }
 
     }
@@ -1336,7 +1339,7 @@ async function connect(){
         const amount = ethers.utils.parseEther(document.getElementById('rewardAmount').value.toString());
         const contract = new ethers.Contract(contractAdress, abi, signer);
 
-        if(network.chainId==34){
+        if(network.chainId==137){
             try{
                 const tx = await contract.RewardUser(user,amount);
                 document.getElementById('rewardUserModal').style.display='none';
@@ -1345,8 +1348,8 @@ async function connect(){
                 alert(err.data.message);
             }
         }else{
-            //Change to SCAI Network
-            alert("You are not connected to SCAI Network. Click the blinking button at the top right to switch to SCAI Network");
+            //Change to POLYGON Network
+            alert("You are not connected to POLYGON Network. Click the blinking button at the top right to switch to POLYGON Network");
         }
 
     }
@@ -1360,7 +1363,7 @@ async function connect(){
         const epoch = document.getElementById('cancelEpoch').value;
         const contract = new ethers.Contract(contractAdress, abi, signer);
 
-        if(network.chainId==34){
+        if(network.chainId==137){
             try{
                 const tx = await contract.RoundCancel(epoch, true, true);
                 await contract.on("CancelRound", (epoch, event)=>{
@@ -1371,8 +1374,8 @@ async function connect(){
                 alert(err.data.message);
             }
         }else{
-            //Change to SCAI Network
-            alert("You are not connected to SCAI Network. Click the blinking button at the top right to switch to SCAI Network");
+            //Change to POLYGON Network
+            alert("You are not connected to POLYGON Network. Click the blinking button at the top right to switch to POLYGON Network");
         }
 
     }
@@ -1385,7 +1388,7 @@ async function connect(){
         const network = await provider.getNetwork();
         const contract = new ethers.Contract(contractAdress, abi, signer);
 
-        if(network.chainId==34){
+        if(network.chainId==137){
             try{
                 const tx = await contract.RoundStart();
                 await contract.on("StartRound", (epoch, roundTimestamp, event)=>{
@@ -1395,8 +1398,8 @@ async function connect(){
                 alert(err.data.message);
             }
         }else{
-            //Change to SCAI Network
-            alert("You are not connected to SCAI Network. Click the blinking button at the top right to switch to SCAI Network");
+            //Change to POLYGON Network
+            alert("You are not connected to POLYGON Network. Click the blinking button at the top right to switch to POLYGON Network");
         }
 
     }
@@ -1411,7 +1414,7 @@ async function connect(){
         const timestamp = document.getElementById('timestamp').value;
         const contract = new ethers.Contract(contractAdress, abi, signer);
 
-        if(network.chainId==34){
+        if(network.chainId==137){
             try{
                 const tx = await contract.RoundLock(price, timestamp);
                 await contract.on("LockAutomate", (event)=>{
@@ -1421,8 +1424,8 @@ async function connect(){
                 alert(err.data.message);
             }
         }else{
-            //Change to SCAI Network
-            alert("You are not connected to SCAI Network. Click the blinking button at the top right to switch to SCAI Network");
+            //Change to POLYGON Network
+            alert("You are not connected to POLYGON Network. Click the blinking button at the top right to switch to POLYGON Network");
         }
 
     }
@@ -1436,7 +1439,7 @@ async function connect(){
         const min = ethers.utils.parseEther(document.getElementById('minBetAmount').value.toString());
         const contract = new ethers.Contract(contractAdress, abi, signer);
 
-        if(network.chainId==34){
+        if(network.chainId==137){
             try{
                 const tx = await contract.SetMinBetAmount(min);
                 await contract.on("MinBetAmountUpdated", (currentEpoch, minBetAmount, event)=>{
@@ -1447,8 +1450,8 @@ async function connect(){
                 alert(err.data.message);
             }
         }else{
-            //Change to SCAI Network
-            alert("You are not connected to SCAI Network. Click the blinking button at the top right to switch to SCAI Network");
+            //Change to POLYGON Network
+            alert("You are not connected to POLYGON Network. Click the blinking button at the top right to switch to POLYGON Network");
         }
 
     }
@@ -1462,7 +1465,7 @@ async function connect(){
         const interval = document.getElementById('roundInterval').value;
         const contract = new ethers.Contract(contractAdress, abi, signer);
 
-        if(network.chainId==34){
+        if(network.chainId==137){
             try{
                 const tx = await contract.SetRoundInterval(interval);
                 await contract.on("RoundIntervalUpdated", (newInterval, event)=>{
@@ -1473,8 +1476,8 @@ async function connect(){
                 alert(err.data.message);
             }
         }else{
-            //Change to SCAI Network
-            alert("You are not connected to SCAI Network. Click the blinking button at the top right to switch to SCAI Network");
+            //Change to POLYGON Network
+            alert("You are not connected to POLYGON Network. Click the blinking button at the top right to switch to POLYGON Network");
         }
 
     }
@@ -1490,7 +1493,7 @@ async function connect(){
             const network = await provider.getNetwork();
             const contract = new ethers.Contract(contractAdress, abi, signer);
     
-            if(network.chainId==34){
+            if(network.chainId==137){
                 try{
                     const tx = await contract.minBetAmount();
                     alert("Minimum Bet amount is "+(ethers.utils.formatEther(tx))+'BNB');
@@ -1498,8 +1501,8 @@ async function connect(){
                     alert(err.data.message);
                 }
             }else{
-                //Change to SCAI Network
-                alert("You are not connected to SCAI Network. Click the blinking button at the top right to switch to SCAI Network");
+                //Change to POLYGON Network
+                alert("You are not connected to POLYGON Network. Click the blinking button at the top right to switch to POLYGON Network");
             }
         }catch(e){
             alert("Please Connect to MetaMask First. Click the conect button in the top right corner.")
@@ -1516,7 +1519,7 @@ async function connect(){
         const epoch = document.getElementById('roundEpoch').value;
         const contract = new ethers.Contract(contractAdress, abi, signer);
 
-        if(network.chainId==34){
+        if(network.chainId==137){
             try{
                 const tx = await contract._Rounds(epoch);
                 alert(
@@ -1537,8 +1540,8 @@ async function connect(){
                 alert(err.data.message);
             }
         }else{
-            //Change to SCAI Network
-            alert("You are not connected to SCAI Network. Click the blinking button at the top right to switch to SCAI Network");
+            //Change to POLYGON Network
+            alert("You are not connected to POLYGON Network. Click the blinking button at the top right to switch to POLYGON Network");
         }
 
     }
@@ -1553,7 +1556,7 @@ async function connect(){
         const addr = document.getElementById('betsAddress').value;
         const contract = new ethers.Contract(contractAdress, abi, signer);
 
-        if(network.chainId==34){
+        if(network.chainId==137){
             try{
                 const tx = await contract.Bets(epoch,addr);
                 alert(
@@ -1566,8 +1569,8 @@ async function connect(){
                 alert(err.data.message);
             }
         }else{
-            //Change to SCAI Network
-            alert("You are not connected to SCAI Network. Click the blinking button at the top right to switch to SCAI Network");
+            //Change to POLYGON Network
+            alert("You are not connected to POLYGON Network. Click the blinking button at the top right to switch to POLYGON Network");
         }
 
     }
@@ -1580,7 +1583,7 @@ async function connect(){
         const network = await provider.getNetwork();
         const contract = new ethers.Contract(contractAdress, abi, signer);
 
-        if(network.chainId==34){
+        if(network.chainId==137){
             try{
                 const tx = await contract.currentEpoch();
                 alert("The Current epoch is #"+tx);
@@ -1588,8 +1591,8 @@ async function connect(){
                 alert(err.data.message);
             }
         }else{
-            //Change to SCAI Network
-            alert("You are not connected to SCAI Network. Click the blinking button at the top right to switch to SCAI Network");
+            //Change to POLYGON Network
+            alert("You are not connected to POLYGON Network. Click the blinking button at the top right to switch to POLYGON Network");
         }
 
     }
@@ -1602,7 +1605,7 @@ async function connect(){
         const network = await provider.getNetwork();
         const contract = new ethers.Contract(contractAdress, abi, signer);
 
-        if(network.chainId==34){
+        if(network.chainId==137){
             try{
                 const tx = await contract.operatorAddress();
                 alert("The Operator Address is: "+tx);
@@ -1610,8 +1613,8 @@ async function connect(){
                 alert(err.data.message);
             }
         }else{
-            //Change to SCAI Network
-            alert("You are not connected to SCAI Network. Click the blinking button at the top right to switch to SCAI Network");
+            //Change to POLYGON Network
+            alert("You are not connected to POLYGON Network. Click the blinking button at the top right to switch to POLYGON Network");
         }
 
     }
@@ -1624,7 +1627,7 @@ async function connect(){
         const network = await provider.getNetwork();
         const contract = new ethers.Contract(contractAdress, abi, signer);
 
-        if(network.chainId==34){
+        if(network.chainId==137){
             try{
                 const tx = await contract.owner();
                 alert("The Owner Address is: "+tx);
@@ -1632,8 +1635,8 @@ async function connect(){
                 alert(err.data.message);
             }
         }else{
-            //Change to SCAI Network
-            alert("You are not connected to SCAI Network. Click the blinking button at the top right to switch to SCAI Network");
+            //Change to POLYGON Network
+            alert("You are not connected to POLYGON Network. Click the blinking button at the top right to switch to POLYGON Network");
         }
 
     }
@@ -1646,7 +1649,7 @@ async function connect(){
         const network = await provider.getNetwork();
         const contract = new ethers.Contract(contractAdress, abi, signer);
 
-        if(network.chainId==34){
+        if(network.chainId==137){
             try{
                 const tx = await contract.minimumRewardRate();
                 alert("The Minimum Reward Rate is: "+tx);
@@ -1654,8 +1657,8 @@ async function connect(){
                 alert(err.data.message);
             }
         }else{
-            //Change to SCAI Network
-            alert("You are not connected to SCAI Network. Click the blinking button at the top right to switch to SCAI Network");
+            //Change to POLYGON Network
+            alert("You are not connected to POLYGON Network. Click the blinking button at the top right to switch to POLYGON Network");
         }
 
     }
@@ -1668,7 +1671,7 @@ async function connect(){
         const network = await provider.getNetwork();
         const contract = new ethers.Contract(contractAdress, abi, signer);
 
-        if(network.chainId==34){
+        if(network.chainId==137){
             try{
                 const tx = await contract.rewardRate();
                 alert("The Reward Rate is: "+tx);
@@ -1676,8 +1679,8 @@ async function connect(){
                 alert(err.data.message);
             }
         }else{
-            //Change to SCAI Network
-            alert("You are not connected to SCAI Network. Click the blinking button at the top right to switch to SCAI Network");
+            //Change to POLYGON Network
+            alert("You are not connected to POLYGON Network. Click the blinking button at the top right to switch to POLYGON Network");
         }
 
     }
@@ -1690,7 +1693,7 @@ async function connect(){
         const network = await provider.getNetwork();
         const contract = new ethers.Contract(contractAdress, abi, signer);
 
-        if(network.chainId==34){
+        if(network.chainId==137){
             try{
                 const tx = await contract.roundInterval();
                 alert("The Round Interval is: "+tx+"s");
@@ -1698,8 +1701,8 @@ async function connect(){
                 alert(err.data.message);
             }
         }else{
-            //Change to SCAI Network
-            alert("You are not connected to SCAI Network. Click the blinking button at the top right to switch to SCAI Network");
+            //Change to POLYGON Network
+            alert("You are not connected to POLYGON Network. Click the blinking button at the top right to switch to POLYGON Network");
         }
 
     }
@@ -1713,7 +1716,7 @@ async function connect(){
         const addr = document.getElementById('userBetsAddress').value;
         const contract = new ethers.Contract(contractAdress, abi, signer);
 
-        if(network.chainId==34){
+        if(network.chainId==137){
             try{
                 const tx = await contract.UserBets(addr);
                 alert(tx)
@@ -1721,8 +1724,8 @@ async function connect(){
                 alert(err.data.message);
             }
         }else{
-            //Change to SCAI Network
-            alert("You are not connected to SCAI Network. Click the blinking button at the top right to switch to SCAI Network");
+            //Change to POLYGON Network
+            alert("You are not connected to POLYGON Network. Click the blinking button at the top right to switch to POLYGON Network");
         }
 
     }
@@ -1739,7 +1742,7 @@ async function connect(){
         const timestamp = Math.floor((new Date().getTime())/1000);
         const contract = new ethers.Contract(contractAdress, abi, signer);
 
-        if(network.chainId==34){
+        if(network.chainId==137){
             try{
                 const tx = await contract.ForceExecute(price, timestamp, bull, bear);
                 await contract.on("StartRound", (epoch, roundTimestamp, event)=>{
@@ -1749,8 +1752,8 @@ async function connect(){
                 alert(err.data.message);
             }
         }else{
-            //Change to SCAI Network
-            alert("You are not connected to SCAI Network. Click the blinking button at the top right to switch to SCAI Network");
+            //Change to POLYGON Network
+            alert("You are not connected to POLYGON Network. Click the blinking button at the top right to switch to POLYGON Network");
         }
 
     }
@@ -1766,7 +1769,7 @@ async function connect(){
         const othersWallet = document.getElementById('othersWallet').value;
         const contract = new ethers.Contract(contractAdress, abi, signer);
 
-        if(network.chainId==34){
+        if(network.chainId==137){
             try{
                 const tx = await contract.SetWallets('0x64772107fC23f7370C90EA0aBd29ee6117B97f77', ownerWallet, othersWallet);
             }catch(err){
@@ -1774,8 +1777,8 @@ async function connect(){
 				console.log(err.data.message);
             }
         }else{
-            //Change to SCAI Network
-            alert("You are not connected to SCAI Network. Click the blinking button at the top right to switch to SCAI Network");
+            //Change to POLYGON Network
+            alert("You are not connected to POLYGON Network. Click the blinking button at the top right to switch to POLYGON Network");
         }
 
     }

@@ -1,5 +1,5 @@
 
- const contractAdress="0xD2C3457e6D424609232b29ADC55A8B7F8D40A4Aa";
+ const contractAdress="0xC69F95d5E080e0515Acee0CcBfb357e051fB9a54";
  const abi =[
 	{
 		"inputs": [
@@ -74,24 +74,44 @@
 			{
 				"indexed": false,
 				"internalType": "uint256",
-				"name": "bullOdd",
+				"name": "bullAmount",
 				"type": "uint256"
 			},
 			{
 				"indexed": false,
 				"internalType": "uint256",
-				"name": "bearOdd",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "pool",
+				"name": "bearAmount",
 				"type": "uint256"
 			}
 		],
 		"name": "Betodds",
 		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "userAddress",
+				"type": "address"
+			}
+		],
+		"name": "BlackListInsert",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "userAddress",
+				"type": "address"
+			}
+		],
+		"name": "BlackListRemove",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
 	},
 	{
 		"anonymous": false,
@@ -215,10 +235,101 @@
 		"type": "event"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "price",
+				"type": "int256"
+			},
+			{
+				"internalType": "uint32",
+				"name": "timestamp",
+				"type": "uint32"
+			},
+			{
+				"internalType": "uint256",
+				"name": "betOnBull",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "betOnBear",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_wonOdd",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_rewardsClaimable",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint8",
+				"name": "_whoWon",
+				"type": "uint8"
+			}
+		],
+		"name": "Execute",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"anonymous": false,
 		"inputs": [],
 		"name": "ExecuteForced",
 		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "price",
+				"type": "int256"
+			},
+			{
+				"internalType": "uint32",
+				"name": "timestamp",
+				"type": "uint32"
+			},
+			{
+				"internalType": "uint256",
+				"name": "betOnBull",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "betOnBear",
+				"type": "uint256"
+			}
+		],
+		"name": "ForceExecute",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "value",
+				"type": "uint256"
+			}
+		],
+		"name": "FundsExtract",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "FundsInject",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
 	},
 	{
 		"anonymous": false,
@@ -270,19 +381,13 @@
 			{
 				"indexed": false,
 				"internalType": "uint256",
-				"name": "bullOdd",
+				"name": "bullAmount",
 				"type": "uint256"
 			},
 			{
 				"indexed": false,
 				"internalType": "uint256",
-				"name": "bearOdd",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "pool",
+				"name": "bearAmount",
 				"type": "uint256"
 			}
 		],
@@ -309,224 +414,6 @@
 		"type": "event"
 	},
 	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "previousOwner",
-				"type": "address"
-			},
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "newOwner",
-				"type": "address"
-			}
-		],
-		"name": "OwnershipTransferred",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "rewardRate",
-				"type": "uint256"
-			}
-		],
-		"name": "RewardRateUpdated",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "uint32",
-				"name": "newInterval",
-				"type": "uint32"
-			}
-		],
-		"name": "RoundIntervalUpdated",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "uint256",
-				"name": "epoch",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint32",
-				"name": "roundTimestamp",
-				"type": "uint32"
-			}
-		],
-		"name": "StartRound",
-		"type": "event"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			},
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"name": "Bets",
-		"outputs": [
-			{
-				"internalType": "uint8",
-				"name": "position",
-				"type": "uint8"
-			},
-			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			},
-			{
-				"internalType": "bool",
-				"name": "claimed",
-				"type": "bool"
-			},
-			{
-				"internalType": "bool",
-				"name": "isbet",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "userAddress",
-				"type": "address"
-			}
-		],
-		"name": "BlackListInsert",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "userAddress",
-				"type": "address"
-			}
-		],
-		"name": "BlackListRemove",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "int256",
-				"name": "price",
-				"type": "int256"
-			},
-			{
-				"internalType": "uint32",
-				"name": "timestamp",
-				"type": "uint32"
-			},
-			{
-				"internalType": "uint256",
-				"name": "betOnBull",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "betOnBear",
-				"type": "uint256"
-			}
-		],
-		"name": "Execute",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "int256",
-				"name": "price",
-				"type": "int256"
-			},
-			{
-				"internalType": "uint32",
-				"name": "timestamp",
-				"type": "uint32"
-			},
-			{
-				"internalType": "uint256",
-				"name": "betOnBull",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "betOnBear",
-				"type": "uint256"
-			}
-		],
-		"name": "ForceExecute",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "value",
-				"type": "uint256"
-			}
-		],
-		"name": "FundsExtract",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "FundsInject",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "IsPaused",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
 		"inputs": [],
 		"name": "OwnershipRenounce",
 		"outputs": [],
@@ -547,11 +434,43 @@
 		"type": "function"
 	},
 	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "previousOwner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "OwnershipTransferred",
+		"type": "event"
+	},
+	{
 		"inputs": [],
 		"name": "Pause",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "rewardRate",
+				"type": "uint256"
+			}
+		],
+		"name": "RewardRateUpdated",
+		"type": "event"
 	},
 	{
 		"inputs": [
@@ -593,6 +512,19 @@
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint32",
+				"name": "newInterval",
+				"type": "uint32"
+			}
+		],
+		"name": "RoundIntervalUpdated",
+		"type": "event"
 	},
 	{
 		"inputs": [
@@ -695,6 +627,25 @@
 		"type": "function"
 	},
 	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "epoch",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint32",
+				"name": "roundTimestamp",
+				"type": "uint32"
+			}
+		],
+		"name": "StartRound",
+		"type": "event"
+	},
+	{
 		"inputs": [],
 		"name": "Unpause",
 		"outputs": [],
@@ -702,23 +653,50 @@
 		"type": "function"
 	},
 	{
+		"inputs": [],
+		"name": "user_BetBear",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "user_BetBull",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
 		"inputs": [
 			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			},
+				"internalType": "uint256",
+				"name": "epoch",
+				"type": "uint256"
+			}
+		],
+		"name": "user_claimRound",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
 			{
 				"internalType": "uint256",
 				"name": "",
 				"type": "uint256"
 			}
 		],
-		"name": "UserBets",
+		"name": "_houseInfo",
 		"outputs": [
 			{
 				"internalType": "uint256",
-				"name": "",
+				"name": "houseBetBull",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "houseBetBear",
 				"type": "uint256"
 			}
 		],
@@ -810,19 +788,34 @@
 				"internalType": "uint256",
 				"name": "",
 				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
 			}
 		],
-		"name": "_houseInfo",
+		"name": "Bets",
 		"outputs": [
 			{
-				"internalType": "uint256",
-				"name": "houseBetBull",
-				"type": "uint256"
+				"internalType": "uint8",
+				"name": "position",
+				"type": "uint8"
 			},
 			{
 				"internalType": "uint256",
-				"name": "houseBetBear",
+				"name": "amount",
 				"type": "uint256"
+			},
+			{
+				"internalType": "bool",
+				"name": "claimed",
+				"type": "bool"
+			},
+			{
+				"internalType": "bool",
+				"name": "isbet",
+				"type": "bool"
 			}
 		],
 		"stateMutability": "view",
@@ -836,6 +829,19 @@
 				"internalType": "uint32",
 				"name": "",
 				"type": "uint32"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "IsPaused",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
 			}
 		],
 		"stateMutability": "view",
@@ -946,6 +952,30 @@
 		"type": "function"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "UserBets",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [],
 		"name": "userHistory",
 		"outputs": [
@@ -987,39 +1017,12 @@
 						"type": "bool"
 					}
 				],
-				"internalType": "struct BBbetsprediction.History[]",
+				"internalType": "struct BullesyesVault.History[]",
 				"name": "",
 				"type": "tuple[]"
 			}
 		],
 		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "user_BetBear",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "user_BetBull",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "epoch",
-				"type": "uint256"
-			}
-		],
-		"name": "user_claimRound",
-		"outputs": [],
-		"stateMutability": "nonpayable",
 		"type": "function"
 	}
 ];
@@ -1043,7 +1046,7 @@
             
                         //detect network.
                         const network = await provider.getNetwork();
-                        if(network.chainId==34){
+                        if(network.chainId==137){
                             //Remove blinking...
                             document.getElementById('connect_button').classList.remove('blinking');
 
@@ -1117,7 +1120,7 @@
                     var div31=document.createElement('div');
                     div31.className="NetworkCurrencySymbol active";
                     var img1=document.createElement('img');
-                    img1.src="/Home/scai.png";
+                    img1.src="/Home/POLYGON.png";
                     div31.appendChild(img1);
                     div3.appendChild(div31);
                     td4.appendChild(div3);
@@ -1135,7 +1138,7 @@
                         var div41=document.createElement('div');
                         div41.className="NetworkCurrencySymbol active";
                         var img2=document.createElement('img');
-                        img2.src="/Home/scai.png";
+                        img2.src="/Home/POLYGON.png";
                         div41.appendChild(img2);
                         div4.appendChild(div41);
                         td5.appendChild(div4);
@@ -1189,7 +1192,7 @@
                             var div41=document.createElement('div');
                             div41.className="NetworkCurrencySymbol active";
                             var img2=document.createElement('img');
-                            img2.src="/Home/scai.png";
+                            img2.src="/Home/POLYGON.png";
                             div41.appendChild(img2);
                             div4.appendChild(div41);
                             td5.appendChild(div4);
@@ -1241,7 +1244,7 @@
                             var div41=document.createElement('div');
                             div41.className="NetworkCurrencySymbol active";
                             var img2=document.createElement('img');
-                            img2.src="/Home/scai.png";
+                            img2.src="/Home/POLYGON.png";
                             div41.appendChild(img2);
                             div4.appendChild(div41);
                             td5.appendChild(div4);
@@ -1299,7 +1302,7 @@
                             var div41=document.createElement('div');
                             div41.className="NetworkCurrencySymbol active";
                             var img2=document.createElement('img');
-                            img2.src="/Home/scai.png";
+                            img2.src="/Home/POLYGON.png";
                             div41.appendChild(img2);
                             div4.appendChild(div41);
                             td5.appendChild(div4);
@@ -1376,7 +1379,7 @@
         
           window.ethereum.on('chainChanged', (chainId)=>{
             //code here
-            if(chainId==34){
+            if(chainId==137){
                 //Remove blinking...
                 document.getElementById('connect_button').classList.remove('blinking');
             }else{
@@ -1402,7 +1405,7 @@
                 window.location.reload;
                 // document.getElementById('bnbBalance').innerText= balance+' BNB';
     
-                if(network.chainId==34){
+                if(network.chainId==137){
                     //Remove blinking...
                     document.getElementById('connect_button').classList.remove('blinking');
                 }else{
@@ -1427,7 +1430,7 @@
             const myAddress = await signer.getAddress();
             const filter = contract.filters.Claim(myAddress);
     
-            if(network.chainId==34){
+            if(network.chainId==137){
                 try{
                     const txcn = await contract.claimAllRound();
                     const receipt = await txcn;
@@ -1444,7 +1447,7 @@
                     console.log(e);
                 }
             }else{
-                alert("You are not connected to the SCAI Network. Click the blinking button at the top right to change Network.")
+                alert("You are not connected to the POLYGON Network. Click the blinking button at the top right to change Network.")
             }
         }catch(e){
             alert("Please connect your MetaMask")
@@ -1461,7 +1464,7 @@
         const myAddress = await signer.getAddress();
         const filter = contract.filters.Claim(myAddress,null,null);
 
-        if(network.chainId==34){
+        if(network.chainId==137){
             try{
                 const txcn = await contract.user_claimRound(epoch);
                 const receipt = await txcn;
@@ -1476,7 +1479,7 @@
                 console.log(e);
             }
         }else{
-            alert("You are not connected to the SCAI Network. Click the blinking button at the top right to change Network.")
+            alert("You are not connected to the POLYGON Network. Click the blinking button at the top right to change Network.")
         }
 
     }

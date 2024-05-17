@@ -12,6 +12,8 @@ const url = require("url");
 const redis = require("redis");
 const Redis = require("ioredis");
 const sslRedirect = require('express-sslify');
+const {web3} = require('web3');
+const WSocket = require('ws');
 
 const app = express();
 app.use(express.urlencoded({extended: true}));
@@ -46,7 +48,7 @@ const server = http.createServer(app);
 const io = new Server(server);
 
 //Contract interaction
-const contractAdress="0xD2C3457e6D424609232b29ADC55A8B7F8D40A4Aa";
+const contractAdress="0xC69F95d5E080e0515Acee0CcBfb357e051fB9a54";
 const abi =[
 	{
 		"inputs": [
@@ -121,24 +123,44 @@ const abi =[
 			{
 				"indexed": false,
 				"internalType": "uint256",
-				"name": "bullOdd",
+				"name": "bullAmount",
 				"type": "uint256"
 			},
 			{
 				"indexed": false,
 				"internalType": "uint256",
-				"name": "bearOdd",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "pool",
+				"name": "bearAmount",
 				"type": "uint256"
 			}
 		],
 		"name": "Betodds",
 		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "userAddress",
+				"type": "address"
+			}
+		],
+		"name": "BlackListInsert",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "userAddress",
+				"type": "address"
+			}
+		],
+		"name": "BlackListRemove",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
 	},
 	{
 		"anonymous": false,
@@ -262,10 +284,101 @@ const abi =[
 		"type": "event"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "price",
+				"type": "int256"
+			},
+			{
+				"internalType": "uint32",
+				"name": "timestamp",
+				"type": "uint32"
+			},
+			{
+				"internalType": "uint256",
+				"name": "betOnBull",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "betOnBear",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_wonOdd",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_rewardsClaimable",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint8",
+				"name": "_whoWon",
+				"type": "uint8"
+			}
+		],
+		"name": "Execute",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"anonymous": false,
 		"inputs": [],
 		"name": "ExecuteForced",
 		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "price",
+				"type": "int256"
+			},
+			{
+				"internalType": "uint32",
+				"name": "timestamp",
+				"type": "uint32"
+			},
+			{
+				"internalType": "uint256",
+				"name": "betOnBull",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "betOnBear",
+				"type": "uint256"
+			}
+		],
+		"name": "ForceExecute",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "value",
+				"type": "uint256"
+			}
+		],
+		"name": "FundsExtract",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "FundsInject",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
 	},
 	{
 		"anonymous": false,
@@ -317,19 +430,13 @@ const abi =[
 			{
 				"indexed": false,
 				"internalType": "uint256",
-				"name": "bullOdd",
+				"name": "bullAmount",
 				"type": "uint256"
 			},
 			{
 				"indexed": false,
 				"internalType": "uint256",
-				"name": "bearOdd",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "pool",
+				"name": "bearAmount",
 				"type": "uint256"
 			}
 		],
@@ -356,224 +463,6 @@ const abi =[
 		"type": "event"
 	},
 	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "previousOwner",
-				"type": "address"
-			},
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "newOwner",
-				"type": "address"
-			}
-		],
-		"name": "OwnershipTransferred",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "rewardRate",
-				"type": "uint256"
-			}
-		],
-		"name": "RewardRateUpdated",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "uint32",
-				"name": "newInterval",
-				"type": "uint32"
-			}
-		],
-		"name": "RoundIntervalUpdated",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "uint256",
-				"name": "epoch",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint32",
-				"name": "roundTimestamp",
-				"type": "uint32"
-			}
-		],
-		"name": "StartRound",
-		"type": "event"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			},
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"name": "Bets",
-		"outputs": [
-			{
-				"internalType": "uint8",
-				"name": "position",
-				"type": "uint8"
-			},
-			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			},
-			{
-				"internalType": "bool",
-				"name": "claimed",
-				"type": "bool"
-			},
-			{
-				"internalType": "bool",
-				"name": "isbet",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "userAddress",
-				"type": "address"
-			}
-		],
-		"name": "BlackListInsert",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "userAddress",
-				"type": "address"
-			}
-		],
-		"name": "BlackListRemove",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "int256",
-				"name": "price",
-				"type": "int256"
-			},
-			{
-				"internalType": "uint32",
-				"name": "timestamp",
-				"type": "uint32"
-			},
-			{
-				"internalType": "uint256",
-				"name": "betOnBull",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "betOnBear",
-				"type": "uint256"
-			}
-		],
-		"name": "Execute",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "int256",
-				"name": "price",
-				"type": "int256"
-			},
-			{
-				"internalType": "uint32",
-				"name": "timestamp",
-				"type": "uint32"
-			},
-			{
-				"internalType": "uint256",
-				"name": "betOnBull",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "betOnBear",
-				"type": "uint256"
-			}
-		],
-		"name": "ForceExecute",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "value",
-				"type": "uint256"
-			}
-		],
-		"name": "FundsExtract",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "FundsInject",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "IsPaused",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
 		"inputs": [],
 		"name": "OwnershipRenounce",
 		"outputs": [],
@@ -594,11 +483,43 @@ const abi =[
 		"type": "function"
 	},
 	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "previousOwner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "OwnershipTransferred",
+		"type": "event"
+	},
+	{
 		"inputs": [],
 		"name": "Pause",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "rewardRate",
+				"type": "uint256"
+			}
+		],
+		"name": "RewardRateUpdated",
+		"type": "event"
 	},
 	{
 		"inputs": [
@@ -640,6 +561,19 @@ const abi =[
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint32",
+				"name": "newInterval",
+				"type": "uint32"
+			}
+		],
+		"name": "RoundIntervalUpdated",
+		"type": "event"
 	},
 	{
 		"inputs": [
@@ -742,6 +676,25 @@ const abi =[
 		"type": "function"
 	},
 	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "epoch",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint32",
+				"name": "roundTimestamp",
+				"type": "uint32"
+			}
+		],
+		"name": "StartRound",
+		"type": "event"
+	},
+	{
 		"inputs": [],
 		"name": "Unpause",
 		"outputs": [],
@@ -749,23 +702,50 @@ const abi =[
 		"type": "function"
 	},
 	{
+		"inputs": [],
+		"name": "user_BetBear",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "user_BetBull",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
 		"inputs": [
 			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			},
+				"internalType": "uint256",
+				"name": "epoch",
+				"type": "uint256"
+			}
+		],
+		"name": "user_claimRound",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
 			{
 				"internalType": "uint256",
 				"name": "",
 				"type": "uint256"
 			}
 		],
-		"name": "UserBets",
+		"name": "_houseInfo",
 		"outputs": [
 			{
 				"internalType": "uint256",
-				"name": "",
+				"name": "houseBetBull",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "houseBetBear",
 				"type": "uint256"
 			}
 		],
@@ -857,19 +837,34 @@ const abi =[
 				"internalType": "uint256",
 				"name": "",
 				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
 			}
 		],
-		"name": "_houseInfo",
+		"name": "Bets",
 		"outputs": [
 			{
-				"internalType": "uint256",
-				"name": "houseBetBull",
-				"type": "uint256"
+				"internalType": "uint8",
+				"name": "position",
+				"type": "uint8"
 			},
 			{
 				"internalType": "uint256",
-				"name": "houseBetBear",
+				"name": "amount",
 				"type": "uint256"
+			},
+			{
+				"internalType": "bool",
+				"name": "claimed",
+				"type": "bool"
+			},
+			{
+				"internalType": "bool",
+				"name": "isbet",
+				"type": "bool"
 			}
 		],
 		"stateMutability": "view",
@@ -883,6 +878,19 @@ const abi =[
 				"internalType": "uint32",
 				"name": "",
 				"type": "uint32"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "IsPaused",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
 			}
 		],
 		"stateMutability": "view",
@@ -993,6 +1001,30 @@ const abi =[
 		"type": "function"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "UserBets",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [],
 		"name": "userHistory",
 		"outputs": [
@@ -1034,44 +1066,17 @@ const abi =[
 						"type": "bool"
 					}
 				],
-				"internalType": "struct BBbetsprediction.History[]",
+				"internalType": "struct BullesyesVault.History[]",
 				"name": "",
 				"type": "tuple[]"
 			}
 		],
 		"stateMutability": "view",
 		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "user_BetBear",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "user_BetBull",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "epoch",
-				"type": "uint256"
-			}
-		],
-		"name": "user_claimRound",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
 	}
 ];
-const bscNetwork = process.env.SCAINETWORK;
-const provider = new ethers.JsonRpcProvider(bscNetwork);
+const bscNetwork = process.env.POLYGONNETWORK;
+const provider = new ethers.WebSocketProvider(bscNetwork);
 const privateKey = process.env.PRIVATEKEY;
 const wallet = new ethers.Wallet(privateKey, provider);
 const contract = new ethers.Contract(contractAdress, abi, wallet);
@@ -1100,14 +1105,15 @@ let LockAutomateSignal;
 let remainingTime;
 let counterStartTime;
 let Price_;
+let tradeData;
 
 
 async function getReload(){
-	// await Client.connect();
+	await Client.connect();
 	// await Client.flushdb();
 	// await Client.FLUSHALL();
 	// console.log("all info cleared..");
-	await Client.set("LockAutomateSignal", 'true');
+	// await Client.set("LockAutomateSignal", 'true');
 
 	const start_round = await Client.hgetall("StartRound0");
 	console.log("StartRound epoch is :"+start_round.nextEpoch);
@@ -1368,13 +1374,13 @@ io.on('connection', async(socket) => {
   });
 
 setInterval(async()=>{
-	await axios.get('https://api.coingecko.com/api/v3/simple/price?ids=securechain-ai&vs_currencies=usd')
+	await axios.get("https://api.binance.com/api/v3/ticker/price?symbol=MATICUSDT")
 	.then(async(response) => {
-	    Price_ = response.data['securechain-ai'].usd;
-		console.log("SCAI Price is "+Price_);
+	    Price_ = response.data.price;
+		console.log("MATIC Price is "+Price_);
 	})
 	.catch((e)=>{
-		console.log("getBnbPrice didnt work out");
+		console.log("MATIC price didnt work out");
 	})
 },30000);
 
@@ -1438,15 +1444,38 @@ contract.on("EndRound", async(epoch, pool, lockedPrice, outcome, event)=>{
     io.emit("previousLockedPrice", previousLockedPrice);
 });
 //when Round Locks in the BlockChain
-contract.on("LockRound", async(epoch, price, bullOdd, bearOdd, pool, event)=> {
+contract.on("LockRound", async(epoch, price, bullAmount, bearAmount, event)=> {
     console.log("Previous Round Locked..."+epoch);
     currentEpoch = parseInt(epoch.toString());
     console.log("Current Epoch passed "+currentEpoch);
     lockedprice = parseFloat(ethers.formatEther(price.toString())).toFixed(2);
     console.log("locked Price is "+lockedprice);
-    currentPricePool = parseFloat(ethers.formatEther(pool.toString())).toFixed(2);
-    previousBullOdd = parseFloat(ethers.formatEther(bullOdd.toString())).toFixed(2);
-    previousBearOdd = parseFloat(ethers.formatEther(bearOdd.toString())).toFixed(2);
+
+	//Perform maths operation to calculate bet odds.
+	const _BullAmount = parseFloat(ethers.formatEther(bullAmount.toString())).toFixed(2);
+	console.log("Bull Amount is ", _BullAmount)
+	const _BearAmount = parseFloat(ethers.formatEther(bearAmount.toString())).toFixed(2);
+	console.log("Bear Amount is ",_BearAmount)
+	const _Total = parseFloat(parseFloat(_BullAmount) + parseFloat(_BearAmount)).toFixed(2);
+	console.log("Total Amount is ",_Total)
+
+	let _BullOdd = parseFloat(_Total/_BullAmount).toFixed(2);
+	let _BearOdd = parseFloat(_Total/_BearAmount).toFixed(2);
+
+	if(_BullOdd > 3){
+		_BullOdd = 4 - _BearOdd;
+	}else{
+		//
+	}
+	if(_BearOdd > 3){
+		_BearOdd = 4 - _BullOdd;
+	}else{
+		//
+	}
+
+    currentPricePool = _Total;
+    previousBullOdd = _BullOdd;
+    previousBearOdd = _BearOdd;
 
 	//store data on redis
 	await Client.hset('LockRound', {
@@ -1455,6 +1484,8 @@ contract.on("LockRound", async(epoch, price, bullOdd, bearOdd, pool, event)=> {
 		'currentPricePool': currentPricePool,
 		'previousBullOdd': previousBullOdd,
 		'previousBearOdd': previousBearOdd,
+		'BullAmount': _BullAmount,
+		'BearAmount': _BearAmount
 	});
     //pass value to the frontend using socket.io
 
@@ -1470,12 +1501,31 @@ contract.on("LockRound", async(epoch, price, bullOdd, bearOdd, pool, event)=> {
     console.log(previousBearOdd);
 })
 // nextRound Betodds
-contract.on("Betodds", async(epoch, bullOdd, bearOdd, pool, event)=>{
-    console.log("Bet Odd entered "+bullOdd);
-    currentBullOdd = parseFloat(ethers.formatEther(bullOdd.toString())).toFixed(2);
-    console.log("current bull odd is "+currentBearOdd);
-    currentBearOdd = parseFloat(ethers.formatEther(bearOdd.toString())).toFixed(2);
-    nextPricePool = parseFloat(ethers.formatEther(pool.toString())).toFixed(2);
+contract.on("Betodds", async(epoch, bullAmount, bearAmount, event)=>{
+    console.log("Bet Odd entered "+bullAmount);
+
+	//Perform maths operation to calculate bet odds.
+	const _BullAmount = parseFloat(ethers.formatEther(bullAmount.toString())).toFixed(2);
+	const _BearAmount = parseFloat(ethers.formatEther(bearAmount.toString())).toFixed(2);
+	const _Total = parseFloat(parseFloat(_BullAmount) + parseFloat(_BearAmount)).toFixed(2);
+
+	let _BullOdd1 = parseFloat(_Total/_BullAmount).toFixed(2);
+	let _BearOdd1 = parseFloat(_Total/_BearAmount).toFixed(2);
+
+	if(_BullOdd1 > 3){
+		_BullOdd1 = 4 - _BearOdd1;
+	}else{
+		//
+	}
+	if(_BearOdd1 > 3){
+		_BearOdd1 = 4 - _BullOdd1;
+	}else{
+		//
+	}
+
+    currentBullOdd = _BullOdd1;
+    currentBearOdd = _BearOdd1;
+    nextPricePool = _Total;
 
 	//set values to redis
 	await Client.hset('Betodds', {
@@ -1498,7 +1548,7 @@ contract.on("MinBetAmountUpdated", (epoch, minBetAmount, event)=>{
 contract.on("ContractPaused_", async(epoch, event)=>{
     //
     isPaused=true;
-	await Client.set("ispaused", 'true');
+	// await Client.set("ispaused", 'true');
     io.emit("contractPaused", isPaused);
 })
 
@@ -1532,21 +1582,22 @@ contract.on("ExecuteForced", (event)=>{
 const btcusdt = setInterval(async()=>{
 	// console.log("Live BTCUSDT price signal received");
 	//
-	await axios.get('http://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT')
+	await axios.get('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT')
 	.then(async(response) => {
 		// Extract and use the price from the response
 		// console.log("price stage passed.")
 		const btc_usdt = response.data.price;
-		// console.log("the BTCUSDT Price is "+btc_usdt);
+		console.log("the BTCUSDT Price is "+btc_usdt);
 
 		//emit price to frontend.
 		io.emit("btc_usdt", btc_usdt);
 		// console.log("LivePrice Emitted...");
 	})
 	.catch((e)=>{
-		console.log(e," getBnbPrice didnt work out");
+		// console.log("BTC Price didnt work out");
 	})
 },500);
+
 
 //Get GasPrice
 /**setInterval(async() => {
@@ -1609,127 +1660,6 @@ async function historyTab() {
 }
   
 //House Bets function ends here!!
-
-function getRandomNumber(min, max) {
-    return Math.random() * (max - min) + min;
-}
-
-function generateValidRandomPair(minRatio, maxRatio) {
-    const aa = Math.random();
-    if(aa > 0.5){
-        const betBear = getRandomNumber(1, 100); // Assume any random value for betBear between 1 and 100
-        const betBull = betBear * getRandomNumber(minRatio, maxRatio);
-    
-        return [betBull, betBear];
-    }else{
-        const betBull = getRandomNumber(1, 100); // Assume any random value for betBear between 1 and 100
-        const betBear = betBull * getRandomNumber(minRatio, maxRatio);
-    
-        return [betBull, betBear];
-    }
-}
-
-
-//cron operation. Calls Execute function every 5 minutes.
-/**function getSignal(){
-    console.log("Inside the getSignal... waiting for the next 5 mins to launch getSignal0..");
-
-    setTimeout(()=>{
-        console.log("Inside the first setTimeout... launching getSignal0..");
-        getSignal0();
-        console.log("getSignal0 emitted..")
-    }, remainingTime);
-}
-
-async function getSignal0(){
-    try{
-        console.log("awaiting Execution...");
-        await Execute();
-    }catch(e){
-        console.log("There was an error in the execute function. Retrying in 5 minutes...");
-    }
-
-	counterStartTime = new Date().now();
-	//push to redis
-	await Client.set("counterStartTime", counterStartTime);
-
-    signalTimeout = setTimeout(()=>{
-        console.log("inside the second setTimeout...");
-        getSignal0();
-        console.log("getSignal0 called again...");
-    }, remainingTime);
-}
-
-function resetForced(){
-    console.log("inside reset forced function");
-    clearTimeout(signalTimeout);
-    console.log("signalTimeout cleared...");
-    getSignal();
-    console.log("get Signal called.");
-}
-
-async function Execute(){
-
-    console.log("inside cron");
-    
-    if(isPaused==false){
-        console.log("isPaused test passed")
-        //get binance price
-        await axios.get('http://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT')
-        .then(async(response) => {
-        // Extract and use the price from the response
-        console.log("price stage passed.")
-        const bPrice = response.data.price;
-        console.log('BTC/USDT Price:', ethers.parseUnits(bPrice.toString(), 18));
-    
-        // Example: Generate a pair of random numbers between 0.5 and 1.5 with a maximum difference of 0.5
-        const [randomNumber1, randomNumber2] = generateValidRandomPair((_minHouseBetRatio / 100), 1);
-        const num1 = randomNumber1/300;
-        const num2 = randomNumber2/300;
-        console.log(num1, num2);
-        const timestamp= Math.floor(new Date().getTime()/1000);
-        console.log("timestamp is "+timestamp);
-        const betOnBull= ethers.parseUnits(num1.toString(), 18);
-        console.log("BetBull is "+betOnBull);
-        const betOnBear= ethers.parseUnits(num2.toString(), 18);
-        console.log("BetBear is "+betOnBear);
-        const Price = ethers.parseUnits(bPrice.toString(), 18);
-        console.log("the price is "+Price);
-        console.log(betOnBull, betOnBear);
-    
-        //write to the blockchain.
-        try{
-          const tx = await contract.Execute(Price, timestamp, betOnBull, betOnBear);//look into this line and complete it.
-          console.log("Execute completed from smart contract...");
-           // Wrap both promises in an array
-           const promises = [
-                new Promise((resolve, reject) => {
-                    contract.once("StartRound", (epoch, roundTimestamp, event) => {
-                        console.log("StartRound event received....");
-                        resolve();
-                    });
-                }),
-                tx.wait()
-            ];
-
-            // Wait for both promises to resolve
-            await Promise.all(promises);
-            console.log("waiting for the next 5 mins to call the getSignal0 function again...");
-          }
-        catch(e){
-            console.log(e.message);
-        };
-     })
-      .catch((error) => {
-        console.error('Error:', error.message);
-      });
-    
-      console.log("The end!");
-    }else{
-        //do nothing...
-    }    
-        
-}*/
 
 
 

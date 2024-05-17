@@ -10,8 +10,9 @@ require('events').EventEmitter.defaultMaxListeners = 15;
 
 const Client = new Redis(process.env.REDISCLOUD_URL);
 // const Client = redis.createClient();
+
 //Contract interaction
-const contractAdress="0xD2C3457e6D424609232b29ADC55A8B7F8D40A4Aa";
+const contractAdress="0xC69F95d5E080e0515Acee0CcBfb357e051fB9a54";
 const abi =[
 	{
 		"inputs": [
@@ -86,24 +87,44 @@ const abi =[
 			{
 				"indexed": false,
 				"internalType": "uint256",
-				"name": "bullOdd",
+				"name": "bullAmount",
 				"type": "uint256"
 			},
 			{
 				"indexed": false,
 				"internalType": "uint256",
-				"name": "bearOdd",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "pool",
+				"name": "bearAmount",
 				"type": "uint256"
 			}
 		],
 		"name": "Betodds",
 		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "userAddress",
+				"type": "address"
+			}
+		],
+		"name": "BlackListInsert",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "userAddress",
+				"type": "address"
+			}
+		],
+		"name": "BlackListRemove",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
 	},
 	{
 		"anonymous": false,
@@ -227,10 +248,101 @@ const abi =[
 		"type": "event"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "price",
+				"type": "int256"
+			},
+			{
+				"internalType": "uint32",
+				"name": "timestamp",
+				"type": "uint32"
+			},
+			{
+				"internalType": "uint256",
+				"name": "betOnBull",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "betOnBear",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_wonOdd",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_rewardsClaimable",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint8",
+				"name": "_whoWon",
+				"type": "uint8"
+			}
+		],
+		"name": "Execute",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"anonymous": false,
 		"inputs": [],
 		"name": "ExecuteForced",
 		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "price",
+				"type": "int256"
+			},
+			{
+				"internalType": "uint32",
+				"name": "timestamp",
+				"type": "uint32"
+			},
+			{
+				"internalType": "uint256",
+				"name": "betOnBull",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "betOnBear",
+				"type": "uint256"
+			}
+		],
+		"name": "ForceExecute",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "value",
+				"type": "uint256"
+			}
+		],
+		"name": "FundsExtract",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "FundsInject",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
 	},
 	{
 		"anonymous": false,
@@ -282,19 +394,13 @@ const abi =[
 			{
 				"indexed": false,
 				"internalType": "uint256",
-				"name": "bullOdd",
+				"name": "bullAmount",
 				"type": "uint256"
 			},
 			{
 				"indexed": false,
 				"internalType": "uint256",
-				"name": "bearOdd",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "pool",
+				"name": "bearAmount",
 				"type": "uint256"
 			}
 		],
@@ -321,224 +427,6 @@ const abi =[
 		"type": "event"
 	},
 	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "previousOwner",
-				"type": "address"
-			},
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "newOwner",
-				"type": "address"
-			}
-		],
-		"name": "OwnershipTransferred",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "rewardRate",
-				"type": "uint256"
-			}
-		],
-		"name": "RewardRateUpdated",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "uint32",
-				"name": "newInterval",
-				"type": "uint32"
-			}
-		],
-		"name": "RoundIntervalUpdated",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "uint256",
-				"name": "epoch",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint32",
-				"name": "roundTimestamp",
-				"type": "uint32"
-			}
-		],
-		"name": "StartRound",
-		"type": "event"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			},
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"name": "Bets",
-		"outputs": [
-			{
-				"internalType": "uint8",
-				"name": "position",
-				"type": "uint8"
-			},
-			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			},
-			{
-				"internalType": "bool",
-				"name": "claimed",
-				"type": "bool"
-			},
-			{
-				"internalType": "bool",
-				"name": "isbet",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "userAddress",
-				"type": "address"
-			}
-		],
-		"name": "BlackListInsert",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "userAddress",
-				"type": "address"
-			}
-		],
-		"name": "BlackListRemove",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "int256",
-				"name": "price",
-				"type": "int256"
-			},
-			{
-				"internalType": "uint32",
-				"name": "timestamp",
-				"type": "uint32"
-			},
-			{
-				"internalType": "uint256",
-				"name": "betOnBull",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "betOnBear",
-				"type": "uint256"
-			}
-		],
-		"name": "Execute",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "int256",
-				"name": "price",
-				"type": "int256"
-			},
-			{
-				"internalType": "uint32",
-				"name": "timestamp",
-				"type": "uint32"
-			},
-			{
-				"internalType": "uint256",
-				"name": "betOnBull",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "betOnBear",
-				"type": "uint256"
-			}
-		],
-		"name": "ForceExecute",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "value",
-				"type": "uint256"
-			}
-		],
-		"name": "FundsExtract",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "FundsInject",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "IsPaused",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
 		"inputs": [],
 		"name": "OwnershipRenounce",
 		"outputs": [],
@@ -559,11 +447,43 @@ const abi =[
 		"type": "function"
 	},
 	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "previousOwner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "OwnershipTransferred",
+		"type": "event"
+	},
+	{
 		"inputs": [],
 		"name": "Pause",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "rewardRate",
+				"type": "uint256"
+			}
+		],
+		"name": "RewardRateUpdated",
+		"type": "event"
 	},
 	{
 		"inputs": [
@@ -605,6 +525,19 @@ const abi =[
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint32",
+				"name": "newInterval",
+				"type": "uint32"
+			}
+		],
+		"name": "RoundIntervalUpdated",
+		"type": "event"
 	},
 	{
 		"inputs": [
@@ -707,6 +640,25 @@ const abi =[
 		"type": "function"
 	},
 	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "epoch",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint32",
+				"name": "roundTimestamp",
+				"type": "uint32"
+			}
+		],
+		"name": "StartRound",
+		"type": "event"
+	},
+	{
 		"inputs": [],
 		"name": "Unpause",
 		"outputs": [],
@@ -714,23 +666,50 @@ const abi =[
 		"type": "function"
 	},
 	{
+		"inputs": [],
+		"name": "user_BetBear",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "user_BetBull",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
 		"inputs": [
 			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			},
+				"internalType": "uint256",
+				"name": "epoch",
+				"type": "uint256"
+			}
+		],
+		"name": "user_claimRound",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
 			{
 				"internalType": "uint256",
 				"name": "",
 				"type": "uint256"
 			}
 		],
-		"name": "UserBets",
+		"name": "_houseInfo",
 		"outputs": [
 			{
 				"internalType": "uint256",
-				"name": "",
+				"name": "houseBetBull",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "houseBetBear",
 				"type": "uint256"
 			}
 		],
@@ -822,19 +801,34 @@ const abi =[
 				"internalType": "uint256",
 				"name": "",
 				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
 			}
 		],
-		"name": "_houseInfo",
+		"name": "Bets",
 		"outputs": [
 			{
-				"internalType": "uint256",
-				"name": "houseBetBull",
-				"type": "uint256"
+				"internalType": "uint8",
+				"name": "position",
+				"type": "uint8"
 			},
 			{
 				"internalType": "uint256",
-				"name": "houseBetBear",
+				"name": "amount",
 				"type": "uint256"
+			},
+			{
+				"internalType": "bool",
+				"name": "claimed",
+				"type": "bool"
+			},
+			{
+				"internalType": "bool",
+				"name": "isbet",
+				"type": "bool"
 			}
 		],
 		"stateMutability": "view",
@@ -848,6 +842,19 @@ const abi =[
 				"internalType": "uint32",
 				"name": "",
 				"type": "uint32"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "IsPaused",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
 			}
 		],
 		"stateMutability": "view",
@@ -958,6 +965,30 @@ const abi =[
 		"type": "function"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "UserBets",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [],
 		"name": "userHistory",
 		"outputs": [
@@ -999,44 +1030,17 @@ const abi =[
 						"type": "bool"
 					}
 				],
-				"internalType": "struct BBbetsprediction.History[]",
+				"internalType": "struct BullesyesVault.History[]",
 				"name": "",
 				"type": "tuple[]"
 			}
 		],
 		"stateMutability": "view",
 		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "user_BetBear",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "user_BetBull",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "epoch",
-				"type": "uint256"
-			}
-		],
-		"name": "user_claimRound",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
 	}
 ];
-const bscNetwork = process.env.BSCNETWORK;
-const provider = new ethers.JsonRpcProvider(bscNetwork);
+const bscNetwork = process.env.POLYGONNETWORK;
+const provider = new ethers.WebSocketProvider(bscNetwork);
 const privateKey = process.env.PRIVATEKEY;
 const wallet = new ethers.Wallet(privateKey, provider);
 const contract = new ethers.Contract(contractAdress, abi, wallet);
@@ -1044,7 +1048,7 @@ const contract = new ethers.Contract(contractAdress, abi, wallet);
 let remainingTime;
 let counterStartTime;
 let isPaused = false;
-let LockAutomateSignal;
+let LockAutomateSignal= true;
 let signalTimeout;
 let _minHouseBetRatio=90;
 let blockStartTime;
@@ -1057,42 +1061,42 @@ Client.on('connect', function() {
 
 getReload();
 
+contract.on("StartRound", async(epoch, roundTimestamp, event)=>{
+    console.log("A new Round Just started "+epoch);
+    console.log("Round Timestamp is "+roundTimestamp);
+    console.log((roundTimestamp.toString()));
+	blockStartTime = parseInt(roundTimestamp.toString());
+    endTime = (parseInt(roundTimestamp.toString())*1000 +(304000));
+    console.log("endtime done "+endTime);
+    // nextEpoch = parseInt(epoch.toString());
+    console.log("nextEpoch Passed.");
+    console.log("A new round has started at time "+endTime);
+	
+	//set values to redis
+	await Client.hset("StartRound", {
+		'endTime': endTime,
+		'nextEpoch': nextEpoch,
+		'blockStartTime': blockStartTime
+	});
+});
 
 //Automate Signal
+
 contract.on("LockAutomate", async(event)=>{
     console.log("Round Automate Emitted");
-	remainingTime = 300000;
-	await Client.set("LockAutomateSignal", 'true');
+	remainingTime = 305000;
     getSignal();
-	console.log("getSignal called after lockAutomate event has been received...")
-});
+	await Client.set("LockAutomateSignal", 'true');
+})
 //Execute Forced
 contract.on("ExecuteForced", (event)=>{
     console.log("Force Execution signal received...");
     resetForced();
 });
 
- //When Round Starts in the BlockChain.
- contract.on("StartRound", async(epoch, roundTimestamp, event)=>{
-	console.log("A new round started at : "+roundTimestamp);
-	blockStartTime = parseInt(roundTimestamp.toString());
-	console.log("blockstartTime set...");
-	nextEpoch = parseInt(epoch.toString());
-	endTime = (parseInt(roundTimestamp.toString())*1000 +(304000));
-    console.log("nextEpoch Passed.");
-	//set values to redis
-	await Client.hset("StartRound", {
-		'endTime': endTime,
-		'nextEpoch': nextEpoch,
-	});
-	console.log("start details saved to redis...");
-
-	await Client.set("blockStartTime", blockStartTime);
-	console.log("blockStartTime saved to redis...");
-});
 
 async function getReload(){
-	// await Client.connect();
+	await Client.connect();
 	// await Client.FLUSHALL();
 	// await Client.flushdb();
 	// console.log("all info cleared..");
@@ -1102,12 +1106,12 @@ async function getReload(){
 	const start_round = await Client.hgetall("StartRound");
 	console.log("StartRound epoch is :"+start_round.nextEpoch);
 	endTime = start_round.endTime;
+	const block_start = start_round.blockStartTime;
 	nextEpoch = start_round.nextEpoch;
 
     const lock_Automate = await Client.get("LockAutomateSignal");
 	LockAutomateSignal = lock_Automate;
 	console.log("Lockautomate Signal is :"+LockAutomateSignal);
-	const block_start = await Client.get("blockStartTime");
 	blockStartTime = parseInt(block_start);
 	console.log("blockStartTime is :"+block_start);
 	if(LockAutomateSignal==='true'){
@@ -1188,12 +1192,12 @@ function getRandomNumber(min, max) {
 function generateValidRandomPair(minRatio, maxRatio) {
     const aa = Math.random();
     if(aa > 0.5){
-        const betBear = getRandomNumber(500, 1000); // Assume any random value for betBear between 1 and 100
+        const betBear = getRandomNumber(0.1, 0.5); // Assume any random value for betBear between 1 and 100
         const betBull = betBear * getRandomNumber(minRatio, maxRatio);
     
         return [betBull, betBear];
     }else{
-        const betBull = getRandomNumber(500, 1000); // Assume any random value for betBear between 1 and 100
+        const betBull = getRandomNumber(0.1, 0.5); // Assume any random value for betBear between 1 and 100
         const betBear = betBull * getRandomNumber(minRatio, maxRatio);
     
         return [betBull, betBear];
@@ -1246,7 +1250,7 @@ async function resetForced(){
 		counterStartTime = new Date().getTime();
 		console.log("reset counterstart time set...");
 		//push to redis
-	    await Client.set("counterStartTime", counterStartTime);
+	    // await Client.set("counterStartTime", counterStartTime);
 		console.log("reset counter start saved to redis...");
 		remainingTime = 300000 - ((new Date().getTime()) - counterStartTime);
 		console.log(" reset remaining time is :"+remainingTime);
@@ -1269,7 +1273,7 @@ async function Execute(){
     if(isPaused===false){
         console.log("isPaused test passed")
         //get binance price
-        await axios.get('http://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT')
+        await axios.get('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT')
         .then(async(response) => {
         // Extract and use the price from the response
         console.log("price stage passed.")
@@ -1290,10 +1294,38 @@ async function Execute(){
         const Price = ethers.parseUnits(bPrice.toString(), 18);
         console.log("the price is "+Price);
         console.log(betOnBull, betOnBear);
+
+		//Perform Maths Operations to calcualte for wonOdd, rewardsClaimable and whowon.
+		const lock_round = await Client.hgetall("LockRound");
+		const lockedprice = lock_round.lockedprice;
+		const previousBullOdd = lock_round.previousBullOdd;
+		const previousBearOdd = lock_round.previousBearOdd;
+		const BullAmount = lock_round.BullAmount;
+		const BearAmount = lock_round.BearAmount;
+
+		let wonOdd;
+		let rewardsClaimable;
+		let whoWon;
+
+		if(bPrice > lockedprice){
+			wonOdd = ethers.parseUnits(previousBullOdd.toString(), 18);
+			rewardsClaimable = ethers.parseUnits((parseFloat(BullAmount * 0.94 * previousBullOdd)).toString(), 18);
+			whoWon = 1
+
+		}else if(bPrice < lockedprice){
+			wonOdd = previousBearOdd;
+			rewardsClaimable = ethers.parseUnits((parseFloat(BearAmount * 0.94 * previousBearOdd)).toString(), 18);
+			whoWon = 2
+
+		}else if(bPrice == lockedprice){
+			wonOdd = 1
+			rewardsClaimable = ethers.parseUnits((parseFloat(BullAmount + BearAmount)).toString(), 18);
+			whoWon = 3
+		}
     
         //write to the blockchain.
         try{
-			const tx = await contract.Execute(Price, timestamp, betOnBull, betOnBear);//look into this line and complete it.
+			const tx = await contract.Execute(Price, timestamp, betOnBull, betOnBear, wonOdd, rewardsClaimable, whoWon);//look into this line and complete it.
 			console.log("Execute completed from smart contract...");
             // Wrap both promises in an array
             const promises = [
@@ -1331,3 +1363,5 @@ async function Execute(){
     }    
         
 }
+
+console.log("Worker Started...");
