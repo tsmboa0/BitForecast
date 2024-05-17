@@ -1096,7 +1096,7 @@ contract.on("ExecuteForced", (event)=>{
 
 
 async function getReload(){
-	await Client.connect();
+	// await Client.connect();
 	// await Client.FLUSHALL();
 	// await Client.flushdb();
 	// console.log("all info cleared..");
