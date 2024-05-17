@@ -1587,7 +1587,7 @@ const btcusdt = setInterval(async()=>{
 		// Extract and use the price from the response
 		// console.log("price stage passed.")
 		const btc_usdt = response.data.price;
-		console.log("the BTCUSDT Price is "+btc_usdt);
+		// console.log("the BTCUSDT Price is "+btc_usdt);
 
 		//emit price to frontend.
 		io.emit("btc_usdt", btc_usdt);
