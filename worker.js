@@ -1089,8 +1089,9 @@ contract.on("LockAutomate", async(event)=>{
 	await Client.set("LockAutomateSignal", 'true');
 })
 //Execute Forced
-contract.on("ExecuteForced", (event)=>{
+contract.on("ExecuteForced", async(event)=>{
     console.log("Force Execution signal received...");
+	await Client.set("LockAutomateSignal", 'true');
     resetForced();
 });
 
@@ -1235,7 +1236,9 @@ async function verifyTime(){
 			console.log("Execute() called...");
 		}else{
 			console.log("requirements not met, trying again...");
-			verifyTime();
+			setTimeout( ()=>{
+				verifyTime();
+			},5000)
 		}
 
 	}catch(e){
@@ -1250,7 +1253,7 @@ async function resetForced(){
 		counterStartTime = new Date().getTime();
 		console.log("reset counterstart time set...");
 		//push to redis
-	    // await Client.set("counterStartTime", counterStartTime);
+	    await Client.set("counterStartTime", counterStartTime);
 		console.log("reset counter start saved to redis...");
 		remainingTime = 300000 - ((new Date().getTime()) - counterStartTime);
 		console.log(" reset remaining time is :"+remainingTime);
