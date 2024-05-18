@@ -1110,9 +1110,9 @@ let tradeData;
 
 async function getReload(){
 	// await Client.connect();
-	// await Client.flushdb();
+	await Client.flushdb();
 	// await Client.FLUSHALL();
-	// console.log("all info cleared..");
+	console.log("all info cleared..");
 	// await Client.set("LockAutomateSignal", 'true');
 
 	const start_round = await Client.hgetall("StartRound0");
@@ -1220,9 +1220,9 @@ async function getReload(){
 							console.log("Current Epoch passed "+currentEpoch);
 							lockedprice = parseFloat(ethers.formatEther(result1.args.price.toString())).toFixed(2);
 							console.log("locked Price is "+lockedprice);
-							currentPricePool = parseFloat(ethers.formatEther(result1.args.pool.toString())).toFixed(2);
-							previousBullOdd = parseFloat(ethers.formatEther(result1.args.bullOdd.toString())).toFixed(2);
-							previousBearOdd = parseFloat(ethers.formatEther(result1.args.bearOdd.toString())).toFixed(2);
+							// currentPricePool = parseFloat(ethers.formatEther(result1.args.pool.toString())).toFixed(2);
+							previousBullOdd = parseFloat(ethers.formatEther(result1.args.bullAmount.toString())).toFixed(2);
+							previousBearOdd = parseFloat(ethers.formatEther(result1.args.bearAmount.toString())).toFixed(2);
 						
 							//store data on redis
 							await Client.hset('LockRound', {
@@ -1251,9 +1251,9 @@ async function getReload(){
 							const result3 = missed_betodds[missed_betodds.length-1];
 		
 							console.log("Bet Odd entered "+result3.args.bullOdd);
-							currentBullOdd = parseFloat(ethers.formatEther(result3.args.bullOdd.toString())).toFixed(2);
+							currentBullOdd = parseFloat(ethers.formatEther(result3.args.bullAmount.toString())).toFixed(2);
 							console.log("current bull odd is "+result3.args.currentBearOdd);
-							currentBearOdd = parseFloat(ethers.formatEther(result3.args.bearOdd.toString())).toFixed(2);
+							currentBearOdd = parseFloat(ethers.formatEther(result3.args.Amount.toString())).toFixed(2);
 							nextPricePool = parseFloat(ethers.formatEther(result3.args.pool.toString())).toFixed(2);
 						
 							//set values to redis
