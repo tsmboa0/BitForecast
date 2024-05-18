@@ -1313,16 +1313,19 @@ async function Execute(){
 		if(bPrice > lockedprice){
 			wonOdd = ethers.parseUnits(previousBullOdd.toString(), 18);
 			rewardsClaimable = ethers.parseUnits((parseFloat(BullAmount * 0.94 * previousBullOdd)).toString(), 18);
+			console.log("rewardsClaimable is ",rewardsClaimable);
 			whoWon = 1
 
 		}else if(bPrice < lockedprice){
 			wonOdd = previousBearOdd;
 			rewardsClaimable = ethers.parseUnits((parseFloat(BearAmount * 0.94 * previousBearOdd)).toString(), 18);
+			console.log("rewardsClaimable is ",rewardsClaimable);
 			whoWon = 2
 
 		}else if(bPrice == lockedprice){
 			wonOdd = 1
 			rewardsClaimable = ethers.parseUnits((parseFloat(BullAmount + BearAmount)).toString(), 18);
+			console.log("rewardsClaimable is ",rewardsClaimable);
 			whoWon = 3
 		}
     
