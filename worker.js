@@ -1317,7 +1317,7 @@ async function Execute(){
 			whoWon = 1
 
 		}else if(bPrice < lockedprice){
-			wonOdd = previousBearOdd;
+			wonOdd = ethers.parseUnits(previousBearOdd.toString(), 18);
 			rewardsClaimable = ethers.parseUnits((parseFloat(BearAmount * 0.94 * previousBearOdd)).toString(), 18);
 			console.log("rewardsClaimable is ",rewardsClaimable);
 			whoWon = 2
