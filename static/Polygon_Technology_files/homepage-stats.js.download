@@ -1,0 +1,124 @@
+// Load the globals variable first
+const BASE_URL = "https://webflow-apis.polygon.technology";
+
+let allStatsArray = [];
+
+function fetchStats() {
+  const API_URL = BASE_URL + "/zetta-block";
+
+  
+  fetch(API_URL)
+    .then((resp) => resp.json())
+    .then((data) => {
+      allStatsArray = [...data.data];
+      setTotalTransactionCount();
+      setContractCreators();
+      setUniqueAddresses();
+      setDeployedSmartContracts();
+      setNFTTotalVolumes();
+      setAverageCostTransaction();
+    });
+}
+
+fetchStats();
+
+function convertToUnit(number) {
+  let unit = "";
+  let num = 0;
+  if (number >= 1000000000) {
+    unit = "B+";
+    num = number / 1000000000;
+  } else if (number >= 1000000) {
+    unit = "M+";
+    num = number / 1000000;
+  }
+  return `${num.toFixed(2)}${unit}`;
+}
+
+function getLastValue(str) {
+  let lastValue = null;
+  const data = JSON.parse(str);
+  const fields = [
+    ...Object.values(data.dimensions),
+    ...Object.values(data.measures)
+  ];
+  for (const field of fields) {
+    if (field.hasOwnProperty("value")) {
+      lastValue = field.value;
+    }
+  }
+  return lastValue;
+}
+
+function addCommas(num) {
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+function setTotalTransactionCount() {
+  const result = allStatsArray.find(
+    (el) => el.title === "polygon_pos_total_transaction_count"
+  );
+
+  let formattedValue = getLastValue(result.data);
+
+  formattedValue = convertToUnit(formattedValue);
+  document.querySelector("#total-transactions").innerHTML = formattedValue;
+}
+
+function setContractCreators() {
+  const result = allStatsArray.find(
+    (el) => el.title === "polygon_pos_contracts_creator_count"
+  );
+  let formattedValue = getLastValue(result.data) || "285,956";
+
+  document.querySelector("#total-contract-creators").innerHTML = addCommas(
+    formattedValue
+  );
+}
+
+const setUniqueAddresses = () => {
+  let result = allStatsArray.find(
+    (el) => el.title === "polygon_pos_unique_addresses"
+  );
+
+  let formattedValue = getLastValue(result.data);
+  formattedValue = convertToUnit(formattedValue);
+  document.querySelector("#total-unique-address").innerHTML = formattedValue;
+};
+
+const setDeployedSmartContracts = () => {
+  let result = allStatsArray.find(
+    (el) => el.title === "polygon_pos_contracts_creation_count"
+  );
+
+  let formattedValue = getLastValue(result.data);
+  formattedValue = convertToUnit(formattedValue);
+  document.querySelector("#total-smart-contracts").innerHTML = formattedValue;
+};
+
+const setNFTTotalVolumes = () => {
+  let result = allStatsArray.filter(
+    (el) => el.title === "polygon_pos_nft_sales_in_usd"
+  );
+
+  let formattedValue = getLastValue(result[1].data);
+  // const amountTwo = getLastValue(result[1].data);
+
+  formattedValue = convertToUnit(formattedValue);
+
+  document.querySelector("#nft-sales-volume").innerHTML = formattedValue;
+};
+
+const setAverageCostTransaction = () => {
+  let result = allStatsArray.find(
+    (el) => el.title === "polygon_pos_average_cost_per_transaction_in_usd"
+  );
+
+  let formattedSumvalue = getLastValue(result.data);
+
+  formattedSumvalue = formattedSumvalue.toString().slice(0, 5);
+
+  document.querySelector(
+    "#average-cost-txn"
+  ).innerHTML = `~$${formattedSumvalue}`;
+};

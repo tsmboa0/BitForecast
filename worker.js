@@ -1047,8 +1047,8 @@ const contract = new ethers.Contract(contractAdress, abi, wallet);
 
 let remainingTime;
 let counterStartTime;
-let isPaused = false;
-let LockAutomateSignal= true;
+let isPaused;
+let LockAutomateSignal;
 let signalTimeout;
 let _minHouseBetRatio=90;
 let blockStartTime;
@@ -1310,19 +1310,19 @@ async function Execute(){
 		let rewardsClaimable;
 		let whoWon;
 
-		if(bPrice > lockedprice){
+		if(parseFloat(bPrice).toString(2) > lockedprice){
 			wonOdd = ethers.parseUnits(previousBullOdd.toString(), 18);
 			rewardsClaimable = ethers.parseUnits((parseFloat(BullAmount * 0.94 * previousBullOdd)).toString(), 18);
 			console.log("rewardsClaimable is ",rewardsClaimable);
 			whoWon = 1
 
-		}else if(bPrice < lockedprice){
+		}else if(parseFloat(bPrice).toString(2) < lockedprice){
 			wonOdd = ethers.parseUnits(previousBearOdd.toString(), 18);
 			rewardsClaimable = ethers.parseUnits((parseFloat(BearAmount * 0.94 * previousBearOdd)).toString(), 18);
 			console.log("rewardsClaimable is ",rewardsClaimable);
 			whoWon = 2
 
-		}else if(bPrice == lockedprice){
+		}else if(parseFloat(bPrice).toString(2) == lockedprice){
 			wonOdd = 1
 			rewardsClaimable = ethers.parseUnits((parseFloat(BullAmount + BearAmount)).toString(), 18);
 			console.log("rewardsClaimable is ",rewardsClaimable);
