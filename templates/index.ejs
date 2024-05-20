@@ -253,7 +253,7 @@ display:none !important;
             
             <div class="nav-itemss" id="navItemss">
               <div class="nav_logo-link-wrapper">
-                <a style="color: white;" href="https://bulleyesvault.live/" aria-current="page" class="nav_logo-link w-nav-brand w--current" aria-label="home">
+                <a style="color: white;" href="https://bulleyesvault.live/btcbnb/" aria-current="page" class="nav_logo-link w-nav-brand w--current" aria-label="home">
                   Bet Now
                 </a>
               </div>
@@ -265,8 +265,14 @@ display:none !important;
               </div>
     
               <div class="nav_logo-link-wrapper">
-                <a style="color: white;" href="https://bulleyesvault.live/" aria-current="page" class="nav_logo-link w-nav-brand w--current" aria-label="home">
+                <a style="color: white;" href="https://bulleyesvault.live/socials/" aria-current="page" class="nav_logo-link w-nav-brand w--current" aria-label="home">
                   Join Community
+                </a>
+              </div>
+
+              <div class="nav_logo-link-wrapper">
+                <a style="color: white;" href="https://bulleyesvault.live/faq/" aria-current="page" class="nav_logo-link w-nav-brand w--current" aria-label="home">
+                  FAQ
                 </a>
               </div>
             </div>
@@ -1169,6 +1175,8 @@ a[href="#"]:hover {cursor: default;}
   </div>
 </section>
 </div>
+
+<script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
   
   <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=637359c81e22b715cec245ad" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
   
@@ -1386,6 +1394,51 @@ function wrapOrderedList(lines) {
     alert('Please install a MetaMask wallet or any other compatible wallet');
   }
 }
+</script>
+
+<script>
+    async function Check(){
+        //check if a user is already connected and check network.
+        if(window.ethereum){
+            try{
+                const provider = new ethers.providers.Web3Provider(window.ethereum);
+                const signer = await provider.getSigner();
+    
+                try{
+                    const address = await signer.getAddress();
+                    document.getElementById('not_connected').style.display='none';
+                    document.getElementById('connect_button').style.display='block';
+                    document.getElementById('connect_button').innerText=(address).substring(0,5)+'...'+(address).substring((address.length)-5, (address).length);
+
+                }catch(e){
+                    //Do nothing for now.
+                }
+    
+            }catch(e){
+                console.log(e);
+            }
+        }
+    }
+    
+    Check();
+    </script>
+
+<script>
+    window.ethereum.on('accountsChanged', async (accounts)=>{
+    //code here
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = await provider.getSigner();
+
+    try{
+        const address = await signer.getAddress();
+        const balance = await provider.getBalance(address);
+        document.getElementById('connect_button').innerText=(address).substring(0,5)+'...'+(address).substring((address.length)-5, (address).length);
+        // document.getElementById('bnbBalance').innerText= balance+' BNB';
+    }catch(e){
+        //
+        document.getElementById('not_conneted').style.display='block';
+    }
+  })
 </script>
 
 <script>
