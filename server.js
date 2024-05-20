@@ -1110,9 +1110,9 @@ let tradeData;
 
 async function getReload(){
 	// await Client.connect();
-	// await Client.flushdb();
+	await Client.flushdb();
 	// await Client.FLUSHALL();
-	// console.log("all info cleared..");
+	console.log("all info cleared..");
 	// await Client.set("LockAutomateSignal", 'true');
 
 	const start_round = await Client.hgetall("StartRound0");
@@ -1143,9 +1143,9 @@ async function getReload(){
 			const missedEpoch = (nextEpoch0 + 1).toString();
 			console.log("Missed Epoch is : "+missedEpoch);
 			const startround_filter = contract.filters.StartRound(null, null);
-			const lockedround_filter = contract.filters.LockRound(null, null,null,null,null);
+			const lockedround_filter = contract.filters.LockRound(null, null,null,null);
 			const endround_filter = contract.filters.EndRound(null, null,null,null);
-			const betodds_filter = contract.filters.Betodds(null,null,null,null);
+			const betodds_filter = contract.filters.Betodds(null,null,null);
 			
 			const latestBlockNumber = await provider.getBlockNumber();
 			console.log("latest block number is : "+latestBlockNumber);
