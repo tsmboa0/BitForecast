@@ -1151,9 +1151,9 @@ let tradeData;
 
 async function getReload(){
 	// await Client.connect();
-	// await Client.flushdb();
+	await Client.flushdb();
 	// await Client.FLUSHALL();
-	// console.log("all info cleared..");
+	console.log("all info cleared..");
 	// await Client.set("LockAutomateSignal", 'true');
 
 	const start_round = await Client.hgetall("StartRound0");
