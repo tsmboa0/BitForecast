@@ -1692,13 +1692,24 @@ async function executeLogic() {
 						}
 					}else{
 						//call bet and set parent function
-						try{
-							const tx = await contract.userBetBullAndSetParent(storedReferralCode, param);
-							await contract.on(filter, (sender, epoch, amount, event) => {
-								alert("You have placed a bull bet worth "+(ethers.utils.formatEther(amount))+" MATIC");
-							});
-						}catch(err){
-							alert(err.data.message);
+						if(storedReferralCode==myAddress){
+							try{
+								const tx = await contract.user_BetBull(param);
+								await contract.on(filter, (sender, epoch, amount, event) => {
+									alert("You have placed a bull bet worth "+(ethers.utils.formatEther(amount))+" MATIC");
+								});
+							}catch(err){
+								alert(err.data.message);
+							}
+						}else{
+							try{
+								const tx = await contract.userBetBullAndSetParent(storedReferralCode, param);
+								await contract.on(filter, (sender, epoch, amount, event) => {
+									alert("You have placed a bull bet worth "+(ethers.utils.formatEther(amount))+" MATIC");
+								});
+							}catch(err){
+								alert(err.data.message);
+							}
 						}
 					}
 				}else{
@@ -1752,13 +1763,24 @@ async function executeLogic() {
 						}
 					}else{
 						//set parent and place bets
-						try{
-							const tx = await contract.userBetBearAndSetParent(storedReferralCode, param);
-							await contract.on(filter, (sender, epoch, amount, event) => {
-								alert("You have placed a bear bet worth "+(ethers.utils.formatEther(amount))+" MATIC");
-							});
-						}catch(err){
-							alert(err.data.message);
+						if(storedReferralCode==myAddress){
+							try{
+								const tx = await contract.user_BetBear(param);
+								await contract.on(filter, (sender, epoch, amount, event) => {
+									alert("You have placed a bear bet worth "+(ethers.utils.formatEther(amount))+" MATIC");
+								});
+							}catch(err){
+								alert(err.data.message);
+							}
+						}else{
+							try{
+								const tx = await contract.userBetBearAndSetParent(storedReferralCode, param);
+								await contract.on(filter, (sender, epoch, amount, event) => {
+									alert("You have placed a bear bet worth "+(ethers.utils.formatEther(amount))+" MATIC");
+								});
+							}catch(err){
+								alert(err.data.message);
+							}
 						}
 					}
 				}else{
