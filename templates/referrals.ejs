@@ -829,11 +829,6 @@ svg:not(:root).svg-inline--fa, svg:not(:host).svg-inline--fa {
     <div style="display: none;" id="menu_dropdown" class="Sidebar">
       <ul class="MenuItems lg:mx-6">
         <li class="Item First">
-          <a class=" Primary Prediction" href="/">
-            <div class="Description">
-               
-            </div>
-          </a>
           <button onclick="document.getElementById('menu_dropdown').style.display='none';" class="Close">
             <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="square-xmark" class="svg-inline--fa fa-square-xmark fa-2x " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
               <path fill="currentColor" d="M384 32C419.3 32 448 60.65 448 96V416C448 451.3 419.3 480 384 480H64C28.65 480 0 451.3 0 416V96C0 60.65 28.65 32 64 32H384zM143 208.1L190.1 255.1L143 303C133.7 312.4 133.7 327.6 143 336.1C152.4 346.3 167.6 346.3 176.1 336.1L223.1 289.9L271 336.1C280.4 346.3 295.6 346.3 304.1 336.1C314.3 327.6 314.3 312.4 304.1 303L257.9 255.1L304.1 208.1C314.3 199.6 314.3 184.4 304.1 175C295.6 165.7 280.4 165.7 271 175L223.1 222.1L176.1 175C167.6 165.7 152.4 165.7 143 175C133.7 184.4 133.7 199.6 143 208.1V208.1z"></path>
@@ -841,7 +836,7 @@ svg:not(:root).svg-inline--fa, svg:not(:host).svg-inline--fa {
           </button>
         </li>
         <li class="Item">
-          <a class=" Secondary Prediction" href="/btcbnb">
+          <a class=" Secondary Prediction" href="/btcpolygon">
             <div class="Description"> BTC on POLYGON</div>
           </a>
         </li>
@@ -873,28 +868,35 @@ svg:not(:root).svg-inline--fa, svg:not(:host).svg-inline--fa {
     <div class="sc-gsDKAQ kkOZNv bg-darkFour">
       <div style="transform: none;">
         <div class="HistoryMain" style="display: flex;">
-          <div class="History">
+          <div class="History" style="margin-bottom: 30px;margin-top: 20px;">
             <h2 class="text-white font-bold text-center relative">Referral Program</h2>
-            
-            <div class="Page">
-              <p class="text-white text-left" >Welcome to Bulleyes Referral program, where you can maximize your earnings by simply sharing the excitement with your friends. Copy your referral code below and share it with your friends. </p>
-              <p class="text-white text-left" >Tell your friends to visit the referral page and input your referral code into the "Referral Code" box below. You will earn 20% of their stake afterwards.</p>
-              <h5 class="text-white font-bold text-center relative">You have # Referrals</h5>
+            <p class="text-white text-left" style="margin-bottom: 10px;">Welcome to Bulleyes Referral program, where you can maximize your earnings by simply sharing the excitement with your friends. Copy your referral code below and share it with your friends. </p>
+            <p class="text-white text-left" style="margin-bottom: 15px;">Tell your friends to visit the referral page and input your referral code into the "Referral Code" box below. You will earn 20% of their stake afterwards.</p>
+            <p class="text-white text-left" >Note: Your referral code is your connected wallet address.</p>
+            </div>
 
-              <div>
-                <h5 class="text-white font-bold relative">Your referral code is....</h5>
-                <h5 class="text-white font-bold relative">Invited by a friend? Enter your friend's referral code</h5>
+            <div class="History" style="margin-bottom: 30px;margin-left: 20px;margin-right: 20px;">
+              <!-- <div class="Page"> -->
                 <div>
-                  <label for="">Friend's referral Code</label>
-                  <input type="text">
-                  <button>Submit</button>
+                  <h4 class="text-white font-bold relative" style="margin-bottom:8px;">Your referral code is: <span title="copy" style="color: #1848CC;text-decoration: underline;" id="referral-code"></span></h4>
+                  <div id="not-referred">
+                    <h4 class="text-white relative">Invited by a friend? Enter your friend's referral code below</h4>
+                    <label style="color: white;" for="">Friend's referral Code: </label>
+                    <input id="parent-address" style="background-color:;border: white; border-radius: 10px;border-color: white;" type="text">
+                      <button onclick="setReferral()" style="padding: 5px;border-radius: 10px;background-color: #a87515;">Submit</button>
+                  </div>
+                  <h4 id="referred" style="display: none;" class="text-white relative"></h4>
                 </div>
-              </div>
+                <!-- </div> -->
+            </div>
 
+            <h3 id="refer-count" class="text-white font-bold text-center relative"></h3>
+
+            <div class="History">
               <table class="Results rounded-lg md:w-full" id="tableHistory">
                 <thead>
                   <tr class="Header1 bg-black text-white">
-                      <th rowspan="2" colspan="1"> #N</th>
+                      <th rowspan="2" colspan="1"> #SN</th>
                       <th rowspan="2" colspan="2">Fren Address</th>
                   </tr>
                 </thead>
@@ -902,14 +904,12 @@ svg:not(:root).svg-inline--fa, svg:not(:host).svg-inline--fa {
                         <!-- Table here -->
                     </tbody>
                   </table>
-              </div>
             </div>
+
           </div>
         </div>
       </div>
     </div>
-
-    <h1 id="connect-history" style="color: whitesmoke;margin-left: 80px;margin-top: 40px;display: none;"><b> Connect MetaMask to view History </b></h1>
 
     <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
 

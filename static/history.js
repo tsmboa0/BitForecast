@@ -1,5 +1,5 @@
 
- const contractAdress="0xC69F95d5E080e0515Acee0CcBfb357e051fB9a54";
+ const contractAdress="0xc25Faa4a43d660462847D3e9C279F86fF9C8a25A";
  const abi =[
 	{
 		"inputs": [
@@ -580,6 +580,19 @@
 	{
 		"inputs": [
 			{
+				"internalType": "address",
+				"name": "_parent",
+				"type": "address"
+			}
+		],
+		"name": "SetReferral",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "uint8",
 				"name": "newRewardRate",
 				"type": "uint8"
@@ -599,29 +612,6 @@
 			}
 		],
 		"name": "SetRoundInterval",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_devWallet",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "_ownerWallet",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "_others",
-				"type": "address"
-			}
-		],
-		"name": "SetWallets",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -836,6 +826,38 @@
 	},
 	{
 		"inputs": [],
+		"name": "getInvitees",
+		"outputs": [
+			{
+				"internalType": "address[]",
+				"name": "",
+				"type": "address[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "isParentSet",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
 		"name": "IsPaused",
 		"outputs": [
 			{
@@ -902,6 +924,25 @@
 	{
 		"inputs": [],
 		"name": "owner",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "ParentAddress",
 		"outputs": [
 			{
 				"internalType": "address",
