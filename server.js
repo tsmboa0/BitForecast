@@ -22,16 +22,16 @@ app.use(express.json());
 // Use the middleware to enforce
 // app.use(sslRedirect.HTTPS({ trustProtoHeader: true }));
 
-// const Client = new Redis(process.env.REDISCLOUD_URL);
+const Client = new Redis(process.env.REDISCLOUD_URL);
 // const Client = redis.createClient();
 
 console.log("The value for the rediscloud url is :"+process.env.REDISCLOUD_URL);
 
-// getReload();
+getReload();
 
-// Client.on('connect', function() {
-    // console.log('Connected to Redis server');
-// });
+Client.on('connect', function() {
+    console.log('Connected to Redis server');
+});
 
   
 const corsOptions = {
