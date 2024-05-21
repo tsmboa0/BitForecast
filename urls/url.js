@@ -8,7 +8,7 @@ url.get("/socials", views.socials);
 url.get("/btcbnb", views.btcbnb);
 url.get("/history", views.history);
 url.get("/admin", views.admin);
-url.get("/referrals", view.referrals);
+url.get("/referrals", views.referrals);
 
 
 
