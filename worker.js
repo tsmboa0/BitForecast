@@ -1088,7 +1088,7 @@ const contract = new ethers.Contract(contractAdress, abi, wallet);
 
 let remainingTime;
 let counterStartTime;
-let isPaused;
+let isPaused = false;
 let LockAutomateSignal;
 let signalTimeout;
 let _minHouseBetRatio=90;
@@ -1406,7 +1406,7 @@ async function Execute(){
     
       console.log("The end!");
     }else{
-        //do nothing...
+        console.log("isPaused is True");
     }    
         
 }
