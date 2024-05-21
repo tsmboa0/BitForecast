@@ -23,3 +23,7 @@ exports.history = async (req, res) => {
 exports.admin = async (req, res) => {
     res.render("admin", {});
 }
+
+exports.referrals = async (req, res) => {
+    res.render("referrals", {});
+}
