@@ -1353,18 +1353,21 @@ async function Execute(){
 
 		if(parseFloat(bPrice).toString(2) > lockedprice){
 			wonOdd = ethers.parseUnits(previousBullOdd.toString(), 18);
+			console.log("won odd is: ",wonOdd);
 			rewardsClaimable = ethers.parseUnits((parseFloat(BullAmount * 0.94 * previousBullOdd)).toString(), 18);
 			console.log("rewardsClaimable is ",rewardsClaimable);
 			whoWon = 1
 
 		}else if(parseFloat(bPrice).toString(2) < lockedprice){
 			wonOdd = ethers.parseUnits(previousBearOdd.toString(), 18);
+			console.log("won odd is: ",wonOdd);
 			rewardsClaimable = ethers.parseUnits((parseFloat(BearAmount * 0.94 * previousBearOdd)).toString(), 18);
 			console.log("rewardsClaimable is ",rewardsClaimable);
 			whoWon = 2
 
 		}else if(parseFloat(bPrice).toString(2) == lockedprice){
 			wonOdd = 1
+			console.log("won odd is: ",wonOdd);
 			rewardsClaimable = ethers.parseUnits((parseFloat(BullAmount + BearAmount)).toString(), 18);
 			console.log("rewardsClaimable is ",rewardsClaimable);
 			whoWon = 3
@@ -1397,7 +1400,7 @@ async function Execute(){
             console.log("Get signal function called again...");
           }
         catch(e){
-            console.log(e.message);
+            console.log(e);
         };
      })
       .catch((error) => {
