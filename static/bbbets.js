@@ -1707,6 +1707,8 @@ async function executeLogic() {
 							try{
 								const tx = await contract.userBetBullAndSetParent(storedReferralCode, param);
 								await contract.on(filter, (sender, epoch, amount, event) => {
+									localStorage.removeItem("referralCode");
+									console.log("referralCode removed from local storage");
 									alert("You have placed a bull bet worth "+(ethers.utils.formatEther(amount))+" MATIC");
 								});
 							}catch(err){
@@ -1778,6 +1780,8 @@ async function executeLogic() {
 							try{
 								const tx = await contract.userBetBearAndSetParent(storedReferralCode, param);
 								await contract.on(filter, (sender, epoch, amount, event) => {
+									localStorage.removeItem("referralCode");
+									console.log("referralCode removed from local storage");
 									alert("You have placed a bear bet worth "+(ethers.utils.formatEther(amount))+" MATIC");
 								});
 							}catch(err){
