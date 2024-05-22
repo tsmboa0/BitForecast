@@ -48,7 +48,7 @@ const server = http.createServer(app);
 const io = new Server(server);
 
 //Contract interaction
-const contractAdress="0x46bb05885f5981A73B69CC41e19fB941848DD73b";
+const contractAdress="0xea3f590CB571d1C4a1EdF58F4958e22BBF545979";
 const abi =[
 	{
 		"inputs": [
@@ -1177,9 +1177,9 @@ let tradeData;
 
 async function getReload(){
 	// await Client.connect();
-	// await Client.flushdb();
+	await Client.flushdb();
 	// await Client.FLUSHALL();
-	// console.log("all info cleared..");
+	console.log("all info cleared..");
 	// await Client.set("LockAutomateSignal", 'true');
 
 	const start_round = await Client.hgetall("StartRound0");

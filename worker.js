@@ -12,7 +12,7 @@ const Client = new Redis(process.env.REDISCLOUD_URL);
 // const Client = redis.createClient();
 
 //Contract interaction
-const contractAdress="0x46bb05885f5981A73B69CC41e19fB941848DD73b";
+const contractAdress="0xea3f590CB571d1C4a1EdF58F4958e22BBF545979";
 const abi =[
 	{
 		"inputs": [
@@ -1166,8 +1166,8 @@ contract.on("ExecuteForced", async(event)=>{
 async function getReload(){
 	// await Client.connect();
 	// await Client.FLUSHALL();
-	// await Client.flushdb();
-	// console.log("all info cleared..");
+	await Client.flushdb();
+	console.log("all info cleared..");
 
 	console.log("connected to redis...");
 
