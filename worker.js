@@ -1107,10 +1107,14 @@ const abi =[
 	}
 ];
 const bscNetwork = process.env.POLYGONNETWORK;
+const polygonNetwork = process.env.POLYGONJSON;
 const provider = new ethers.WebSocketProvider(bscNetwork);
+const provider2 = new ethers.JsonRpcApiProvider(polygonNetwork);
 const privateKey = process.env.PRIVATEKEY;
 const wallet = new ethers.Wallet(privateKey, provider);
+const wallet2 = new ethers.Wallet(privateKey, provider2);
 const contract = new ethers.Contract(contractAdress, abi, wallet);
+const contract2 = new ethers.Contract(contractAdress, abi, wallet2);
 
 let remainingTime;
 let counterStartTime;
@@ -1404,7 +1408,7 @@ async function Execute(){
     
         //write to the blockchain.
         try{
-			const tx = await contract.Execute(Price, timestamp, betOnBull, betOnBear, wonOdd, rewardsClaimable, whoWon);//look into this line and complete it.
+			const tx = await contract2.Execute(Price, timestamp, betOnBull, betOnBear, wonOdd, rewardsClaimable, whoWon);//look into this line and complete it.
 			console.log("Execute completed from smart contract...");
             // Wrap both promises in an array
             const promises = [
