@@ -1377,7 +1377,7 @@ async function Execute(){
 		let rewardsClaimable;
 		let whoWon;
 
-		if(parseFloat(bPrice).toString(2) > lockedprice){
+		if(bPrice > lockedprice){
 			wonOdd = ethers.parseUnits(previousBullOdd.toString(), 18);
 			console.log("won odd is: ",wonOdd);
 			rewardsClaimable = ethers.parseUnits((parseFloat(BullAmount * 0.94 * previousBullOdd)).toString(), 18);
@@ -1385,7 +1385,7 @@ async function Execute(){
 			whoWon = 1
 			console.log("who won is: ",whoWon);
 
-		}else if(parseFloat(bPrice).toString(2) < lockedprice){
+		}else if(bPrice < lockedprice){
 			wonOdd = ethers.parseUnits(previousBearOdd.toString(), 18);
 			console.log("won odd is: ",wonOdd);
 			rewardsClaimable = ethers.parseUnits((parseFloat(BearAmount * 0.94 * previousBearOdd)).toString(), 18);
@@ -1393,7 +1393,7 @@ async function Execute(){
 			whoWon = 2
 			console.log("who won is: ",whoWon);
 
-		}else if(parseFloat(bPrice).toString(2) == lockedprice){
+		}else if(bPrice == lockedprice){
 			wonOdd = 1
 			console.log("won odd is: ",wonOdd);
 			rewardsClaimable = ethers.parseUnits((parseFloat(BullAmount + BearAmount)).toString(), 18);
