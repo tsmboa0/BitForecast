@@ -1383,6 +1383,7 @@ async function Execute(){
 			rewardsClaimable = ethers.parseUnits((parseFloat(BullAmount * 0.94 * previousBullOdd)).toString(), 18);
 			console.log("rewardsClaimable is ",rewardsClaimable);
 			whoWon = 1
+			console.log("who won is: ",whoWon);
 
 		}else if(parseFloat(bPrice).toString(2) < lockedprice){
 			wonOdd = ethers.parseUnits(previousBearOdd.toString(), 18);
@@ -1390,6 +1391,7 @@ async function Execute(){
 			rewardsClaimable = ethers.parseUnits((parseFloat(BearAmount * 0.94 * previousBearOdd)).toString(), 18);
 			console.log("rewardsClaimable is ",rewardsClaimable);
 			whoWon = 2
+			console.log("who won is: ",whoWon);
 
 		}else if(parseFloat(bPrice).toString(2) == lockedprice){
 			wonOdd = 1
@@ -1397,6 +1399,7 @@ async function Execute(){
 			rewardsClaimable = ethers.parseUnits((parseFloat(BullAmount + BearAmount)).toString(), 18);
 			console.log("rewardsClaimable is ",rewardsClaimable);
 			whoWon = 3
+			console.log("who won is: ",whoWon);
 		}
     
         //write to the blockchain.
