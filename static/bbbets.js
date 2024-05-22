@@ -1339,6 +1339,8 @@ async function Check(){
                 document.getElementById('not_connected').style.display='none';
                 document.getElementById('connect_button').style.display='block';
                 document.getElementById('connect_button').innerText=(address).substring(0,5)+'...'+(address).substring((address.length)-5, (address).length);
+				document.getElementById("not-connected-wallet-code").style.display='none';
+				document.getElementById("connected-wallet-code").style.display='block';
 				document.getElementById("referral-code").innerText="https://bulleyesvault.live/?ref="+address;
     
                 //detect network.
@@ -1679,7 +1681,7 @@ async function executeLogic() {
 				let storedReferralCode = localStorage.getItem('referralCode');
 				if (storedReferralCode) {
 					console.log('Stored Referral Code:', storedReferralCode);
-					const _isParentSet = await contract.isParentSet();
+					const _isParentSet = await contract.isParentSet(myAddress);
 					if(_isParentSet==true){
 						//call the contract
 						try{
@@ -1751,7 +1753,7 @@ async function executeLogic() {
 				let storedReferralCode = localStorage.getItem('referralCode');
 				if (storedReferralCode) {
 					console.log('Stored Referral Code:', storedReferralCode);
-					const _isParentSet = await contract.isParentSet();
+					const _isParentSet = await contract.isParentSet(myAddress);
 					if(_isParentSet==true){
 						try{
 							const tx = await contract.user_BetBear(param);

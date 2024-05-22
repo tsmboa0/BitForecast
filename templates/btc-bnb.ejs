@@ -1372,7 +1372,8 @@ svg:not(:root).svg-inline--fa, svg:not(:host).svg-inline--fa {
   <!-- <div class="Page"> -->
     <div>
       <p class="text-white font-bold relative">Copy the referral link below and share it with your friends!</p>
-      <h4 class="text-white font-bold relative" style="margin-bottom:8px;">Your Referral Link Is: <span title="copy" style="color: #1848CC;text-decoration: underline;" id="referral-code"></span></h4>
+      <h4 id="connected-wallet-code" class="text-white font-bold relative" style="margin-bottom:8px;display: none;">Your Referral Link Is: <span title="copy" style="color: #1848CC;text-decoration: underline;" id="referral-code"></span></h4>
+      <h4 id="not-connected-wallet-code" class="text-white font-bold relative">Please Connect your wallet to display your referral link</h4>
       <div id="not-referred">
       </div>
       <h4 id="referred" style="display: none;" class="text-white relative"></h4>
@@ -1421,6 +1422,25 @@ svg:not(:root).svg-inline--fa, svg:not(:host).svg-inline--fa {
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="/Home/carousel.js"></script>
 <script src="/bbbets.js" type="text/javascript"></script>
+
+<script>
+  document.getElementById('referral-code').addEventListener('click', function() {
+      // Create a temporary textarea element
+      const tempTextarea = document.createElement('textarea');
+      // Set the value of the textarea to the text you want to copy
+      tempTextarea.value = this.innerText;
+      // Append the textarea to the document body
+      document.body.appendChild(tempTextarea);
+      // Select the textarea content
+      tempTextarea.select();
+      // Copy the selected text to the clipboard
+      document.execCommand('copy');
+      // Remove the temporary textarea from the document
+      document.body.removeChild(tempTextarea);
+      // Optionally, alert the user that the text has been copied
+      alert('Text copied to clipboard');
+  });
+</script>
 
 <script>
   $("#glider").owlCarousel({
