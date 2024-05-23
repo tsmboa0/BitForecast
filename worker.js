@@ -1134,6 +1134,7 @@ let betOnBull;
 let betOnBear;
 let timestamp;
 let ConfirmationId;
+let nonce;
 
 Client.on('connect', function() {
     console.log('Connected to Redis server');
@@ -1415,6 +1416,8 @@ async function Execute(){
         try{
 			const tx = await contract2.Execute(Price, timestamp, betOnBull, betOnBear, wonOdd, rewardsClaimable, whoWon);//look into this line and complete it.
 			console.log("Execute completed from smart contract...");
+			nonce = tx.nonce;
+			console.log("The execute nonce is ",tx.nonce);
 			TxConfirmation();
             // Wrap both promises in an array
             const promises = [
@@ -1472,10 +1475,11 @@ async function ReExecute(){
 	const gasPrice = await provider.getGasPrice();
 	console.log("gas price is ",gasPrice);
 	const increasedGasPrice = gasPrice.mul(11).div(10);
-	const nonce = await provider.getTransactionCount("0x4FC2988B2Fbd411767d08ef8768dB77e6A46DDfF", 'pending');
 	try{
 		const tx = await contract2.Execute(Price, timestamp, betOnBull, betOnBear, wonOdd, rewardsClaimable, whoWon, {nonce:nonce - 1, gasPrice:increasedGasPrice});//look into this line and complete it.
 		console.log("ReExecute completed......");
+		nonce = tx.nonce;
+		console.log("the reexecute nonce is ", tx.nonce);
 		TxConfirmation();
 		// Wrap both promises in an array
 		const promises = [
