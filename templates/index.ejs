@@ -249,7 +249,7 @@ display:none !important;
           </div>
 
           <nav>
-            <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
+            <!-- <div class="menu-icon" onclick="toggleMenu()">&#9776;</div> -->
             
             <div class="nav-itemss" id="navItemss">
               <div class="nav_logo-link-wrapper">
@@ -286,14 +286,64 @@ display:none !important;
           </button>
 
           
-<div id="nav_mobile_open" class="nav_menu-button w-nav-button" style="-webkit-user-select: text;" aria-label="menu" role="button" tabindex="0" aria-controls="w-nav-overlay-0" aria-haspopup="menu" aria-expanded="false">
-<div id="nav_mobile_close" role="button" class="nav-mobile_dropdown-close">
-    <img src="/Polygon_Technology_files/639c9e206daab06c1278bd4d_x.svg" loading="lazy" alt="" class="nav-mobile_dropdown-close-icon">
-    </div>
-    <div class="nav-mobile_menu-open-wrapper">
-        <img src="/Polygon_Technology_files/63ca7d4644dbbf3ee3f4450b_menu.svg" loading="lazy" alt="" class="nav-mobile_menu-open">
+            <div onclick="document.getElementById('w-nav-overlay-0').style.display='block';this.style.display='none';document.getElementById('nav_mobile_close').style.display='block';" id="nav_mobile_open" class="nav_menu-button w-nav-button" style="-webkit-user-select: text;" aria-label="menu" role="button" tabindex="0" aria-controls="w-nav-overlay-0" aria-haspopup="menu" aria-expanded="false">
+              <div class="nav-mobile_menu-open-wrapper">
+                <img src="/Polygon_Technology_files/63ca7d4644dbbf3ee3f4450b_menu.svg" loading="lazy" alt="" class="nav-mobile_menu-open">
+              </div>
+            </div>
+
+            <div onclick="document.getElementById('w-nav-overlay-0').style.display='none';this.style.display='none';document.getElementById('nav_mobile_open').style.display='block';" id="nav_mobile_close" class="nav_menu-button w-nav-button" style="-webkit-user-select: text;display: none;" aria-label="menu" role="button" tabindex="0" aria-controls="w-nav-overlay-0" aria-haspopup="menu" aria-expanded="false">
+              <div id="this-close-button" style="display: block;" class="nav-mobile_menu-open-wrapper">
+                <img src="/Polygon_Technology_files/639c9e206daab06c1278bd4d_x.svg" loading="lazy" alt="" class="nav-mobile_dropdown-close-icon">
+              </div>
+            </div>
+
+
         </div>
+
+        <!-- start -->
+
+        <div class="w-nav-overlay" data-wf-ignore="" id="w-nav-overlay-0" style="height: 6680.14px; display: none;">
+          <nav role="navigation" class="nav_menu w-nav-menu" data-nav-menu-open="" style="transform: translateY(0px); transition: transform 400ms ease 0s;"> 
+          <div style="display:;" class="nav-mobile_menu-wrapper">
+
+            <div data-hover="false" data-delay="0" class="nav-mobile_dropdown w-dropdown w--nav-dropdown-open">
+              <div class="nav-mobile_toggle w-dropdown-toggle w--nav-dropdown-toggle-open" id="w-dropdown-toggle-0" aria-controls="w-dropdown-list-0" aria-haspopup="menu" aria-expanded="false" role="button" tabindex="0">
+                <div onclick="connect()">Connect Wallet</div>
+              </div>       
         </div>
+        <div data-hover="false" data-delay="0" class="nav-mobile_dropdown w-dropdown w--nav-dropdown-open">
+          <div class="nav-mobile_toggle w-dropdown-toggle w--nav-dropdown-toggle-open" id="w-dropdown-toggle-1" aria-controls="w-dropdown-list-1" aria-haspopup="menu" aria-expanded="false" role="button" tabindex="0">
+            <a href="/btcpolygon/" onclick="document.getElementById('w-nav-overlay-0').style.display='none'">BET NOW</a>
+          </div>
+        </div>
+        <div data-hover="false" data-delay="0" class="nav-mobile_dropdown w-dropdown w--nav-dropdown-open">
+          <div class="nav-mobile_toggle w-dropdown-toggle w--nav-dropdown-toggle-open" id="w-dropdown-toggle-2" aria-controls="w-dropdown-list-2" aria-haspopup="menu" aria-expanded="false" role="button" tabindex="0">
+            <a href="/#CommunitySection" onclick="document.getElementById('w-nav-overlay-0').style.display='none'">Community</a>
+          </div>
+        </div>
+        <div data-hover="false" data-delay="0" class="nav-mobile_dropdown w-dropdown w--nav-dropdown-open">
+          <div class="nav-mobile_toggle w-dropdown-toggle w--nav-dropdown-toggle-open" id="w-dropdown-toggle-3" aria-controls="w-dropdown-list-3" aria-haspopup="menu" aria-expanded="false" role="button" tabindex="0">
+            <a href="/#ReferralSection" onclick="document.getElementById('w-nav-overlay-0').style.display='none'">Referral Program</a>
+          </div>
+        </div>
+        <div data-hover="false" data-delay="0" class="nav-mobile_dropdown w-dropdown w--nav-dropdown-open">
+          <div class="nav-mobile_toggle w-dropdown-toggle w--nav-dropdown-toggle-open" id="w-dropdown-toggle-4" aria-controls="w-dropdown-list-4" aria-haspopup="menu" aria-expanded="false" role="button" tabindex="0">
+            <a href="/faq/">FAQ</a>
+          </div>
+        </div>
+        <div data-hover="false" data-delay="0" class="nav-mobile_dropdown w-dropdown w--nav-dropdown-open">
+          <div class="nav-mobile_toggle w-dropdown-toggle w--nav-dropdown-toggle-open" id="w-dropdown-toggle-5" aria-controls="w-dropdown-list-5" aria-haspopup="menu" aria-expanded="false" role="button" tabindex="0">
+            <a href="AboutSection" onclick="document.getElementById('w-nav-overlay-0').style.display='none'">About Us</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+         <!-- end  -->
+
+
         </div>
         </div>
         <div data-w-id="ace25b15-dc58-40b1-1867-22421b8dd019" class="nav_desktop-bg" style="will-change: opacity; opacity: 1;"></div>
@@ -812,7 +862,7 @@ a[href="#"]:hover {cursor: default;}
         <div class="container-medium">
           <div class="text-align-center">
 
-            <h2 class="tabs_section-heading">About Us.</h2>
+            <h2 id="AboutSection" class="tabs_section-heading">About Us.</h2>
             <div class="padding-bottom padding-small"></div>
             <div class="padding-bottom padding-small"></div>
 

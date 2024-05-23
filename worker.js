@@ -1278,12 +1278,12 @@ function getRandomNumber(min, max) {
 function generateValidRandomPair(minRatio, maxRatio) {
     const aa = Math.random();
     if(aa > 0.5){
-        const betBear = getRandomNumber(0.1, 0.5); // Assume any random value for betBear between 1 and 100
+        const betBear = getRandomNumber(2500, 5000); // Assume any random value for betBear between 1 and 100
         const betBull = betBear * getRandomNumber(minRatio, maxRatio);
     
         return [betBull, betBear];
     }else{
-        const betBull = getRandomNumber(0.1, 0.5); // Assume any random value for betBear between 1 and 100
+        const betBull = getRandomNumber(2500, 5000); // Assume any random value for betBear between 1 and 100
         const betBear = betBull * getRandomNumber(minRatio, maxRatio);
     
         return [betBull, betBear];
