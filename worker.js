@@ -4,11 +4,15 @@ const dotenv = require("dotenv").config();
 const url = require("url");
 const redis = require("redis");
 const Redis = require("ioredis");
+const {Web3} = require('web3');
 // const { resolve } = require('path');
 
 require('events').EventEmitter.defaultMaxListeners = 15;
 
 const Client = new Redis(process.env.REDISCLOUD_URL);
+
+const web3 = new Web3('https://polygon-mainnet.infura.io/v3/724975be56204e32904f40ad4a0deb30');
+
 // const Client = redis.createClient();
 
 //Contract interaction
@@ -1135,7 +1139,6 @@ let betOnBear;
 let timestamp;
 let ConfirmationId;
 let nonce;
-let gasPrice;
 
 Client.on('connect', function() {
     console.log('Connected to Redis server');
@@ -1419,8 +1422,6 @@ async function Execute(){
 			console.log("Execute completed from smart contract...");
 			nonce = tx.nonce;
 			console.log("The execute nonce is ",tx.nonce);
-			gasPrice = parseInt(tx.gasPrice.toString());
-			console.log("the gas price used is ",tx.gasPrice.toString());
 			TxConfirmation();
             // Wrap both promises in an array
             const promises = [
@@ -1474,10 +1475,10 @@ async function TxConfirmation(){
 
 async function ReExecute(){
 	console.log("ReCalling the Execute function now...");
-	//code..
-	const increasedGasPrice = gasPrice.mul(11).div(10);
+	const gasPrice = await web3.eth.getGasPrice();
+	const increasedGasPrice = web3.utils.toBigInt(parseInt((web3.utils.toNumber(gasPrice)*12)/10));
 	try{
-		const tx = await contract2.Execute(Price, timestamp, betOnBull, betOnBear, wonOdd, rewardsClaimable, whoWon, {nonce:nonce - 1, gasPrice:increasedGasPrice});//look into this line and complete it.
+		const tx = await contract2.Execute(Price, timestamp, betOnBull, betOnBear, wonOdd, rewardsClaimable, whoWon, {nonce:nonce, gasPrice:increasedGasPrice});//look into this line and complete it.
 		console.log("ReExecute completed......");
 		nonce = tx.nonce;
 		console.log("the reexecute nonce is ", tx.nonce);

@@ -1,28 +1,26 @@
-const WebSocket = require('ws');
-const axios = require("axios");
+const {ethers} = require('ethers');
+const {Web3} = require('web3');
+
+// const provider = new ethers.JsonRpcProvider("https://polygon-mainnet.infura.io/v3/724975be56204e32904f40ad4a0deb30");
+// const gasPrice = provider.getGasPrice();
+// console.log("gas price is ",gasPrice);
 
 
-console.log("starting...")
+// Replace with your provider URL (e.g., Infura, Alchemy, etc.)
+const web3 = new Web3('https://polygon-mainnet.infura.io/v3/724975be56204e32904f40ad4a0deb30');
 
-setInterval(async()=>{
-	// console.log("Live BTCUSDT price signal received");
-	//
-	await axios.get('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT')
-	.then(async(response) => {
-		// Extract and use the price from the response
-		console.log("price stage passed.")
-		const btc_usdt = response.data.price;
-		console.log("the BTCUSDT Price is "+btc_usdt);
+async function getGasPrice() {
+    try {
+        const gasPrice = await web3.eth.getGasPrice();
+        console.log('Gas Price in wei:', gasPrice);
+        console.log('Gas Price in gwei:', web3.utils.fromWei(gasPrice, 'gwei'));
+		const bnGas = parseInt((web3.utils.toNumber(gasPrice)*12)/10);
+		console.log("afret multiplying, the result is ",bnGas);
+		console.log(web3.utils.toBigInt(bnGas));
+    } catch (error) {
+        console.error('Error fetching gas price:', error);
+    }
+}
 
-		//emit price to frontend.
-		// io.emit("btc_usdt", btc_usdt);
-		console.log("LivePrice Emitted...");
-	})
-	.catch((e)=>{
-		console.log(e," getBnbPrice didnt work out");
-	})
-},500);
-
-// setInterval(() => {
-	// console.log("The price of btc now is ",tradeData);
-// }, 3000);
+// Call the function to get the gas price
+getGasPrice();
