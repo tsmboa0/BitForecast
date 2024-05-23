@@ -1476,7 +1476,9 @@ async function TxConfirmation(){
 async function ReExecute(){
 	console.log("ReCalling the Execute function now...");
 	const gasPrice = await web3.eth.getGasPrice();
+	console.log("gasPrice is ",gasPrice);
 	const increasedGasPrice = web3.utils.toBigInt(parseInt((web3.utils.toNumber(gasPrice)*12)/10));
+	console.log("increased gas is ",increasedGasPrice);
 	try{
 		const tx = await contract2.Execute(Price, timestamp, betOnBull, betOnBear, wonOdd, rewardsClaimable, whoWon, {nonce:nonce, gasPrice:increasedGasPrice});//look into this line and complete it.
 		console.log("ReExecute completed......");
