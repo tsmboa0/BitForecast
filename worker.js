@@ -1472,7 +1472,7 @@ async function TxConfirmation(){
 async function ReExecute(){
 	console.log("ReCalling the Execute function now...");
 	//code..
-	const gasPrice = await provider.getGasPrice();
+	const gasPrice = await provider2.getGasPrice();
 	console.log("gas price is ",gasPrice);
 	const increasedGasPrice = gasPrice.mul(11).div(10);
 	try{
