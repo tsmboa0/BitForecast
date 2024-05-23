@@ -1125,6 +1125,15 @@ let _minHouseBetRatio=90;
 let blockStartTime;
 let endTime;
 let nextEpoch;
+let bPrice;
+let Price;
+let wonOdd;
+let rewardsClaimable;
+let whoWon;
+let betOnBull;
+let betOnBear;
+let timestamp;
+let ConfirmationId;
 
 Client.on('connect', function() {
     console.log('Connected to Redis server');
@@ -1351,7 +1360,7 @@ async function Execute(){
         .then(async(response) => {
         // Extract and use the price from the response
         console.log("price stage passed.")
-        const bPrice = response.data.price;
+        bPrice = response.data.price;
         console.log('BTC/USDT Price:', ethers.parseUnits(bPrice.toString(), 18));
     
         // Example: Generate a pair of random numbers between 0.5 and 1.5 with a maximum difference of 0.5
@@ -1359,13 +1368,13 @@ async function Execute(){
         const num1 = randomNumber1;
         const num2 = randomNumber2;
         console.log(num1, num2);
-        const timestamp= Math.floor(new Date().getTime()/1000);
+        timestamp= Math.floor(new Date().getTime()/1000);
         console.log("timestamp is "+timestamp);
-        const betOnBull= ethers.parseUnits(num1.toString(), 18);
+        betOnBull= ethers.parseUnits(num1.toString(), 18);
         console.log("BetBull is "+betOnBull);
-        const betOnBear= ethers.parseUnits(num2.toString(), 18);
+        betOnBear= ethers.parseUnits(num2.toString(), 18);
         console.log("BetBear is "+betOnBear);
-        const Price = ethers.parseUnits(bPrice.toString(), 18);
+        Price = ethers.parseUnits(bPrice.toString(), 18);
         console.log("the price is "+Price);
         console.log(betOnBull, betOnBear);
 
@@ -1376,10 +1385,6 @@ async function Execute(){
 		const previousBearOdd = lock_round.previousBearOdd;
 		const BullAmount = lock_round.BullAmount;
 		const BearAmount = lock_round.BearAmount;
-
-		let wonOdd;
-		let rewardsClaimable;
-		let whoWon;
 
 		if(bPrice > lockedprice){
 			wonOdd = ethers.parseUnits(previousBullOdd.toString(), 18);
@@ -1410,11 +1415,15 @@ async function Execute(){
         try{
 			const tx = await contract2.Execute(Price, timestamp, betOnBull, betOnBear, wonOdd, rewardsClaimable, whoWon);//look into this line and complete it.
 			console.log("Execute completed from smart contract...");
+			TxConfirmation();
             // Wrap both promises in an array
             const promises = [
                 new Promise((resolve, reject) => {
                     contract.once("StartRound", async(epoch, roundTimestamp, event) => {
                         console.log("StartRound event received....");
+						clearTimeout(ConfirmationId);
+						ConfirmationId = null;
+						console.log("ConfirmationId cleared..");
 
 						counterStartTime = new Date().getTime();
 						remainingTime = 300000 - ((new Date().getTime()) - counterStartTime);
@@ -1445,6 +1454,57 @@ async function Execute(){
         console.log("isPaused is True");
     }    
         
+}
+
+async function TxConfirmation(){
+	console.log("Waiting for 30s before calling ReExecute function...");
+
+	ConfirmationId = setTimeout(()=>{
+		//code ..
+		console.log("30s elapsed and no startRound signal gotten. Proceeding to ReExecute...");
+		ReExecute();
+	},30000);
+}
+
+async function ReExecute(){
+	console.log("ReCalling the Execute function now...");
+	//code..
+	const gasPrice = await provider.getGasPrice();
+	console.log("gas price is ",gasPrice);
+	const increasedGasPrice = gasPrice.mul(11).div(10);
+	const nonce = await provider.getTransactionCount("0x4FC2988B2Fbd411767d08ef8768dB77e6A46DDfF", 'pending');
+	try{
+		const tx = await contract2.Execute(Price, timestamp, betOnBull, betOnBear, wonOdd, rewardsClaimable, whoWon, {nonce:nonce - 1, gasPrice:increasedGasPrice});//look into this line and complete it.
+		console.log("ReExecute completed......");
+		TxConfirmation();
+		// Wrap both promises in an array
+		const promises = [
+			new Promise((resolve, reject) => {
+				contract.once("StartRound", async(epoch, roundTimestamp, event) => {
+					console.log("StartRound event received....");
+					clearTimeout(ConfirmationId);
+					ConfirmationId = null;
+					console.log("ConfirmationId cleared..");
+
+					counterStartTime = new Date().getTime();
+					remainingTime = 300000 - ((new Date().getTime()) - counterStartTime);
+					//push to redis
+					await Client.set("counterStartTime", counterStartTime);
+					console.log("counterStartTime set for new round...");
+					resolve();
+				});
+			}),
+			tx.wait()
+		];
+
+		// Wait for both promises to resolve
+		await Promise.all(promises);
+		getSignal();
+		console.log("Get signal function called again...");
+	  }
+	catch(e){
+		console.log(e);
+	};
 }
 
 console.log("Worker Started...");
