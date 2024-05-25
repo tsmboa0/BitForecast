@@ -22,16 +22,16 @@ app.use(express.json());
 // Use the middleware to enforce
 // app.use(sslRedirect.HTTPS({ trustProtoHeader: true }));
 
-const Client = new Redis(process.env.REDISCLOUD_URL);
+// const Client = new Redis(process.env.REDISCLOUD_URL);
 // const Client = redis.createClient();
 
 console.log("The value for the rediscloud url is :"+process.env.REDISCLOUD_URL);
 
-getReload();
+// getReload();
 
-Client.on('connect', function() {
-    console.log('Connected to Redis server');
-});
+// Client.on('connect', function() {
+    // console.log('Connected to Redis server');
+// });
 
   
 const corsOptions = {
@@ -1148,6 +1148,24 @@ const privateKey = process.env.PRIVATEKEY;
 const wallet = new ethers.Wallet(privateKey, provider);
 const contract = new ethers.Contract(contractAdress, abi, wallet);
 
+//wss connection, error and reconnection logic
+let reconnectInterval = 1000;
+
+
+
+  function startHeartbeat() {
+	console.log("starting heartbeat...");
+	setInterval(() => {
+	  console.log("begining if statement...");
+	  if (provider._websocket && provider._websocket.readyState === WebSocket.OPEN) {
+		provider._websocket.send(JSON.stringify({ type: "ping" }));
+		console.log("Ping successful...");
+	  }
+	}, 30000);
+  }
+
+  startHeartbeat();
+
 //Frontend parameters
 let endTime0; //done
 let nextEpoch0; //done
@@ -1177,9 +1195,9 @@ let tradeData;
 
 async function getReload(){
 	// await Client.connect();
-	// await Client.flushdb();
+	await Client.flushdb();
 	// await Client.FLUSHALL();
-	// console.log("all info cleared..");
+	console.log("all info cleared..");
 	// await Client.set("LockAutomateSignal", 'true');
 
 	const start_round = await Client.hgetall("StartRound0");

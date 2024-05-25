@@ -1184,8 +1184,8 @@ contract.on("ExecuteForced", async(event)=>{
 async function getReload(){
 	// await Client.connect();
 	// await Client.FLUSHALL();
-	// await Client.flushdb();
-	// console.log("all info cleared..");
+	await Client.flushdb();
+	console.log("all info cleared..");
 
 	console.log("connected to redis...");
 
@@ -1222,7 +1222,7 @@ async function getReload(){
 
 			setTimeout(async()=>{
 				try{
-					const newEpoch = await contract.queryFilter(startround_filter, (latestBlockNumber-5000), latestBlockNumber);
+					const newEpoch = await contract.queryFilter(startround_filter);
 					const result = parseInt(newEpoch[newEpoch.length-1].args.epoch);
 					console.log("the query result is : "+result);
 
