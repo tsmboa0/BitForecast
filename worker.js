@@ -11,11 +11,16 @@ require('events').EventEmitter.defaultMaxListeners = 15;
 
 const Client = new Redis(process.env.REDISCLOUD_URL);
 
-const web3 = new Web3('https://polygon-mainnet.infura.io/v3/724975be56204e32904f40ad4a0deb30');
+// const web3 = new Web3('https://polygon-mainnet.infura.io/v3/724975be56204e32904f40ad4a0deb30');
 
 // const Client = redis.createClient();
 
 //Contract interaction
+let provider;
+let wallet;
+let contract;
+
+
 const contractAdress="0xea3f590CB571d1C4a1EdF58F4958e22BBF545979";
 const abi =[
 	{
@@ -1112,12 +1117,12 @@ const abi =[
 ];
 const bscNetwork = process.env.POLYGONNETWORK;
 const polygonNetwork = process.env.POLYGONJSON;
-const provider = new ethers.WebSocketProvider(bscNetwork);
+provider = new ethers.WebSocketProvider(bscNetwork);
 const provider2 = new ethers.JsonRpcProvider(polygonNetwork);
 const privateKey = process.env.PRIVATEKEY;
-const wallet = new ethers.Wallet(privateKey, provider);
+wallet = new ethers.Wallet(privateKey, provider);
 const wallet2 = new ethers.Wallet(privateKey, provider2);
-const contract = new ethers.Contract(contractAdress, abi, wallet);
+contract = new ethers.Contract(contractAdress, abi, wallet);
 const contract2 = new ethers.Contract(contractAdress, abi, wallet2);
 
 let remainingTime;
@@ -1145,6 +1150,19 @@ Client.on('connect', function() {
 });
 
 getReload();
+
+provider.websocket.on('open', async()=>{
+	console.log('worker connected to webscocket provider..');
+});
+
+provider.websocket.on('close', async()=>{
+	console.warn("worker disconnected from websocketprovider.. attempting to reconnect...");
+	provider = new ethers.WebSocketProvider(bscNetwork);
+	wallet = new ethers.Wallet(privateKey, provider);
+	contract = new ethers.Contract(contractAdress, abi, wallet);
+	console.log("worker reconnected to websocketprovder...");
+})
+
 
 contract.on("StartRound", async(epoch, roundTimestamp, event)=>{
     console.log("A new Round Just started "+epoch);
@@ -1184,8 +1202,8 @@ contract.on("ExecuteForced", async(event)=>{
 async function getReload(){
 	// await Client.connect();
 	// await Client.FLUSHALL();
-	await Client.flushdb();
-	console.log("all info cleared..");
+	// await Client.flushdb();
+	// console.log("all info cleared..");
 
 	console.log("connected to redis...");
 
@@ -1450,6 +1468,10 @@ async function Execute(){
           }
         catch(e){
             console.log(e);
+			console.warn("Execute failed..retring it in 10s");
+			setTimeout(async()=>{
+				Execute()
+			},10000)
         };
      })
       .catch((error) => {
@@ -1512,6 +1534,10 @@ async function ReExecute(){
 	  }
 	catch(e){
 		console.log(e);
+		console.log("ReExecute failed.. retrying in 10s");
+		setTimeout(async() => {
+			ReExecute()
+		}, 10000);
 	};
 }
 
