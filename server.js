@@ -1322,13 +1322,7 @@ provider.websocket.on('close', async()=>{
 	console.log(await provider.getBlockNumber());
 	const tx = await contract.isParentSet("0x4FC2988B2Fbd411767d08ef8768dB77e6A46DDfF");
 	console.log("parent is ",tx);
-})
-
-setTimeout(() => {
-	console.warn("closing websocked");
-	provider.websocket.close();
-	console.warn("socket closed");
-}, 10000);
+});
 
 
 contract.on("LockAutomate", async(event)=>{
