@@ -9,11 +9,11 @@ const {Web3} = require('web3');
 
 require('events').EventEmitter.defaultMaxListeners = 15;
 
-const Client = new Redis(process.env.REDISCLOUD_URL);
+// const Client = new Redis(process.env.REDISCLOUD_URL);
 
-// const web3 = new Web3('https://polygon-mainnet.infura.io/v3/724975be56204e32904f40ad4a0deb30');
+const web3 = new Web3('https://polygon-mainnet.infura.io/v3/724975be56204e32904f40ad4a0deb30');
 
-// const Client = redis.createClient();
+const Client = redis.createClient();
 
 //Contract interaction
 let provider;
@@ -1176,7 +1176,7 @@ contract.on("StartRound", async(epoch, roundTimestamp, event)=>{
     console.log("A new round has started at time "+endTime);
 	
 	//set values to redis
-	await Client.hset("StartRound", {
+	await Client.hSet("StartRound", {
 		'endTime': endTime,
 		'nextEpoch': nextEpoch,
 		'blockStartTime': blockStartTime
@@ -1207,7 +1207,7 @@ async function getReload(){
 
 	console.log("connected to redis...");
 
-	const start_round = await Client.hgetall("StartRound");
+	const start_round = await Client.hGetAll("StartRound");
 	console.log("StartRound epoch is :"+start_round.nextEpoch);
 	endTime = start_round.endTime;
 	const block_start = start_round.blockStartTime;
@@ -1269,7 +1269,7 @@ async function getReload(){
 							getSignal();
 							console.log("get signal called...");
 
-							await Client.hset("StartRound", {
+							await Client.hSet("StartRound", {
 								"endTime":endTime,
 								"nextEpoch":nextEpoch
 							});
@@ -1423,7 +1423,7 @@ async function Execute(){
         console.log(betOnBull, betOnBear);
 
 		//Perform Maths Operations to calcualte for wonOdd, rewardsClaimable and whowon.
-		const lock_round = await Client.hgetall("LockRound");
+		const lock_round = await Client.hGetAll("LockRound");
 		const lockedprice = lock_round.lockedprice;
 		const previousBullOdd = lock_round.previousBullOdd;
 		const previousBearOdd = lock_round.previousBearOdd;

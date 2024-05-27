@@ -30,7 +30,7 @@ console.log("less than, querying historic events from the blockchain...");
 							nextEpoch0 = parseInt(result0.args.epoch);
 							endTime0 = (parseInt(missed_roundStartTime.toString())*1000 +(304000));
 							console.log("endtime done "+endTime0);
-							await Client.hset("StartRound0", {
+							await Client.hSet("StartRound0", {
 								'nextEpoch': nextEpoch0,
 								'endTime': endTime0
 							});
@@ -57,7 +57,7 @@ console.log("less than, querying historic events from the blockchain...");
 							console.log("passed 4");
 						
 							//set values to redis
-							await Client.hset('EndRound', {
+							await Client.hSet('EndRound', {
 								'previousEpoch':previousEpoch,
 								'wonOdd': wonOdd,
 								'previousPricePool': previousPricePool,
@@ -86,7 +86,7 @@ console.log("less than, querying historic events from the blockchain...");
 							previousBearOdd = parseFloat(ethers.formatEther(result1.args.bearAmount.toString())).toFixed(2);
 						
 							//store data on redis
-							await Client.hset('LockRound', {
+							await Client.hSet('LockRound', {
 								'currentEpoch': currentEpoch,
 								'lockedprice': lockedprice,
 								'currentPricePool': currentPricePool,
@@ -118,7 +118,7 @@ console.log("less than, querying historic events from the blockchain...");
 							nextPricePool = parseFloat(ethers.formatEther(result3.args.pool.toString())).toFixed(2);
 						
 							//set values to redis
-							await Client.hset('Betodds', {
+							await Client.hSet('Betodds', {
 								'currentBullOdd': currentBullOdd,
 								'currentBearOdd': currentBearOdd,
 								'nextPricePool': nextPricePool

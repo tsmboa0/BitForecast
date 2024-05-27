@@ -130,7 +130,7 @@ this._socket&&(this._socket.isConnected()||this._socket.isConnecting())||(this._
 	</script>
 
 	<script nonce="">
-		(()=>{"use strict";const t={whitelabel:!0};const e=window;e.initData=e.initData||{};const a=/\+/g,n=/<\/?[^>]+(>|$)/g,c=t=>decodeURIComponent(t.replace(a," ")).replace(n,""),o=e.location.search.substring(1),i=/([^&=]+)=?([^&]*)/g,s={};let l,r=i.exec(o);for(;null!==r;)s[c(r[1])]=c(r[2]),r=i.exec(o);try{l=JSON.parse(decodeURIComponent(e.location.hash.substring(1))),"object"==typeof l&&null!==l||(l={})}catch(t){l={}}var h;e.initData.querySettings=s,e.initData.hashsettings=(h=l,Object.keys(h).forEach((e=>{t[e]&&delete h[e]})),h)})();
+		(()=>{"use strict";const t={whitelabel:!0};const e=window;e.initData=e.initData||{};const a=/\+/g,n=/<\/?[^>]+(>|$)/g,c=t=>decodeURIComponent(t.replace(a," ")).replace(n,""),o=e.location.search.substring(1),i=/([^&=]+)=?([^&]*)/g,s={};let l,r=i.exec(o);for(;null!==r;)s[c(r[1])]=c(r[2]),r=i.exec(o);try{l=JSON.parse(decodeURIComponent(e.location.hash.substring(1))),"object"==typeof l&&null!==l||(l={})}catch(t){l={}}var h;e.initData.querySettings=s,e.initData.hashSettings=(h=l,Object.keys(h).forEach((e=>{t[e]&&delete h[e]})),h)})();
 		window.urlParams = window.initData.querySettings;
 	</script>
 
