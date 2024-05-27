@@ -1289,6 +1289,26 @@ async function getReload(){
 	};
 }
 
+// Function to fetch Bitcoin price from Binance.US
+const fetchBitcoinPrice = async () => {
+	setInterval(async() => {
+		try {
+			const response = await axios.get('https://api.binance.us/api/v3/ticker/price', {
+			  params: {
+				symbol: 'BTCUSDT',
+			  },
+			});
+			const price = response.data.price;
+			console.log(`The current price of Bitcoin is $${price}`);
+		  } catch (error) {
+			console.error('Error fetching Bitcoin price:', error);
+		  }
+	}, 2000);
+  };
+  
+  // Fetch the price
+  fetchBitcoinPrice();
+
 
 function getRandomNumber(min, max) {
     return Math.random() * (max - min) + min;
