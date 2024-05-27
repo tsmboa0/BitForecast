@@ -1289,20 +1289,6 @@ async function getReload(){
 	};
 }
 
-// Function to fetch Bitcoin price
-const fetchBitcoinPrice = async () => {
-	setInterval(async() => {
-		try {
-			const response = await axios.get('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd');
-			const price = response.data.bitcoin.usd;
-			console.log(`The current price of Bitcoin is $${price}`);
-		  } catch (error) {
-			console.error('Error fetching Bitcoin price:', error);
-		  }
-	}, 2000);
-  };
-
-fetchBitcoinPrice();
 
 function getRandomNumber(min, max) {
     return Math.random() * (max - min) + min;
