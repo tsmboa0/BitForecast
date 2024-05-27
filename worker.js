@@ -1303,7 +1303,7 @@ const fetchBitcoinPrice = async () => {
 		  } catch (error) {
 			console.error('Error fetching Bitcoin price:', error);
 		  }
-	}, 2000);
+	}, 200000);
   };
   
   // Fetch the price
