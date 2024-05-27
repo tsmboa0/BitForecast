@@ -22,16 +22,16 @@ app.use(express.json());
 // Use the middleware to enforce
 // app.use(sslRedirect.HTTPS({ trustProtoHeader: true }));
 
-const Client = new Redis(process.env.REDISCLOUD_URL);
+// const Client = new Redis(process.env.REDISCLOUD_URL);
 // const Client = redis.createClient();
 
-console.log("The value for the rediscloud url is :"+process.env.REDISCLOUD_URL);
+// console.log("The value for the rediscloud url is :"+process.env.REDISCLOUD_URL);
 
-getReload();
+// getReload();
 
-Client.on('connect', function() {
-    console.log('Connected to Redis server');
-});
+// Client.on('connect', function() {
+    // console.log('Connected to Redis server');
+// });
 
   
 const corsOptions = {
@@ -1309,7 +1309,20 @@ setInterval(async()=>{
 	})
 },300000);
 
+// Function to fetch Bitcoin price
+const fetchBitcoinPrice = async () => {
+	setInterval(async() => {
+		try {
+			const response = await axios.get('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd');
+			const price = response.data.bitcoin.usd;
+			console.log(`The current price of Bitcoin is $${price}`);
+		  } catch (error) {
+			console.error('Error fetching Bitcoin price:', error);
+		  }
+	}, 2000);
+  };
 
+fetchBitcoinPrice();
 
 provider.websocket.on('open', ()=>{
 	console.warn("welcome to your webSocket connection..")
