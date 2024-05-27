@@ -1184,7 +1184,7 @@ let isNeutralize = false;
 
 
 async function getReload(){
-	// await Client.connect();
+	await Client.connect();
 	// await Client.flushdb();
 	// await Client.FLUSHALL();
 	// console.log("all info cleared..");
