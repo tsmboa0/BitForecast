@@ -1144,9 +1144,15 @@ let betOnBear;
 let timestamp;
 let ConfirmationId;
 let nonce;
+let currentPricePool;
+let previousBullOdd;
+let previousBearOdd;
+let _BullAmount;
+let _BearAmount;
+let lockedprice;
 
 
-getReload();
+// getReload();
 
 Client.on('connect', function() {
     console.log('Connected to Redis server');
@@ -1177,11 +1183,46 @@ contract.on("StartRound", async(epoch, roundTimestamp, event)=>{
     console.log("A new round has started at time "+endTime);
 	
 	//set values to redis
-	await Client.hSet("StartRound", {
-		'endTime': endTime,
-		'nextEpoch': nextEpoch,
-		'blockStartTime': blockStartTime
-	});
+	// await Client.hSet("StartRound", {
+		// 'endTime': endTime,
+		// 'nextEpoch': nextEpoch,
+		// 'blockStartTime': blockStartTime
+	// });
+});
+
+//Lock Round
+contract.on("LockRound", async(epoch, price, bullAmount, bearAmount, event)=> {
+	console.log("Previous Round Locked..."+epoch);
+	currentEpoch = parseInt(epoch.toString());
+	console.log("Current Epoch passed "+currentEpoch);
+	lockedprice = parseFloat(ethers.formatEther(price.toString())).toFixed(2);
+	console.log("locked Price is "+lockedprice);
+
+	//Perform maths operation to calculate bet odds.
+	_BullAmount = parseFloat(ethers.formatEther(bullAmount.toString())).toFixed(2);
+	console.log("Bull Amount is ", _BullAmount)
+	_BearAmount = parseFloat(ethers.formatEther(bearAmount.toString())).toFixed(2);
+	console.log("Bear Amount is ",_BearAmount)
+	const _Total = parseFloat(parseFloat(_BullAmount) + parseFloat(_BearAmount)).toFixed(2);
+	console.log("Total Amount is ",_Total)
+
+	let _BullOdd = parseFloat(_Total/_BullAmount).toFixed(2);
+	let _BearOdd = parseFloat(_Total/_BearAmount).toFixed(2);
+
+	if(_BullOdd > 3){
+		_BullOdd = 4 - _BearOdd;
+	}else{
+		//
+	}
+	if(_BearOdd > 3){
+		_BearOdd = 4 - _BullOdd;
+	}else{
+		//
+	}
+
+	currentPricePool = _Total;
+	previousBullOdd = _BullOdd;
+	previousBearOdd = _BearOdd;
 });
 
 //Automate Signal
@@ -1375,12 +1416,8 @@ async function Execute(){
         console.log(betOnBull, betOnBear);
 
 		//Perform Maths Operations to calcualte for wonOdd, rewardsClaimable and whowon.
-		const lock_round = await Client.hGetAll("LockRound");
-		const lockedprice = lock_round.lockedprice;
-		const previousBullOdd = lock_round.previousBullOdd;
-		const previousBearOdd = lock_round.previousBearOdd;
-		const BullAmount = lock_round.BullAmount;
-		const BearAmount = lock_round.BearAmount;
+		const BullAmount = _BullAmount;
+		const BearAmount = _BearAmount;
 
 		if(bPrice > lockedprice){
 			wonOdd = ethers.parseUnits(previousBullOdd.toString(), 18);

@@ -1352,6 +1352,7 @@ contract.on("InjectFunds", async(sender, event) => {
 		'endTime': endTime0,
 		'nextEpoch': nextEpoch0,
 	});
+	console.log("start round saved to redis");
 	//pass value to frontend using socket.io
 
 	io.emit("endTime", endTime0);
@@ -1374,6 +1375,7 @@ contract.on("EndRound", async(epoch, pool, lockedPrice, outcome, event)=>{
 		'previousPricePool': previousPricePool,
 		'previousLockedPrice':previousLockedPrice
 	});
+	console.log("end round saved to redis");
 
 	historyTab();
 	
@@ -1429,6 +1431,7 @@ contract.on("LockRound", async(epoch, price, bullAmount, bearAmount, event)=> {
 		'BullAmount': _BullAmount,
 		'BearAmount': _BearAmount
 	});
+	console.log("Lock round saved to redis");
 	//pass value to the frontend using socket.io
 
 	io.emit("currentEpoch", currentEpoch);
@@ -1476,6 +1479,7 @@ contract.on("Betodds", async(epoch, bullAmount, bearAmount, event)=>{
 		'currentBearOdd': currentBearOdd,
 		'nextPricePool': nextPricePool
 	});
+	console.log("Bet Odds saved to redis");
 	// pass value to the frontend using socket.io
 
 	io.emit("currentBullOdd", currentBullOdd);
