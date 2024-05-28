@@ -1163,6 +1163,18 @@ connectRedis();
 
 // getReload();
 
+async function reConnectWsProvider(){
+	console.log("closing the connection to webSocketProvider..");
+	provider.websocket.close();
+	console.warn("reopening socket...");
+	provider = new ethers.WebSocketProvider(bscNetwork);
+	wallet = new ethers.Wallet(privateKey, provider);
+	contract = new ethers.Contract(contractAdress, abi, wallet);
+	console.log(await provider.getBlockNumber());
+	const tx = await contract.isParentSet("0x4FC2988B2Fbd411767d08ef8768dB77e6A46DDfF");
+	console.log("parent is ",tx);
+}
+
 Client.on('connect', function() {
     console.log('Connected to Redis server');
 });
@@ -1171,12 +1183,14 @@ provider.websocket.on('open', async()=>{
 	console.log('worker connected to webscocket provider..');
 });
 
+provider.websocket.on('error', async()=>{
+	console.warn("wss errored..");
+	reConnectWsProvider()
+});
+
 provider.websocket.on('close', async()=>{
 	console.warn("worker disconnected from websocketprovider.. attempting to reconnect...");
-	provider = new ethers.WebSocketProvider(bscNetwork);
-	wallet = new ethers.Wallet(privateKey, provider);
-	contract = new ethers.Contract(contractAdress, abi, wallet);
-	console.log("worker reconnected to websocketprovder...");
+	reConnectWsProvider();
 })
 
 
@@ -1408,6 +1422,10 @@ async function Execute(){
         console.log("price stage passed.")
         bPrice = response.data.price;
         console.log('BTC/USDT Price:', ethers.parseUnits(bPrice.toString(), 18));
+
+		//Reconnect wsProvider
+		await reConnectWsProvider();
+		console.log("wsProvider reconnected..");
     
         // Example: Generate a pair of random numbers between 0.5 and 1.5 with a maximum difference of 0.5
         const [randomNumber1, randomNumber2] = generateValidRandomPair((_minHouseBetRatio / 100), 1);
@@ -1458,6 +1476,7 @@ async function Execute(){
 		console.log("gasPrice is ",gasPrice);
 		const increasedGasPrice = web3.utils.toBigInt(parseInt((web3.utils.toNumber(gasPrice)*12)/10));
 		console.log("increased gas is ",increasedGasPrice);
+
     
         //write to the blockchain.
         try{
@@ -1493,10 +1512,10 @@ async function Execute(){
           }
         catch(e){
             console.log(e);
-			console.warn("Execute failed..retring it in 10s");
-			setTimeout(async()=>{
-				Execute()
-			},10000)
+			// console.warn("Execute failed..retring it in 10s");
+			// setTimeout(async()=>{
+				// Execute()
+			// },10000)
         };
      })
       .catch((error) => {
@@ -1559,10 +1578,10 @@ async function ReExecute(){
 	  }
 	catch(e){
 		console.log(e);
-		console.log("ReExecute failed.. retrying in 10s");
-		setTimeout(async() => {
-			ReExecute()
-		}, 10000);
+		// console.log("ReExecute failed.. retrying in 10s");
+		// setTimeout(async() => {
+			// ReExecute()
+		// }, 10000);
 	};
 }
 

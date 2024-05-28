@@ -14,6 +14,7 @@ const Redis = require("ioredis");
 const sslRedirect = require('express-sslify');
 const {web3} = require('web3');
 const WSocket = require('ws');
+const { setTimeout } = require('timers/promises');
 
 const app = express();
 app.use(express.urlencoded({extended: true}));
@@ -1309,12 +1310,17 @@ setInterval(async()=>{
 	})
 },300000);
 
-provider.websocket.on('open', ()=>{
-	console.warn("welcome to your webSocket connection..")
-})
+async function reconnectWait(){
+	console.log("start round signal receieved... waiting 5 mins before reconnecting to wsProvider..");
+	setTimeout(async() => {
+		console.log("calling reconnectWsProvider function...");
+		reConnectWsProvider();
+	}, 300000);
+}
 
-provider.websocket.on('close', async()=>{
-	console.warn("wss closed..");
+async function reConnectWsProvider(){
+	console.log("closing the connection to webSocketProvider..");
+	provider.websocket.close();
 	console.warn("reopening socket...");
 	provider = new ethers.WebSocketProvider(bscNetwork);
 	wallet = new ethers.Wallet(privateKey, provider);
@@ -1322,6 +1328,20 @@ provider.websocket.on('close', async()=>{
 	console.log(await provider.getBlockNumber());
 	const tx = await contract.isParentSet("0x4FC2988B2Fbd411767d08ef8768dB77e6A46DDfF");
 	console.log("parent is ",tx);
+}
+
+provider.websocket.on('open', ()=>{
+	console.warn("welcome to your webSocket connection..")
+})
+
+provider.websocket.on('close', async()=>{
+	console.warn("wss closed..");
+	reConnectWsProvider()
+});
+
+provider.websocket.on('error', async()=>{
+	console.warn("wss errored..");
+	reConnectWsProvider()
 });
 
 
@@ -1359,6 +1379,8 @@ contract.on("InjectFunds", async(sender, event) => {
 	io.emit("nextEpoch", nextEpoch0);
 	console.log(endTime0);
 	console.log(nextEpoch0);
+
+	reconnectWait();
 });
 
 //End Round
