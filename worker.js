@@ -1145,11 +1145,12 @@ let timestamp;
 let ConfirmationId;
 let nonce;
 
+
+getReload();
+
 Client.on('connect', function() {
     console.log('Connected to Redis server');
 });
-
-getReload();
 
 provider.websocket.on('open', async()=>{
 	console.log('worker connected to webscocket provider..');
@@ -1234,55 +1235,6 @@ async function getReload(){
 			console.log("Less than zero, querying historic events from the blockchain...");
 			const nextEpoch1 = parseInt(nextEpoch);
 			const startround_filter = contract.filters.StartRound(null, null);
-
-			const latestBlockNumber = await provider.getBlockNumber();
-			console.log("latest block number is : "+latestBlockNumber);
-
-			setTimeout(async()=>{
-				try{
-					const newEpoch = await contract.queryFilter(startround_filter);
-					const result = parseInt(newEpoch[newEpoch.length-1].args.epoch);
-					console.log("the query result is : "+result);
-
-					if(newEpoch.length>0){
-						if(nextEpoch1===result){
-							//Execute has not been called...
-							console.log("Execute has not been called....canceling the ongoing round...");
-
-							await contract.RoundCancel(result-1,true,true);
-							await contract.on("CancelRound", async(epoch, event)=>{
-								console.log("Round "+epoch+" canceled, calling execute now...");
-								Execute();
-								console.log("Execute function called...");
-							});
-						}else if(nextEpoch1===(result-1)){
-							//Execute called...fetch from chain...
-							console.log("Fetching data from chain...");
-
-							const result0 = newEpoch[newEpoch.length-1];
-							const missed_roundStartTime = parseInt(result0.args.roundTimestamp);
-							nextEpoch = parseInt(result0.args.epoch);
-							endTime = (parseInt(missed_roundStartTime.toString())*1000 +(304000));
-							console.log("endtime done "+endTime);
-							remainingTime = endTime - (new Date().getTime());
-							console.log("new remiaing time set from start time...");
-							getSignal();
-							console.log("get signal called...");
-
-							await Client.hSet("StartRound", {
-								"endTime":endTime,
-								"nextEpoch":nextEpoch
-							});
-						}else{
-							console.log("This should not be reached during operation...");
-						}
-					}else{
-						console.log("App not started...");
-					}
-				}catch(e){
-					console.log(e.message);
-				}
-			},10000);
 		}else{
 			console.log("This shoud never be reached during operation...");
 		}
