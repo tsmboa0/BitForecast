@@ -1151,6 +1151,11 @@ let _BullAmount;
 let _BearAmount;
 let lockedprice;
 
+async function connectRedis(){
+	await Client.connect();
+}
+
+connectRedis();
 
 // getReload();
 
