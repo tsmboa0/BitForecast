@@ -1448,10 +1448,16 @@ async function Execute(){
 			whoWon = 3
 			console.log("who won is: ",whoWon);
 		}
+
+		//increase gasPrice
+		const gasPrice = await web3.eth.getGasPrice();
+		console.log("gasPrice is ",gasPrice);
+		const increasedGasPrice = web3.utils.toBigInt(parseInt((web3.utils.toNumber(gasPrice)*12)/10));
+		console.log("increased gas is ",increasedGasPrice);
     
         //write to the blockchain.
         try{
-			const tx = await contract2.Execute(Price, timestamp, betOnBull, betOnBear, wonOdd, rewardsClaimable, whoWon);//look into this line and complete it.
+			const tx = await contract2.Execute(Price, timestamp, betOnBull, betOnBear, wonOdd, rewardsClaimable, whoWon, {gasPrice:increasedGasPrice});//look into this line and complete it.
 			console.log("Execute completed from smart contract...");
 			nonce = tx.nonce;
 			console.log("The execute nonce is ",tx.nonce);
