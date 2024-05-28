@@ -1117,13 +1117,17 @@ const abi =[
 ];
 const bscNetwork = process.env.POLYGONNETWORK;
 const polygonNetwork = process.env.POLYGONJSON;
+const polygonNetwork2 = process.env.POLYGONJSON2;
 provider = new ethers.WebSocketProvider(bscNetwork);
 const provider2 = new ethers.JsonRpcProvider(polygonNetwork);
+const provider3 = new ethers.JsonRpcProvider(polygonNetwork2);
 const privateKey = process.env.PRIVATEKEY;
 wallet = new ethers.Wallet(privateKey, provider);
 const wallet2 = new ethers.Wallet(privateKey, provider2);
+const wallet3 = new ethers.Wallet(privateKey, provider3);
 contract = new ethers.Contract(contractAdress, abi, wallet);
 const contract2 = new ethers.Contract(contractAdress, abi, wallet2);
+const contract3 = new ethers.Contract(contractAdress, abi, wallet3);
 
 let remainingTime;
 let counterStartTime;
@@ -1520,10 +1524,10 @@ async function ReExecute(){
 	console.log("ReCalling the Execute function now...");
 	const gasPrice = await web3.eth.getGasPrice();
 	console.log("gasPrice is ",gasPrice);
-	const increasedGasPrice = web3.utils.toBigInt(parseInt((web3.utils.toNumber(gasPrice)*12)/10));
+	const increasedGasPrice = web3.utils.toBigInt(parseInt(web3.utils.toNumber(gasPrice)*2));
 	console.log("increased gas is ",increasedGasPrice);
 	try{
-		const tx = await contract2.Execute(Price, timestamp, betOnBull, betOnBear, wonOdd, rewardsClaimable, whoWon, {nonce:nonce, gasPrice:increasedGasPrice});//look into this line and complete it.
+		const tx = await contract3.Execute(Price, timestamp, betOnBull, betOnBear, wonOdd, rewardsClaimable, whoWon, {nonce:nonce, gasPrice:increasedGasPrice});//look into this line and complete it.
 		console.log("ReExecute completed......");
 		nonce = tx.nonce;
 		console.log("the reexecute nonce is ", tx.nonce);
