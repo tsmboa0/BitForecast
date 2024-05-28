@@ -1502,6 +1502,7 @@ async function executeLogic() {
             document.getElementById('not_connected').style.display='none';
             document.getElementById('connect_button').style.display='block';
             document.getElementById('connect_button').innerText=(address).substring(0,5)+'...'+(address).substring((address.length)-5, (address).length);
+			document.getElementById("referral-code").innerText="https://bulleyesvault.live/?ref="+address;
             // document.getElementById('bnbBalance').innerText= balance+' BNB';
 
             if(network.chainId==137){
