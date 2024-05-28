@@ -1288,7 +1288,7 @@ if(window.ethereum){
             const address = await signer.getAddress();
             const balance = await provider.getBalance(address);
             document.getElementById('connect_button').innerText=(address).substring(0,5)+'...'+(address).substring((address.length)-5, (address).length);
-			document.getElementById("referral-code").innerText="https://bulleyesvault.live/?ref="+address;
+			document.getElementById("referral-code").innerText="https://www.bulleyesvault.live/?ref="+address;
             // document.getElementById('bnbBalance').innerText= balance+' BNB';
         }catch(e){
             //
@@ -1341,7 +1341,7 @@ async function Check(){
                 document.getElementById('connect_button').innerText=(address).substring(0,5)+'...'+(address).substring((address.length)-5, (address).length);
 				document.getElementById("not-connected-wallet-code").style.display='none';
 				document.getElementById("connected-wallet-code").style.display='block';
-				document.getElementById("referral-code").innerText="https://bulleyesvault.live/?ref="+address;
+				document.getElementById("referral-code").innerText="https://www.bulleyesvault.live/?ref="+address;
     
                 //detect network.
                 const network = await provider.getNetwork();
@@ -1502,7 +1502,7 @@ async function executeLogic() {
             document.getElementById('not_connected').style.display='none';
             document.getElementById('connect_button').style.display='block';
             document.getElementById('connect_button').innerText=(address).substring(0,5)+'...'+(address).substring((address.length)-5, (address).length);
-			document.getElementById("referral-code").innerText="https://bulleyesvault.live/?ref="+address;
+			document.getElementById("referral-code").innerText="https://www.bulleyesvault.live/?ref="+address;
             // document.getElementById('bnbBalance').innerText= balance+' BNB';
 
             if(network.chainId==137){

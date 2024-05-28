@@ -1110,7 +1110,7 @@ const abi =[
                        document.getElementById('not_connected').style.display='none';
                        document.getElementById('connect_button').style.display='block';
                        document.getElementById('connect_button').innerText=(address).substring(0,5)+'...'+(address).substring((address.length)-5, (address).length);
-                       document.getElementById("referral-code").innerText="https://bulleyesvault.live/?ref="+address;
+                       document.getElementById("referral-code").innerText="https://www.bulleyesvault.live/?ref="+address;
            
                        //detect network.
                        const network = await provider.getNetwork();
@@ -1197,6 +1197,7 @@ const abi =[
                const address = await signer.getAddress();
                const balance = await provider.getBalance(address);
                document.getElementById('connect_button').innerText=(address).substring(0,5)+'...'+(address).substring((address.length)-5, (address).length);
+			   document.getElementById("referral-code").innerText="https://www.bulleyesvault.live/?ref="+address;
                // document.getElementById('bnbBalance').innerText= balance+' BNB';
            }catch(e){
                //
@@ -1228,6 +1229,7 @@ const abi =[
                document.getElementById('not_connected').style.display='none';
                document.getElementById('connect_button').style.display='block';
                document.getElementById('connect_button').innerText=(address).substring(0,5)+'...'+(address).substring((address.length)-5, (address).length);
+			   document.getElementById("referral-code").innerText="https://www.bulleyesvault.live/?ref="+address;
                document.getElementById('connect-history').style.display='none';
                window.location.reload;
                // document.getElementById('bnbBalance').innerText= balance+' BNB';
@@ -1246,40 +1248,6 @@ const abi =[
          alert('Please install a MetaMask wallet or any other compatible wallet');
        }
      }
-
-   async function claimAllRound(){
-       const provider = new ethers.providers.Web3Provider(window.ethereum);
-       const signer = provider.getSigner();
-       const network = await provider.getNetwork();
-
-       try{
-           const contract = new ethers.Contract(contractAdress, abi, signer);
-           const myAddress = await signer.getAddress();
-           const filter = contract.filters.Claim(myAddress);
-   
-           if(network.chainId==137){
-               try{
-                   const txcn = await contract.claimAllRound();
-                   const receipt = await txcn;
-                   try{
-                       await contract.on(filter, (sender, event)=>{
-                           alert('All Round Claimed.');
-                           location.reload();
-                       })
-                   }catch(e){
-                       //
-                       alert(e.data.message);
-                   }
-               }catch(e){
-                   console.log(e);
-               }
-           }else{
-               alert("You are not connected to the POLYGON Network. Click the blinking button at the top right to change Network.")
-           }
-       }catch(e){
-           alert("Please connect your MetaMask")
-       }
-   }
 
    async function user_claimRound(epoch){
        const provider = new ethers.providers.Web3Provider(window.ethereum);
