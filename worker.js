@@ -1402,7 +1402,7 @@ async function verifyTime(){
 			setTimeout(() => {
 				Execute();
 				console.log("Execute() called...");
-			}, 5000);
+			}, 2500);
 		}else{
 			console.log("requirements not met, trying again...");
 			setTimeout( ()=>{
