@@ -10,8 +10,9 @@ const {Web3} = require('web3');
 require('events').EventEmitter.defaultMaxListeners = 15;
 
 // const Client = new Redis(process.env.REDISCLOUD_URL);
+let web3;
 
-const web3 = new Web3('https://polygon-mainnet.infura.io/v3/724975be56204e32904f40ad4a0deb30');
+web3 = new Web3('https://polygon-mainnet.infura.io/v3/724975be56204e32904f40ad4a0deb30');
 
 const Client = redis.createClient();
 
@@ -1377,9 +1378,11 @@ async function verifyTime(){
 		console.log("block time is : "+block_time);
 
 		if(block_time >= (end_time)){
-			console.log("Requirements satisfied, calling execute function...");
-			Execute();
-			console.log("Execute() called...");
+			console.log("Requirements satisfied, waiting 5 seconds to call execute function...");
+			setTimeout(() => {
+				Execute();
+				console.log("Execute() called...");
+			}, 5000);
 		}else{
 			console.log("requirements not met, trying again...");
 			setTimeout( ()=>{
@@ -1397,8 +1400,10 @@ async function resetContract23(){
 	console.log("both providers closed..");
 	provider2=null;
 	provider3=null;
+	web3=null;
 	provider2 = new ethers.JsonRpcProvider(polygonNetwork);
 	provider3 = new ethers.JsonRpcProvider(polygonNetwork2);
+	web3 = new Web3('https://polygon-mainnet.infura.io/v3/724975be56204e32904f40ad4a0deb30');
 	wallet2 = new ethers.Wallet(privateKey, provider2);
 	wallet3 = new ethers.Wallet(privateKey, provider3);
 	contract2 = new ethers.Contract(contractAdress, abi, wallet2);
