@@ -1320,14 +1320,6 @@ async function reconnectWait(){
 
 async function reConnectWsProvider(){
 	console.log("closing the connection to webSocketProvider..");
-	provider.websocket.close();
-	console.warn("reopening socket...");
-	provider = new ethers.WebSocketProvider(bscNetwork);
-	wallet = new ethers.Wallet(privateKey, provider);
-	contract = new ethers.Contract(contractAdress, abi, wallet);
-	console.log(await provider.getBlockNumber());
-	const tx = await contract.isParentSet("0x4FC2988B2Fbd411767d08ef8768dB77e6A46DDfF");
-	console.log("parent is ",tx);
 }
 
 provider.websocket.on('open', ()=>{
