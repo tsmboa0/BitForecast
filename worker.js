@@ -1354,12 +1354,12 @@ function generateValidRandomPair(minRatio, maxRatio) {
 
 //cron operation. Calls Execute function every 5 minutes.
 function getSignal(){
-    console.log("Inside the getSignal... waiting for the next 5 mins to launch verifyTime..");
+    console.log("Inside the getSignal... waiting for the next 5 mins to launch resetContract23..");
 
     setTimeout(()=>{
-        console.log("Inside the first setTimeout... launching verify Time..");
-        verifyTime();
-        console.log("verifyTime called..");
+        console.log("Inside the first setTimeout... launching resetContract23..");
+        resetContract23();
+        console.log("resetcontract23 called..");
     }, remainingTime);
 }
 
@@ -1378,7 +1378,7 @@ async function verifyTime(){
 
 		if(block_time >= (end_time)){
 			console.log("Requirements satisfied, calling execute function...");
-			resetContract23();
+			Execute();
 			console.log("Execute() called...");
 		}else{
 			console.log("requirements not met, trying again...");
@@ -1403,8 +1403,8 @@ async function resetContract23(){
 	wallet3 = new ethers.Wallet(privateKey, provider3);
 	contract2 = new ethers.Contract(contractAdress, abi, wallet2);
 	contract3 = new ethers.Contract(contractAdress, abi, wallet3);
-	console.log("both providers opened and parameters set...calling execute now");
-	Execute();
+	console.log("both providers opened and parameters set...calling verify Time now");
+	verifyTime();
 }
 
 async function resetForced(){
