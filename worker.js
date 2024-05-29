@@ -1371,8 +1371,8 @@ async function verifyTime(){
 	console.log("start time is : "+blockStartTime);
 	console.log("end time is : "+end_time);
 	try{
-		const blockNumber = await provider.getBlockNumber();
-		const block = await provider.getBlock(blockNumber);
+		const blockNumber = await provider2.getBlockNumber();
+		const block = await provider2.getBlock(blockNumber);
 		const block_time = block.timestamp;
 		console.log("block time is : "+block_time);
 
