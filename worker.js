@@ -1522,6 +1522,10 @@ async function Execute(){
 
 						counterStartTime = new Date().getTime();
 						remainingTime = 300000 - ((new Date().getTime()) - counterStartTime);
+
+						blockStartTime = parseInt(roundTimestamp.toString());
+						endTime = (parseInt(roundTimestamp.toString())*1000 +(304000));
+						console.log("endtime done "+endTime);
 						//push to redis
 						await Client.set("counterStartTime", counterStartTime);
 						console.log("counterStartTime set for new round...");
@@ -1588,6 +1592,10 @@ async function ReExecute(){
 
 					counterStartTime = new Date().getTime();
 					remainingTime = 300000 - ((new Date().getTime()) - counterStartTime);
+
+					blockStartTime = parseInt(roundTimestamp.toString());
+					endTime = (parseInt(roundTimestamp.toString())*1000 +(304000));
+					console.log("endtime done "+endTime);
 					//push to redis
 					await Client.set("counterStartTime", counterStartTime);
 					console.log("counterStartTime set for new round...");

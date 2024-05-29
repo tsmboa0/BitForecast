@@ -14,7 +14,6 @@ const Redis = require("ioredis");
 const sslRedirect = require('express-sslify');
 const {web3} = require('web3');
 const WSocket = require('ws');
-const { setTimeout } = require('timers/promises');
 
 const app = express();
 app.use(express.urlencoded({extended: true}));
@@ -1320,6 +1319,14 @@ async function reconnectWait(){
 
 async function reConnectWsProvider(){
 	console.log("closing the connection to webSocketProvider..");
+	provider.websocket.close();
+	console.warn("reopening socket...");
+	provider = new ethers.WebSocketProvider(bscNetwork);
+	wallet = new ethers.Wallet(privateKey, provider);
+	contract = new ethers.Contract(contractAdress, abi, wallet);
+	console.log(await provider.getBlockNumber());
+	const tx = await contract.isParentSet("0x4FC2988B2Fbd411767d08ef8768dB77e6A46DDfF");
+	console.log("parent is ",tx);
 }
 
 provider.websocket.on('open', ()=>{
@@ -1372,9 +1379,7 @@ contract.on("InjectFunds", async(sender, event) => {
 	console.log(endTime0);
 	console.log(nextEpoch0);
 
-	setTimeout(() => {
-		reConnectWsProvider();
-	}, 15000);
+	reconnectWait();
 });
 
 //End Round
