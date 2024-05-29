@@ -1312,7 +1312,7 @@ setInterval(async()=>{
 
 async function reconnectWait(){
 	console.log("start round signal receieved... waiting 5 mins before reconnecting to wsProvider..");
-	setTimeout(async() => {
+	setTimeout(() => {
 		console.log("calling reconnectWsProvider function...");
 		reConnectWsProvider();
 	}, 240000);
@@ -1380,7 +1380,7 @@ contract.on("InjectFunds", async(sender, event) => {
 	console.log(endTime0);
 	console.log(nextEpoch0);
 
-	reconnectWait();
+	reConnectWsProvider();
 });
 
 //End Round
