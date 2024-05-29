@@ -1394,9 +1394,9 @@ async function verifyTime(){
 
 async function resetContract23(){
 	console.log("closing provider2 and 3...");
-	provider2.websocket.close();
-	provider3.websocket.close();
 	console.log("both providers closed..");
+	provider2=null;
+	provider3=null;
 	provider2 = new ethers.JsonRpcProvider(polygonNetwork);
 	provider3 = new ethers.JsonRpcProvider(polygonNetwork2);
 	wallet2 = new ethers.Wallet(privateKey, provider2);
