@@ -1191,12 +1191,12 @@ provider.websocket.on('open', async()=>{
 
 provider.websocket.on('error', async()=>{
 	console.warn("wss errored..");
-	reConnectWsProvider()
+	// reConnectWsProvider()
 });
 
 provider.websocket.on('close', async()=>{
 	console.warn("worker disconnected from websocketprovider.. attempting to reconnect...");
-	reConnectWsProvider();
+	// reConnectWsProvider();
 })
 
 
