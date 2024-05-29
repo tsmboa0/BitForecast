@@ -23,8 +23,8 @@ app.use(express.json());
 // Use the middleware to enforce
 app.use(sslRedirect.HTTPS({ trustProtoHeader: true }));
 
-const Client = new Redis(process.env.REDISCLOUD_URL);
-// const Client = redis.createClient();
+// const Client = new Redis(process.env.REDISCLOUD_URL);
+const Client = redis.createClient();
 
 // console.log("The value for the rediscloud url is :"+process.env.REDISCLOUD_URL);
 
@@ -1185,13 +1185,13 @@ let isNeutralize = false;
 
 
 async function getReload(){
-	// await Client.connect();
+	await Client.connect();
 	// await Client.flushdb();
 	// await Client.FLUSHALL();
 	// console.log("all info cleared..");
 	// await Client.set("LockAutomateSignal", 'true');
 
-	const start_round = await Client.hgetall("StartRound0");
+	const start_round = await Client.hGetAll("StartRound0");
 	console.log("StartRound epoch is :"+start_round.nextEpoch);
 	endTime0 = start_round.endTime;
 	console.log("the end time issue is "+endTime0);
@@ -1220,19 +1220,19 @@ async function getReload(){
 		}
 	};
 
-	const lock_round = await Client.hgetall("LockRound");
+	const lock_round = await Client.hGetAll("LockRound");
 	currentEpoch = lock_round.currentEpoch;
 	lockedprice = lock_round.lockedprice;
 	currentPricePool = lock_round.currentPricePool;
 	previousBullOdd = lock_round.previousBullOdd;
 	previousBearOdd = lock_round.previousBearOdd;
 
-	const bet_odds = await Client.hgetall("Betodds");
+	const bet_odds = await Client.hGetAll("Betodds");
 	currentBullOdd = bet_odds.currentBullOdd;
 	currentBearOdd = bet_odds.currentBearOdd;
 	nextPricePool = bet_odds.nextPricePool;
 
-	const end_round = await Client.hgetall("EndRound");
+	const end_round = await Client.hGetAll("EndRound");
 	previousPricePool = end_round.previousPricePool;
 	previousLockedPrice = end_round.previousLockedPrice;
 	previousEpoch = end_round.previousEpoch;
@@ -1245,12 +1245,12 @@ async function getReload(){
 		isPaused = false;
 	};
 
-	const history_tab = await Client.lrange("history_Tab", 0, -1);
+	const history_tab = await Client.lRange("history_Tab", 0, -1);
     const history_string = history_tab.map(JSON.parse);
     console.log("the history length is :" + history_string.length);
 	history_Tab = history_string;
 
-	const tests = await Client.hgetall("test");
+	const tests = await Client.hGetAll("test");
 	console.log("the greeting is :"+tests.greet);
 	console.log("the time is :"+tests.time);
 
@@ -1315,7 +1315,7 @@ async function reconnectWait(){
 	setTimeout(async() => {
 		console.log("calling reconnectWsProvider function...");
 		reConnectWsProvider();
-	}, 300000);
+	}, 250000);
 }
 
 async function reConnectWsProvider(){
@@ -1368,7 +1368,7 @@ contract.on("InjectFunds", async(sender, event) => {
 	console.log("A new round has started at time "+endTime0);
 	
 	//set values to redis
-	await Client.hset("StartRound0", {
+	await Client.hSet("StartRound0", {
 		'endTime': endTime0,
 		'nextEpoch': nextEpoch0,
 	});
@@ -1391,7 +1391,7 @@ contract.on("EndRound", async(epoch, pool, lockedPrice, outcome, event)=>{
 	previousLockedPrice = parseFloat(ethers.formatEther(lockedPrice.toString())).toFixed(2);
 
 	//set values to redis
-	await Client.hset('EndRound', {
+	await Client.hSet('EndRound', {
 		'previousEpoch':previousEpoch,
 		'wonOdd': wonOdd,
 		'previousPricePool': previousPricePool,
@@ -1444,7 +1444,7 @@ contract.on("LockRound", async(epoch, price, bullAmount, bearAmount, event)=> {
 	previousBearOdd = _BearOdd;
 
 	//store data on redis
-	await Client.hset('LockRound', {
+	await Client.hSet('LockRound', {
 		'currentEpoch': currentEpoch,
 		'lockedprice': lockedprice,
 		'currentPricePool': currentPricePool,
@@ -1496,7 +1496,7 @@ contract.on("Betodds", async(epoch, bullAmount, bearAmount, event)=>{
 	nextPricePool = _Total;
 
 	//set values to redis
-	await Client.hset('Betodds', {
+	await Client.hSet('Betodds', {
 		'currentBullOdd': currentBullOdd,
 		'currentBearOdd': currentBearOdd,
 		'nextPricePool': nextPricePool
@@ -1590,25 +1590,25 @@ async function historyTab() {
 	
 		const jsonString = JSON.stringify(dict);
 
-		const history_tab0 = await Client.lrange("history_Tab", 0, -1);
+		const history_tab0 = await Client.lRange("history_Tab", 0, -1);
 		const history_string0 = history_tab0.map(JSON.parse);
 
 		if (history_string0.length === 9) {
 			// Remove last item from Redis
-			await Client.rpop("history_Tab");
+			await Client.rPop("history_Tab");
 			// Send to redis
-			await Client.lpush("history_Tab", jsonString);
+			await Client.lPush("history_Tab", jsonString);
 		} else if (history_string0.length > 9) {
 			// Trim the list to keep only the first 9 items
-			await Client.ltrim("history_Tab", 0, 8);
+			await Client.lTrim("history_Tab", 0, 8);
 			// Send to redis
-			await Client.lpush("history_Tab", jsonString);
+			await Client.lPush("history_Tab", jsonString);
 		} else {
 			// Send to redis
-			await Client.lpush("history_Tab", jsonString);
+			await Client.lPush("history_Tab", jsonString);
 		}
 
-		const history_tab1 = await Client.lrange("history_Tab", 0, -1);
+		const history_tab1 = await Client.lRange("history_Tab", 0, -1);
 		const history_string1 = history_tab1.map(JSON.parse);
 
 		history_Tab = history_string1;

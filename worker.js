@@ -19,6 +19,12 @@ const Client = redis.createClient();
 let provider;
 let wallet;
 let contract;
+let provider2;
+let provider3;
+let wallet2;
+let wallet3;
+let contract2;
+let contract3;
 
 
 const contractAdress="0xea3f590CB571d1C4a1EdF58F4958e22BBF545979";
@@ -1119,15 +1125,15 @@ const bscNetwork = process.env.POLYGONNETWORK;
 const polygonNetwork = process.env.POLYGONJSON;
 const polygonNetwork2 = process.env.POLYGONJSON2;
 provider = new ethers.WebSocketProvider(bscNetwork);
-const provider2 = new ethers.JsonRpcProvider(polygonNetwork);
-const provider3 = new ethers.JsonRpcProvider(polygonNetwork2);
+provider2 = new ethers.JsonRpcProvider(polygonNetwork);
+provider3 = new ethers.JsonRpcProvider(polygonNetwork2);
 const privateKey = process.env.PRIVATEKEY;
 wallet = new ethers.Wallet(privateKey, provider);
-const wallet2 = new ethers.Wallet(privateKey, provider2);
-const wallet3 = new ethers.Wallet(privateKey, provider3);
+wallet2 = new ethers.Wallet(privateKey, provider2);
+wallet3 = new ethers.Wallet(privateKey, provider3);
 contract = new ethers.Contract(contractAdress, abi, wallet);
-const contract2 = new ethers.Contract(contractAdress, abi, wallet2);
-const contract3 = new ethers.Contract(contractAdress, abi, wallet3);
+contract2 = new ethers.Contract(contractAdress, abi, wallet2);
+contract3 = new ethers.Contract(contractAdress, abi, wallet3);
 
 let remainingTime;
 let counterStartTime;
@@ -1372,7 +1378,7 @@ async function verifyTime(){
 
 		if(block_time >= (end_time)){
 			console.log("Requirements satisfied, calling execute function...");
-			Execute();
+			resetContract23();
 			console.log("Execute() called...");
 		}else{
 			console.log("requirements not met, trying again...");
@@ -1384,6 +1390,21 @@ async function verifyTime(){
 	}catch(e){
 		console.log(e);
 	}
+}
+
+async function resetContract23(){
+	console.log("closing provider2 and 3...");
+	provider2.websocket.close();
+	provider3.websocket.close();
+	console.log("both providers closed..");
+	provider2 = new ethers.JsonRpcProvider(polygonNetwork);
+	provider3 = new ethers.JsonRpcProvider(polygonNetwork2);
+	wallet2 = new ethers.Wallet(privateKey, provider2);
+	wallet3 = new ethers.Wallet(privateKey, provider3);
+	contract2 = new ethers.Contract(contractAdress, abi, wallet2);
+	contract3 = new ethers.Contract(contractAdress, abi, wallet3);
+	console.log("both providers opened and parameters set...calling execute now");
+	Execute();
 }
 
 async function resetForced(){
