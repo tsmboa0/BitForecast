@@ -1319,6 +1319,8 @@ async function reconnectWait(){
 
 async function reConnectWsProvider(){
 	console.log("closing the connection to webSocketProvider..");
+	isNeutralize = true;
+	reActivateListeners();
 	provider.websocket.close();
 	console.warn("reopening socket...");
 	provider = new ethers.WebSocketProvider(bscNetwork);
@@ -1327,6 +1329,8 @@ async function reConnectWsProvider(){
 	console.log(await provider.getBlockNumber());
 	const tx = await contract.isParentSet("0x4FC2988B2Fbd411767d08ef8768dB77e6A46DDfF");
 	console.log("parent is ",tx);
+	isNeutralize = false;
+	reActivateListeners();
 }
 
 provider.websocket.on('open', ()=>{
@@ -1343,170 +1347,196 @@ provider.websocket.on('error', async()=>{
 	// reConnectWsProvider()
 });
 
-
-contract.on("LockAutomate", async(event)=>{
-	console.log("Round Automate Emitted");
-	// remainingTime = 305000;
-	// getSignal();
-	// await Client.set("LockAutomateSignal", 'true');
-})
-
-contract.on("InjectFunds", async(sender, event) => {
-	console.log("Admin Injected Funds ");
-});
-
- //When Round Starts in the BlockChain.
- contract.on("StartRound", async(epoch, roundTimestamp, event)=>{
-	console.log("A new Round Just started "+epoch);
-	console.log("Round Timestamp is "+roundTimestamp);
-	console.log((roundTimestamp.toString()));
-	endTime0 = (parseInt(roundTimestamp.toString())*1000 +(304000));
-	console.log("endtime done "+endTime0);
-	nextEpoch0 = parseInt(epoch.toString());
-	console.log("nextEpoch Passed.");
-	console.log("A new round has started at time "+endTime0);
-	
-	//set values to redis
-	await Client.hset("StartRound0", {
-		'endTime': endTime0,
-		'nextEpoch': nextEpoch0,
-	});
-	console.log("start round saved to redis");
-	//pass value to frontend using socket.io
-
-	io.emit("endTime", endTime0);
-	io.emit("nextEpoch", nextEpoch0);
-	console.log(endTime0);
-	console.log(nextEpoch0);
-
-	reconnectWait();
-});
-
-//End Round
-contract.on("EndRound", async(epoch, pool, lockedPrice, outcome, event)=>{
-	previousEpoch = epoch.toString();
-	wonOdd = parseFloat(ethers.formatEther(outcome.toString())).toFixed(2);
-	previousPricePool = parseFloat(ethers.formatEther(pool.toString())).toFixed(2);
-	previousLockedPrice = parseFloat(ethers.formatEther(lockedPrice.toString())).toFixed(2);
-
-	//set values to redis
-	await Client.hset('EndRound', {
-		'previousEpoch':previousEpoch,
-		'wonOdd': wonOdd,
-		'previousPricePool': previousPricePool,
-		'previousLockedPrice':previousLockedPrice
-	});
-	console.log("end round saved to redis");
-
-	historyTab();
-	
-	//pass value to the frontend.
-
-	io.emit("previousEpoch", previousEpoch);
-	io.emit("outcome", wonOdd);
-	io.emit("previousPricePool", previousPricePool);
-	io.emit("previousLockedPrice", previousLockedPrice);
-});
-
-//Lock Round
-contract.on("LockRound", async(epoch, price, bullAmount, bearAmount, event)=> {
-	console.log("Previous Round Locked..."+epoch);
-	currentEpoch = parseInt(epoch.toString());
-	console.log("Current Epoch passed "+currentEpoch);
-	lockedprice = parseFloat(ethers.formatEther(price.toString())).toFixed(2);
-	console.log("locked Price is "+lockedprice);
-
-	//Perform maths operation to calculate bet odds.
-	const _BullAmount = parseFloat(ethers.formatEther(bullAmount.toString())).toFixed(2);
-	console.log("Bull Amount is ", _BullAmount)
-	const _BearAmount = parseFloat(ethers.formatEther(bearAmount.toString())).toFixed(2);
-	console.log("Bear Amount is ",_BearAmount)
-	const _Total = parseFloat(parseFloat(_BullAmount) + parseFloat(_BearAmount)).toFixed(2);
-	console.log("Total Amount is ",_Total)
-
-	let _BullOdd = parseFloat(_Total/_BullAmount).toFixed(2);
-	let _BearOdd = parseFloat(_Total/_BearAmount).toFixed(2);
-
-	if(_BullOdd > 3){
-		_BullOdd = 4 - _BearOdd;
-	}else{
+async function reActivateListeners(){
+	//
+	if (!isNeutralize){
 		//
-	}
-	if(_BearOdd > 3){
-		_BearOdd = 4 - _BullOdd;
+		const eventPromises = [
+			new Promise((resolve, reject) => {
+				contract.on("LockAutomate", async(event)=>{
+					console.log("Round Automate Emitted");
+					// remainingTime = 305000;
+					// getSignal();
+					// await Client.set("LockAutomateSignal", 'true');
+				})
+			}),
+			new Promise((resolve, reject) => {
+				contract.on("InjectFunds", async(sender, event) => {
+					console.log("Admin Injected Funds ");
+				});
+			}),
+			new Promise((resolve, reject) => {
+				//When Round Starts in the BlockChain.
+				contract.on("StartRound", async(epoch, roundTimestamp, event)=>{
+					console.log("A new Round Just started "+epoch);
+					console.log("Round Timestamp is "+roundTimestamp);
+					console.log((roundTimestamp.toString()));
+					endTime0 = (parseInt(roundTimestamp.toString())*1000 +(304000));
+					console.log("endtime done "+endTime0);
+					nextEpoch0 = parseInt(epoch.toString());
+					console.log("nextEpoch Passed.");
+					console.log("A new round has started at time "+endTime0);
+					
+					//set values to redis
+					await Client.hset("StartRound0", {
+						'endTime': endTime0,
+						'nextEpoch': nextEpoch0,
+					});
+					console.log("start round saved to redis");
+					//pass value to frontend using socket.io
+
+					io.emit("endTime", endTime0);
+					io.emit("nextEpoch", nextEpoch0);
+					console.log(endTime0);
+					console.log(nextEpoch0);
+
+					reconnectWait();
+				});
+			}),
+			new Promise((resolve, reject) => {
+				contract.on("EndRound", async(epoch, pool, lockedPrice, outcome, event)=>{
+					previousEpoch = epoch.toString();
+					wonOdd = parseFloat(ethers.formatEther(outcome.toString())).toFixed(2);
+					previousPricePool = parseFloat(ethers.formatEther(pool.toString())).toFixed(2);
+					previousLockedPrice = parseFloat(ethers.formatEther(lockedPrice.toString())).toFixed(2);
+				
+					//set values to redis
+					await Client.hset('EndRound', {
+						'previousEpoch':previousEpoch,
+						'wonOdd': wonOdd,
+						'previousPricePool': previousPricePool,
+						'previousLockedPrice':previousLockedPrice
+					});
+					console.log("end round saved to redis");
+				
+					historyTab();
+					
+					//pass value to the frontend.
+				
+					io.emit("previousEpoch", previousEpoch);
+					io.emit("outcome", wonOdd);
+					io.emit("previousPricePool", previousPricePool);
+					io.emit("previousLockedPrice", previousLockedPrice);
+				});
+			}),
+			new Promise((resolve, reject) => {
+				contract.on("LockRound", async(epoch, price, bullAmount, bearAmount, event)=> {
+					console.log("Previous Round Locked..."+epoch);
+					currentEpoch = parseInt(epoch.toString());
+					console.log("Current Epoch passed "+currentEpoch);
+					lockedprice = parseFloat(ethers.formatEther(price.toString())).toFixed(2);
+					console.log("locked Price is "+lockedprice);
+				
+					//Perform maths operation to calculate bet odds.
+					const _BullAmount = parseFloat(ethers.formatEther(bullAmount.toString())).toFixed(2);
+					console.log("Bull Amount is ", _BullAmount)
+					const _BearAmount = parseFloat(ethers.formatEther(bearAmount.toString())).toFixed(2);
+					console.log("Bear Amount is ",_BearAmount)
+					const _Total = parseFloat(parseFloat(_BullAmount) + parseFloat(_BearAmount)).toFixed(2);
+					console.log("Total Amount is ",_Total)
+				
+					let _BullOdd = parseFloat(_Total/_BullAmount).toFixed(2);
+					let _BearOdd = parseFloat(_Total/_BearAmount).toFixed(2);
+				
+					if(_BullOdd > 3){
+						_BullOdd = 4 - _BearOdd;
+					}else{
+						//
+					}
+					if(_BearOdd > 3){
+						_BearOdd = 4 - _BullOdd;
+					}else{
+						//
+					}
+				
+					currentPricePool = _Total;
+					previousBullOdd = _BullOdd;
+					previousBearOdd = _BearOdd;
+				
+					//store data on redis
+					await Client.hset('LockRound', {
+						'currentEpoch': currentEpoch,
+						'lockedprice': lockedprice,
+						'currentPricePool': currentPricePool,
+						'previousBullOdd': previousBullOdd,
+						'previousBearOdd': previousBearOdd,
+						'BullAmount': _BullAmount,
+						'BearAmount': _BearAmount
+					});
+					console.log("Lock round saved to redis");
+					//pass value to the frontend using socket.io
+				
+					io.emit("currentEpoch", currentEpoch);
+					io.emit("lockedprice", lockedprice);
+					io.emit("currentPricePool", currentPricePool);
+					io.emit("previousBullOdd", previousBullOdd);
+					io.emit("previousBearOdd", previousBearOdd);
+					console.log(currentEpoch);
+					console.log(lockedprice);
+					console.log(currentPricePool);
+					console.log(previousBullOdd);
+					console.log(previousBearOdd);
+				});
+			}),
+			new Promise((resolve, reject) => {
+				contract.on("Betodds", async(epoch, bullAmount, bearAmount, event)=>{
+					console.log("Bet Odd entered "+bullAmount);
+				
+					//Perform maths operation to calculate bet odds.
+					const _BullAmount = parseFloat(ethers.formatEther(bullAmount.toString())).toFixed(2);
+					const _BearAmount = parseFloat(ethers.formatEther(bearAmount.toString())).toFixed(2);
+					const _Total = parseFloat(parseFloat(_BullAmount) + parseFloat(_BearAmount)).toFixed(2);
+				
+					let _BullOdd1 = parseFloat(_Total/_BullAmount).toFixed(2);
+					let _BearOdd1 = parseFloat(_Total/_BearAmount).toFixed(2);
+				
+					if(_BullOdd1 > 3){
+						_BullOdd1 = 4 - _BearOdd1;
+					}else{
+						//
+					}
+					if(_BearOdd1 > 3){
+						_BearOdd1 = 4 - _BullOdd1;
+					}else{
+						//
+					}
+				
+					currentBullOdd = _BullOdd1;
+					currentBearOdd = _BearOdd1;
+					nextPricePool = _Total;
+				
+					//set values to redis
+					await Client.hset('Betodds', {
+						'currentBullOdd': currentBullOdd,
+						'currentBearOdd': currentBearOdd,
+						'nextPricePool': nextPricePool
+					});
+					console.log("Bet Odds saved to redis");
+					// pass value to the frontend using socket.io
+				
+					io.emit("currentBullOdd", currentBullOdd);
+					io.emit("currentBearOdd", currentBearOdd);
+					io.emit("nextPricePool", nextPricePool);
+				});
+			}),
+			new Promise((resolve, reject) => {
+				contract.on("ExecuteForced", (event)=>{
+					console.log("Force Execution signal received...");
+					// resetForced();
+				});
+			})
+		];
+
+		await Promise.all(eventPromises);
 	}else{
-		//
+		console.log("isNeutralize is false");
 	}
 
-	currentPricePool = _Total;
-	previousBullOdd = _BullOdd;
-	previousBearOdd = _BearOdd;
+	console.log("exiting reActivateListners..");
+}
 
-	//store data on redis
-	await Client.hset('LockRound', {
-		'currentEpoch': currentEpoch,
-		'lockedprice': lockedprice,
-		'currentPricePool': currentPricePool,
-		'previousBullOdd': previousBullOdd,
-		'previousBearOdd': previousBearOdd,
-		'BullAmount': _BullAmount,
-		'BearAmount': _BearAmount
-	});
-	console.log("Lock round saved to redis");
-	//pass value to the frontend using socket.io
+reActivateListeners();
 
-	io.emit("currentEpoch", currentEpoch);
-	io.emit("lockedprice", lockedprice);
-	io.emit("currentPricePool", currentPricePool);
-	io.emit("previousBullOdd", previousBullOdd);
-	io.emit("previousBearOdd", previousBearOdd);
-	console.log(currentEpoch);
-	console.log(lockedprice);
-	console.log(currentPricePool);
-	console.log(previousBullOdd);
-	console.log(previousBearOdd);
-});
-
-//BetOdds
-contract.on("Betodds", async(epoch, bullAmount, bearAmount, event)=>{
-	console.log("Bet Odd entered "+bullAmount);
-
-	//Perform maths operation to calculate bet odds.
-	const _BullAmount = parseFloat(ethers.formatEther(bullAmount.toString())).toFixed(2);
-	const _BearAmount = parseFloat(ethers.formatEther(bearAmount.toString())).toFixed(2);
-	const _Total = parseFloat(parseFloat(_BullAmount) + parseFloat(_BearAmount)).toFixed(2);
-
-	let _BullOdd1 = parseFloat(_Total/_BullAmount).toFixed(2);
-	let _BearOdd1 = parseFloat(_Total/_BearAmount).toFixed(2);
-
-	if(_BullOdd1 > 3){
-		_BullOdd1 = 4 - _BearOdd1;
-	}else{
-		//
-	}
-	if(_BearOdd1 > 3){
-		_BearOdd1 = 4 - _BullOdd1;
-	}else{
-		//
-	}
-
-	currentBullOdd = _BullOdd1;
-	currentBearOdd = _BearOdd1;
-	nextPricePool = _Total;
-
-	//set values to redis
-	await Client.hset('Betodds', {
-		'currentBullOdd': currentBullOdd,
-		'currentBearOdd': currentBearOdd,
-		'nextPricePool': nextPricePool
-	});
-	console.log("Bet Odds saved to redis");
-	// pass value to the frontend using socket.io
-
-	io.emit("currentBullOdd", currentBullOdd);
-	io.emit("currentBearOdd", currentBearOdd);
-	io.emit("nextPricePool", nextPricePool);
-});
 
 //Min bet Amount Updated
 contract.on("MinBetAmountUpdated", (epoch, minBetAmount, event)=>{
@@ -1530,10 +1560,6 @@ contract.on("ContractUnpaused_", async(epoch, event)=>{
 });
 
 //Execute Forced
-contract.on("ExecuteForced", (event)=>{
-	console.log("Force Execution signal received...");
-	// resetForced();
-});
 
 
 const btcusdt = setInterval(async()=>{

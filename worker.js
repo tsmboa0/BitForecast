@@ -1161,6 +1161,7 @@ let previousBearOdd;
 let _BullAmount;
 let _BearAmount;
 let lockedprice;
+let isNeuralized=false;
 
 async function connectRedis(){
 	await Client.connect();
@@ -1171,6 +1172,8 @@ connectRedis();
 // getReload();
 
 async function reConnectWsProvider(){
+	isNeuralized = true;
+	reActivateListeners();
 	console.log("closing the connection to webSocketProvider..");
 	provider.websocket.close();
 	console.warn("reopening socket...");
@@ -1180,6 +1183,8 @@ async function reConnectWsProvider(){
 	console.log(await provider.getBlockNumber());
 	const tx = await contract.isParentSet("0x4FC2988B2Fbd411767d08ef8768dB77e6A46DDfF");
 	console.log("parent is ",tx);
+	isNeuralized= false;
+	reActivateListeners();
 }
 
 Client.on('connect', function() {
@@ -1200,75 +1205,90 @@ provider.websocket.on('close', async()=>{
 	// reConnectWsProvider();
 })
 
+async function reActivateListeners(){
+	if(!isNeuralized){
+		const eventPromises = [
+			new Promise((resolve, reject) => {
+				contract.on("StartRound", async(epoch, roundTimestamp, event)=>{
+					console.log("A new Round Just started "+epoch);
+					console.log("Round Timestamp is "+roundTimestamp);
+					console.log((roundTimestamp.toString()));
+					blockStartTime = parseInt(roundTimestamp.toString());
+					endTime = (parseInt(roundTimestamp.toString())*1000 +(304000));
+					console.log("endtime done "+endTime);
+					// nextEpoch = parseInt(epoch.toString());
+					console.log("nextEpoch Passed.");
+					console.log("A new round has started at time "+endTime);
+					
+					//set values to redis
+					// await Client.hSet("StartRound", {
+						// 'endTime': endTime,
+						// 'nextEpoch': nextEpoch,
+						// 'blockStartTime': blockStartTime
+					// });
+				});
+			}),
+			new Promise((resolve, reject) => {
+				//Lock Round
+				contract.on("LockRound", async(epoch, price, bullAmount, bearAmount, event)=> {
+					console.log("Previous Round Locked..."+epoch);
+					currentEpoch = parseInt(epoch.toString());
+					console.log("Current Epoch passed "+currentEpoch);
+					lockedprice = parseFloat(ethers.formatEther(price.toString())).toFixed(2);
+					console.log("locked Price is "+lockedprice);
 
-contract.on("StartRound", async(epoch, roundTimestamp, event)=>{
-    console.log("A new Round Just started "+epoch);
-    console.log("Round Timestamp is "+roundTimestamp);
-    console.log((roundTimestamp.toString()));
-	blockStartTime = parseInt(roundTimestamp.toString());
-    endTime = (parseInt(roundTimestamp.toString())*1000 +(304000));
-    console.log("endtime done "+endTime);
-    // nextEpoch = parseInt(epoch.toString());
-    console.log("nextEpoch Passed.");
-    console.log("A new round has started at time "+endTime);
-	
-	//set values to redis
-	// await Client.hSet("StartRound", {
-		// 'endTime': endTime,
-		// 'nextEpoch': nextEpoch,
-		// 'blockStartTime': blockStartTime
-	// });
-});
+					//Perform maths operation to calculate bet odds.
+					_BullAmount = parseFloat(ethers.formatEther(bullAmount.toString())).toFixed(2);
+					console.log("Bull Amount is ", _BullAmount)
+					_BearAmount = parseFloat(ethers.formatEther(bearAmount.toString())).toFixed(2);
+					console.log("Bear Amount is ",_BearAmount)
+					const _Total = parseFloat(parseFloat(_BullAmount) + parseFloat(_BearAmount)).toFixed(2);
+					console.log("Total Amount is ",_Total)
 
-//Lock Round
-contract.on("LockRound", async(epoch, price, bullAmount, bearAmount, event)=> {
-	console.log("Previous Round Locked..."+epoch);
-	currentEpoch = parseInt(epoch.toString());
-	console.log("Current Epoch passed "+currentEpoch);
-	lockedprice = parseFloat(ethers.formatEther(price.toString())).toFixed(2);
-	console.log("locked Price is "+lockedprice);
+					let _BullOdd = parseFloat(_Total/_BullAmount).toFixed(2);
+					let _BearOdd = parseFloat(_Total/_BearAmount).toFixed(2);
 
-	//Perform maths operation to calculate bet odds.
-	_BullAmount = parseFloat(ethers.formatEther(bullAmount.toString())).toFixed(2);
-	console.log("Bull Amount is ", _BullAmount)
-	_BearAmount = parseFloat(ethers.formatEther(bearAmount.toString())).toFixed(2);
-	console.log("Bear Amount is ",_BearAmount)
-	const _Total = parseFloat(parseFloat(_BullAmount) + parseFloat(_BearAmount)).toFixed(2);
-	console.log("Total Amount is ",_Total)
+					if(_BullOdd > 3){
+						_BullOdd = 4 - _BearOdd;
+					}else{
+						//
+					}
+					if(_BearOdd > 3){
+						_BearOdd = 4 - _BullOdd;
+					}else{
+						//
+					}
 
-	let _BullOdd = parseFloat(_Total/_BullAmount).toFixed(2);
-	let _BearOdd = parseFloat(_Total/_BearAmount).toFixed(2);
-
-	if(_BullOdd > 3){
-		_BullOdd = 4 - _BearOdd;
+					currentPricePool = _Total;
+					previousBullOdd = _BullOdd;
+					previousBearOdd = _BearOdd;
+				});
+			}),
+			new Promise((resolve, reject) => {
+				contract.on("LockAutomate", async(event)=>{
+					console.log("Round Automate Emitted");
+					remainingTime = 305000;
+					getSignal();
+					await Client.set("LockAutomateSignal", 'true');
+				})
+			}),
+			new Promise((resolve, reject) => {
+				contract.on("ExecuteForced", async(event)=>{
+					console.log("Force Execution signal received...");
+					await Client.set("LockAutomateSignal", 'true');
+					resetForced();
+				});
+			})
+		]
 	}else{
-		//
-	}
-	if(_BearOdd > 3){
-		_BearOdd = 4 - _BullOdd;
-	}else{
-		//
+		console.log("Neutralize is false..");
 	}
 
-	currentPricePool = _Total;
-	previousBullOdd = _BullOdd;
-	previousBearOdd = _BearOdd;
-});
+	console.log("exiting reActivateListners...");
+}
 
-//Automate Signal
+reActivateListeners();
 
-contract.on("LockAutomate", async(event)=>{
-    console.log("Round Automate Emitted");
-	remainingTime = 305000;
-    getSignal();
-	await Client.set("LockAutomateSignal", 'true');
-})
-//Execute Forced
-contract.on("ExecuteForced", async(event)=>{
-    console.log("Force Execution signal received...");
-	await Client.set("LockAutomateSignal", 'true');
-    resetForced();
-});
 
 
 async function getReload(){
