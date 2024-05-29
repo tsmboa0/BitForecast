@@ -1380,7 +1380,9 @@ contract.on("InjectFunds", async(sender, event) => {
 	console.log(endTime0);
 	console.log(nextEpoch0);
 
-	reConnectWsProvider();
+	setTimeout(() => {
+		reConnectWsProvider();
+	}, 15000);
 });
 
 //End Round
