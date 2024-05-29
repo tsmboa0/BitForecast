@@ -1335,12 +1335,12 @@ provider.websocket.on('open', ()=>{
 
 provider.websocket.on('close', async()=>{
 	console.warn("wss closed..");
-	reConnectWsProvider()
+	// reConnectWsProvider()
 });
 
 provider.websocket.on('error', async()=>{
 	console.warn("wss errored..");
-	reConnectWsProvider()
+	// reConnectWsProvider()
 });
 
 
