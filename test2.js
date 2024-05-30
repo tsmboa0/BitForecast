@@ -1,38 +1,23 @@
-let stopListening = false;
+const axios = require('axios');
 
-console.log("starting...");
+const HEROKU_API_KEY = 'HRKU-a7c87b3d-2fb2-4dc8-9073-211aa196bcb1'; // Replace with your Heroku API key
+const APP_NAME = 'bulleyesvault'; // Replace with your Heroku app name
 
-
-async function startLoop(){
+const restartDyno = async () => {
+    console.log("restarting dyno...");
     try {
-        console.log("inside start loop");
-        while(!stopListening){
-            console.log(stopListening);
-            try {
-                console.log("starting promise");
-                new Promise((resolve, reject) => {
-                    setTimeout(() => {
-                        console.log("resolving..");
-                        resolve();
-                    }, 6000);
-                })
-            } catch (error) {
-                console.log("error occured.... cancelled");
+        const response = await axios.delete(
+            `https://api.heroku.com/apps/${APP_NAME}/dynos`,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/vnd.heroku+json; version=3',
+                    'Authorization': `Bearer ${HEROKU_API_KEY}`,
+                },
             }
-        }
+        );
+        console.log('Dyno restarted:', response.data);
     } catch (error) {
-        console.log("error occured cancelling...");
+        console.error('Error restarting dyno:', error.response ? error.response.data : error.message);
     }
-}
-
-
-function change(){
-    console.log("change started..");
-    setTimeout(() => {
-        stopListening=true;
-        console.log("stop listening set to true");
-    }, 2000);
-}
-
-change();
-startLoop();
+};

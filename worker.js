@@ -1623,4 +1623,55 @@ async function ReExecute(){
 	};
 }
 
+async function restartDyno(){
+	console.log("began Journey to 5hrs restart..");
+
+	setTimeout(async() => {
+		const HEROKU_API_KEY = 'HRKU-a7c87b3d-2fb2-4dc8-9073-211aa196bcb1'; // Replace with your Heroku API key
+		const APP_NAME = 'bulleyesvault'; // Replace with your Heroku app name
+	
+		if(remainingTime>15000){
+			console.log("restarting dyno...");
+				try {
+					const response = await axios.delete(
+						`https://api.heroku.com/apps/${APP_NAME}/dynos`,
+						{
+							headers: {
+								'Content-Type': 'application/json',
+								'Accept': 'application/vnd.heroku+json; version=3',
+								'Authorization': `Bearer ${HEROKU_API_KEY}`,
+							},
+						}
+					);
+					console.log('Dyno restarted:', response.data);
+				} catch (error) {
+					console.error('Error restarting dyno:', error.response ? error.response.data : error.message);
+				}
+		}else{
+			console.log("remainingTime less than 15s... retrying in the next 15s..");
+			setTimeout(async() => {
+				console.log("restarting dyno...");
+				try {
+					const response = await axios.delete(
+						`https://api.heroku.com/apps/${APP_NAME}/dynos`,
+						{
+							headers: {
+								'Content-Type': 'application/json',
+								'Accept': 'application/vnd.heroku+json; version=3',
+								'Authorization': `Bearer ${HEROKU_API_KEY}`,
+							},
+						}
+					);
+					console.log('Dyno restarted:', response.data);
+				} catch (error) {
+					console.error('Error restarting dyno:', error.response ? error.response.data : error.message);
+				}
+			}, 20000);
+		}
+	}, 18000000);
+
+}
+
+restartDyno();
+
 console.log("Worker Started...");
