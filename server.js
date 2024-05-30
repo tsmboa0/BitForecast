@@ -21,6 +21,7 @@ app.use(express.json());
 
 // Use the middleware to enforce
 app.use(sslRedirect.HTTPS({ trustProtoHeader: true }));
+console.log("Hello middleware");
 
 const Client = new Redis(process.env.REDISCLOUD_URL);
 // const Client = redis.createClient();
