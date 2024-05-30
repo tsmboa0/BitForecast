@@ -1299,7 +1299,7 @@ async function getReload(){
 
 	console.log("connected to redis...");
 
-	const start_round = await Client.hGetAll("StartRound");
+	const start_round = await Client.hgetall("StartRound");
 	console.log("StartRound epoch is :"+start_round.nextEpoch);
 	endTime = start_round.endTime;
 	const block_start = start_round.blockStartTime;
