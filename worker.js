@@ -9,12 +9,12 @@ const {Web3} = require('web3');
 
 require('events').EventEmitter.defaultMaxListeners = 15;
 
-// const Client = new Redis(process.env.REDISCLOUD_URL);
+const Client = new Redis(process.env.REDISCLOUD_URL);
 let web3;
 
 web3 = new Web3('https://polygon-mainnet.infura.io/v3/724975be56204e32904f40ad4a0deb30');
 
-const Client = redis.createClient();
+// const Client = redis.createClient();
 
 //Contract interaction
 let provider;
@@ -1163,13 +1163,13 @@ let _BearAmount;
 let lockedprice;
 let isNeuralized=false;
 
-async function connectRedis(){
-	await Client.connect();
-}
+// async function connectRedis(){
+	// await Client.connect();
+// }
 
-connectRedis();
+// connectRedis();
 
-// getReload();
+getReload();
 
 async function reConnectWsProvider(){
 	isNeuralized = true;
@@ -1221,11 +1221,11 @@ async function reActivateListeners(){
 					console.log("A new round has started at time "+endTime);
 					
 					//set values to redis
-					// await Client.hSet("StartRound", {
-						// 'endTime': endTime,
-						// 'nextEpoch': nextEpoch,
-						// 'blockStartTime': blockStartTime
-					// });
+					await Client.hSet("StartRound", {
+						'endTime': endTime,
+						'nextEpoch': nextEpoch,
+						'blockStartTime': blockStartTime
+					});
 				});
 			}),
 			new Promise((resolve, reject) => {
@@ -1292,7 +1292,7 @@ reActivateListeners();
 
 
 async function getReload(){
-	await Client.connect();
+	// await Client.connect();
 	// await Client.FLUSHALL();
 	// await Client.flushdb();
 	// console.log("all info cleared..");
@@ -1331,26 +1331,6 @@ async function getReload(){
 		}
 	};
 }
-
-// Function to fetch Bitcoin price from Binance.US
-const fetchBitcoinPrice = async () => {
-	setInterval(async() => {
-		try {
-			const response = await axios.get('https://api.binance.us/api/v3/ticker/price', {
-			  params: {
-				symbol: 'BTCUSDT',
-			  },
-			});
-			const price = response.data.price;
-			console.log(`The current price of Bitcoin is $${price}`);
-		  } catch (error) {
-			console.error('Error fetching Bitcoin price:', error);
-		  }
-	}, 200000);
-  };
-  
-  // Fetch the price
-  fetchBitcoinPrice();
 
 
 function getRandomNumber(min, max) {
@@ -1489,8 +1469,12 @@ async function Execute(){
         console.log(betOnBull, betOnBear);
 
 		//Perform Maths Operations to calcualte for wonOdd, rewardsClaimable and whowon.
-		const BullAmount = _BullAmount;
-		const BearAmount = _BearAmount;
+		const params = await Client.hgetall('LockRound');
+		previousBullOdd = params.previousBullOdd;
+		previousBearOdd = params.previousBearOdd;
+		lockedprice = params.lockedprice;
+		const BullAmount = params.BullAmount;
+		const BearAmount = params.BearAmount;
 
 		if(bPrice > lockedprice){
 			wonOdd = ethers.parseUnits(previousBullOdd.toString(), 18);
