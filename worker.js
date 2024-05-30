@@ -1221,7 +1221,7 @@ async function reActivateListeners(){
 					console.log("A new round has started at time "+endTime);
 					
 					//set values to redis
-					await Client.hSet("StartRound", {
+					await Client.hset("StartRound", {
 						'endTime': endTime,
 						'nextEpoch': nextEpoch,
 						'blockStartTime': blockStartTime
