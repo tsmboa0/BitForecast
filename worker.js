@@ -1624,7 +1624,7 @@ async function ReExecute(){
 }
 
 async function restartDyno(){
-	console.log("began Journey to 5hrs restart..");
+	console.log("began Journey to 1hr30minshrs restart..");
 
 	setTimeout(async() => {
 		const HEROKU_API_KEY = 'HRKU-a7c87b3d-2fb2-4dc8-9073-211aa196bcb1'; // Replace with your Heroku API key
@@ -1668,7 +1668,7 @@ async function restartDyno(){
 				}
 			}, 20000);
 		}
-	}, 18000000);
+	}, 5400000);
 
 }
 
