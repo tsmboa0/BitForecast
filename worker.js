@@ -1359,8 +1359,7 @@ function getSignal(){
 
     setTimeout(()=>{
         console.log("Inside the first setTimeout... launching resetContract23..");
-        // resetContract23();
-		verifyTime();
+        resetContract23();
         console.log("resetcontract23 called..");
     }, remainingTime);
 }
@@ -1374,31 +1373,16 @@ async function verifyTime(){
 	console.log("end time is : "+end_time);
 	const rgn = Math.random();
 	try{
-		let blockNumber;
-		let block;
-		if(rgn > 0.5){
-			console.log("Using provider2..");
-			blockNumber = await provider2.getBlockNumber();
-			block = await provider2.getBlock(blockNumber);
-		}else{
-			console.log("Using provider3..");
-			blockNumber = await provider3.getBlockNumber();
-			block = await provider3.getBlock(blockNumber);
-		}
+		const blockNumber = await provider2.getBlockNumber();
+		const block = await provider2.getBlock(blockNumber);
 		const block_time = block.timestamp;
 		console.log("block time is : "+block_time);
 
 		if(block_time >= (end_time)){
 			console.log("Requirements satisfied, waiting 5 seconds to call execute function...");
 			setTimeout(() => {
-				const rgn = Math.random();
-				if(rgn > 0.5){
-					Execute();
-					console.log("Execute1() called...");
-				}else{
-					Execute2();
-					console.log("Execute2() called...");
-				}
+				Execute();
+				console.log("Execute1() called...");
 			}, 2500);
 		}else{
 			console.log("requirements not met, trying again...");
@@ -1467,7 +1451,7 @@ async function Execute(){
         console.log('BTC/USDT Price:', ethers.parseUnits(bPrice.toString(), 18));
 
 		//Reconnect wsProvider
-		// await reConnectWsProvider();
+		await reConnectWsProvider();
 		console.log("wsProvider reconnected..");
     
         // Example: Generate a pair of random numbers between 0.5 and 1.5 with a maximum difference of 0.5
@@ -1528,134 +1512,6 @@ async function Execute(){
         //write to the blockchain.
         try{
 			const tx = await contract2.Execute(Price, timestamp, betOnBull, betOnBear, wonOdd, rewardsClaimable, whoWon, {gasPrice:increasedGasPrice});//look into this line and complete it.
-			console.log("Execute completed from smart contract...");
-			nonce = tx.nonce;
-			console.log("The execute nonce is ",tx.nonce);
-			TxConfirmation();
-            // Wrap both promises in an array
-            const promises = [
-                new Promise((resolve, reject) => {
-                    contract.once("StartRound", async(epoch, roundTimestamp, event) => {
-                        console.log("StartRound event received....");
-						clearTimeout(ConfirmationId);
-						ConfirmationId = null;
-						console.log("ConfirmationId cleared..");
-
-						counterStartTime = new Date().getTime();
-						remainingTime = 300000 - ((new Date().getTime()) - counterStartTime);
-
-						blockStartTime = parseInt(roundTimestamp.toString());
-						endTime = (parseInt(roundTimestamp.toString())*1000 +(304000));
-						console.log("endtime done "+endTime);
-						//push to redis
-						await Client.set("counterStartTime", counterStartTime);
-						console.log("counterStartTime set for new round...");
-                        resolve();
-                    });
-                }),
-                tx.wait()
-            ];
-
-            // Wait for both promises to resolve
-            await Promise.all(promises);
-			getSignal();
-            console.log("Get signal function called again...");
-          }
-        catch(e){
-            console.log(e);
-			// console.warn("Execute failed..retring it in 10s");
-			// setTimeout(async()=>{
-				// Execute()
-			// },10000)
-        };
-     })
-      .catch((error) => {
-        console.error('Error:', error.message);
-      });
-    
-      console.log("The end!");
-    }else{
-        console.log("isPaused is True");
-    }    
-        
-}
-
-async function Execute2(){
-
-    console.log("using Execute2 to call contract");
-    
-    if(isPaused===false){
-        console.log("isPaused test passed")
-        //get binance price
-        await axios.get('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT')
-        .then(async(response) => {
-        // Extract and use the price from the response
-        console.log("price stage passed.")
-        bPrice = response.data.price;
-        console.log('BTC/USDT Price:', ethers.parseUnits(bPrice.toString(), 18));
-
-		//Reconnect wsProvider
-		// await reConnectWsProvider();
-		console.log("wsProvider reconnected..");
-    
-        // Example: Generate a pair of random numbers between 0.5 and 1.5 with a maximum difference of 0.5
-        const [randomNumber1, randomNumber2] = generateValidRandomPair((_minHouseBetRatio / 100), 1);
-        const num1 = randomNumber1;
-        const num2 = randomNumber2;
-        console.log(num1, num2);
-        timestamp= Math.floor(new Date().getTime()/1000);
-        console.log("timestamp is "+timestamp);
-        betOnBull= ethers.parseUnits(num1.toString(), 18);
-        console.log("BetBull is "+betOnBull);
-        betOnBear= ethers.parseUnits(num2.toString(), 18);
-        console.log("BetBear is "+betOnBear);
-        Price = ethers.parseUnits(bPrice.toString(), 18);
-        console.log("the price is "+Price);
-        console.log(betOnBull, betOnBear);
-
-		//Perform Maths Operations to calcualte for wonOdd, rewardsClaimable and whowon.
-		const params = await Client.hgetall('LockRound');
-		previousBullOdd = params.previousBullOdd;
-		previousBearOdd = params.previousBearOdd;
-		lockedprice = params.lockedprice;
-		const BullAmount = params.BullAmount;
-		const BearAmount = params.BearAmount;
-
-		if(bPrice > lockedprice){
-			wonOdd = ethers.parseUnits(previousBullOdd.toString(), 18);
-			console.log("won odd is: ",wonOdd);
-			rewardsClaimable = ethers.parseUnits((parseFloat(BullAmount * 0.94 * previousBullOdd)).toString(), 18);
-			console.log("rewardsClaimable is ",rewardsClaimable);
-			whoWon = 1
-			console.log("who won is: ",whoWon);
-
-		}else if(bPrice < lockedprice){
-			wonOdd = ethers.parseUnits(previousBearOdd.toString(), 18);
-			console.log("won odd is: ",wonOdd);
-			rewardsClaimable = ethers.parseUnits((parseFloat(BearAmount * 0.94 * previousBearOdd)).toString(), 18);
-			console.log("rewardsClaimable is ",rewardsClaimable);
-			whoWon = 2
-			console.log("who won is: ",whoWon);
-
-		}else if(bPrice == lockedprice){
-			wonOdd = 1
-			console.log("won odd is: ",wonOdd);
-			rewardsClaimable = ethers.parseUnits((parseFloat(BullAmount + BearAmount)).toString(), 18);
-			console.log("rewardsClaimable is ",rewardsClaimable);
-			whoWon = 3
-			console.log("who won is: ",whoWon);
-		}
-
-		//increase gasPrice
-		const gasPrice = await web3.eth.getGasPrice();
-		console.log("gasPrice is ",gasPrice);
-		const increasedGasPrice = web3.utils.toBigInt(parseInt((web3.utils.toNumber(gasPrice)*12)/10));
-		console.log("increased gas is ",increasedGasPrice);
-
-    
-        //write to the blockchain.
-        try{
-			const tx = await contract3.Execute(Price, timestamp, betOnBull, betOnBear, wonOdd, rewardsClaimable, whoWon, {gasPrice:increasedGasPrice});//look into this line and complete it.
 			console.log("Execute completed from smart contract...");
 			nonce = tx.nonce;
 			console.log("The execute nonce is ",tx.nonce);
