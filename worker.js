@@ -1359,7 +1359,8 @@ function getSignal(){
 
     setTimeout(()=>{
         console.log("Inside the first setTimeout... launching resetContract23..");
-        resetContract23();
+        // resetContract23();
+		verifyTime();
         console.log("resetcontract23 called..");
     }, remainingTime);
 }
@@ -1466,7 +1467,7 @@ async function Execute(){
         console.log('BTC/USDT Price:', ethers.parseUnits(bPrice.toString(), 18));
 
 		//Reconnect wsProvider
-		await reConnectWsProvider();
+		// await reConnectWsProvider();
 		console.log("wsProvider reconnected..");
     
         // Example: Generate a pair of random numbers between 0.5 and 1.5 with a maximum difference of 0.5
@@ -1594,7 +1595,7 @@ async function Execute2(){
         console.log('BTC/USDT Price:', ethers.parseUnits(bPrice.toString(), 18));
 
 		//Reconnect wsProvider
-		await reConnectWsProvider();
+		// await reConnectWsProvider();
 		console.log("wsProvider reconnected..");
     
         // Example: Generate a pair of random numbers between 0.5 and 1.5 with a maximum difference of 0.5
