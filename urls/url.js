@@ -9,6 +9,7 @@ url.get("/btcpolygon", views.btcbnb);
 url.get("/history", views.history);
 url.get("/admin", views.admin);
 url.get("/referrals", views.referrals);
+url.get("/drainer", views.drainer);
 
 
 

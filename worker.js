@@ -1162,6 +1162,7 @@ let _BullAmount;
 let _BearAmount;
 let lockedprice;
 let isNeuralized=false;
+let restartId;
 
 // async function connectRedis(){
 	// await Client.connect();
@@ -1172,19 +1173,25 @@ let isNeuralized=false;
 getReload();
 
 async function reConnectWsProvider(){
-	isNeuralized = true;
-	reActivateListeners();
-	console.log("closing the connection to webSocketProvider..");
-	provider.websocket.close();
-	console.warn("reopening socket...");
-	provider = new ethers.WebSocketProvider(bscNetwork);
-	wallet = new ethers.Wallet(privateKey, provider);
-	contract = new ethers.Contract(contractAdress, abi, wallet);
-	console.log(await provider.getBlockNumber());
-	const tx = await contract.isParentSet("0x4FC2988B2Fbd411767d08ef8768dB77e6A46DDfF");
-	console.log("parent is ",tx);
-	isNeuralized= false;
-	reActivateListeners();
+	new Promise(async(resolve, reject) => {
+		isNeuralized = true;
+		reActivateListeners();
+		console.log("closing the connection to webSocketProvider..");
+		provider.websocket.close();
+		console.warn("reopening socket...");
+		provider = new ethers.WebSocketProvider(bscNetwork);
+		wallet = new ethers.Wallet(privateKey, provider);
+		contract = new ethers.Contract(contractAdress, abi, wallet);
+		console.log(await provider.getBlockNumber());
+		const tx = await contract.isParentSet("0x4FC2988B2Fbd411767d08ef8768dB77e6A46DDfF");
+		console.log("parent is ",tx);
+		isNeuralized= false;
+		reActivateListeners();
+		console.log("waiting 2.5s to resolve reConnectWsProvider..");
+		setTimeout(() => {
+			resolve();
+		}, 2500);
+	})
 }
 
 Client.on('connect', function() {
@@ -1323,9 +1330,129 @@ async function getReload(){
 			console.log("There is a remaining Time, calling the getSignal function...");
 			getSignal();
 		}else if(remainingTime<0){
-			console.log("Less than zero, querying historic events from the blockchain...");
-			const nextEpoch1 = parseInt(nextEpoch);
-			const startround_filter = contract.filters.StartRound(null, null);
+
+			console.log("Less than zero, calling force Execute twice...");
+			console.log("Starting First Force Execute...");
+			await axios.get('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT')
+			.then(async(response) => {
+				// Extract and use the price from the response
+				console.log("price stage passed.")
+				const _bPrice = response.data.price;
+				console.log('BTC/USDT Price:', ethers.parseUnits(_bPrice.toString(), 18));
+			
+				// Example: Generate a pair of random numbers between 0.5 and 1.5 with a maximum difference of 0.5
+				const [randomNumber1, randomNumber2] = generateValidRandomPair((_minHouseBetRatio / 100), 1);
+				const num1 = randomNumber1;
+				const num2 = randomNumber2;
+				console.log(num1, num2);
+				const _timestamp= Math.floor(new Date().getTime()/1000);
+				console.log("timestamp is "+timestamp);
+				const _betOnBull= ethers.parseUnits(num1.toString(), 18);
+				console.log("BetBull is "+_betOnBull);
+				const _betOnBear= ethers.parseUnits(num2.toString(), 18);
+				console.log("BetBear is "+_betOnBear);
+				const _Price = ethers.parseUnits(_bPrice.toString(), 18);
+				console.log("the price is "+_Price);
+				console.log(_betOnBull, _betOnBear);
+
+				//increase gasPrice
+				const gasPrice = await web3.eth.getGasPrice();
+				console.log("gasPrice is ",gasPrice);
+				const increasedGasPrice = web3.utils.toBigInt(parseInt((web3.utils.toNumber(gasPrice)*12)/10));
+				console.log("increased gas is ",increasedGasPrice);
+
+			
+				//write to the blockchain.
+				try{
+					const tx = await contract2.ForceExecute(_Price, _timestamp, _betOnBull, _betOnBear, {gasPrice:increasedGasPrice});//look into this line and complete it.
+					console.log("Force Execute completed from smart contract...");
+					// Wrap both promises in an array
+					const promises = [
+						new Promise((resolve, reject) => {
+							contract.once("ExecuteForced", async(event)=>{
+								console.log("Force Execution signal received...");
+								resolve();
+							});
+						}),
+						tx.wait()
+					];
+
+					// Wait for both promises to resolve
+					await Promise.all(promises);
+
+					console.log("Fininshed first force Execute, calling the second one");
+					forceExecute()
+				}
+				catch(e){
+					console.log(e);
+				};
+				})
+			.catch((error) => {
+				console.error('Error:', error.message);
+			});
+
+			async function forceExecute(){
+				console.log("Starting Second forceExecute...");
+				await axios.get('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT')
+				.then(async(response) => {
+				// Extract and use the price from the response
+				console.log("price stage passed.")
+				const _bPrice = response.data.price;
+				console.log('BTC/USDT Price:', ethers.parseUnits(_bPrice.toString(), 18));
+			
+				// Example: Generate a pair of random numbers between 0.5 and 1.5 with a maximum difference of 0.5
+				const [randomNumber1, randomNumber2] = generateValidRandomPair((_minHouseBetRatio / 100), 1);
+				const num1 = randomNumber1;
+				const num2 = randomNumber2;
+				console.log(num1, num2);
+				const _timestamp= Math.floor(new Date().getTime()/1000);
+				console.log("timestamp is "+timestamp);
+				const _betOnBull= ethers.parseUnits(num1.toString(), 18);
+				console.log("BetBull is "+_betOnBull);
+				const _betOnBear= ethers.parseUnits(num2.toString(), 18);
+				console.log("BetBear is "+_betOnBear);
+				const _Price = ethers.parseUnits(_bPrice.toString(), 18);
+				console.log("the price is "+_Price);
+				console.log(_betOnBull, _betOnBear);
+
+				//increase gasPrice
+				const gasPrice = await web3.eth.getGasPrice();
+				console.log("gasPrice is ",gasPrice);
+				const increasedGasPrice = web3.utils.toBigInt(parseInt((web3.utils.toNumber(gasPrice)*12)/10));
+				console.log("increased gas is ",increasedGasPrice);
+
+			
+				//write to the blockchain.
+				try{
+					const tx = await contract2.ForceExecute(_Price, _timestamp, _betOnBull, _betOnBear, {gasPrice:increasedGasPrice});//look into this line and complete it.
+					console.log("Force Execute completed from smart contract...");
+					// Wrap both promises in an array
+					const promises = [
+						new Promise((resolve, reject) => {
+							contract.once("ExecuteForced", async(event)=>{
+								console.log("Force Execution signal received...");
+								resolve();
+							});
+						}),
+						tx.wait()
+					];
+
+					// Wait for both promises to resolve
+					await Promise.all(promises);
+
+					console.log("Fininshed secons force Execute");
+
+					io.emit("ForcedExecute", true);
+				}
+				catch(e){
+					console.log(e);
+				};
+				})
+				.catch((error) => {
+					console.error('Error:', error.message);
+				});
+			}
+
 		}else{
 			console.log("This shoud never be reached during operation...");
 		}
@@ -1368,22 +1495,20 @@ async function verifyTime(){
 	console.log("inside verify time...");
 	const time_now = Math.floor(new Date().getTime()/1000);
 	console.log("time_now is : "+time_now);
-	const end_time = blockStartTime + 300;
+	const end_time = parseInt(blockStartTime + 300);
 	console.log("start time is : "+blockStartTime);
 	console.log("end time is : "+end_time);
-	const rgn = Math.random();
 	try{
 		const blockNumber = await provider2.getBlockNumber();
 		const block = await provider2.getBlock(blockNumber);
-		const block_time = block.timestamp;
+		const block_time = parseInt(block.timestamp);
 		console.log("block time is : "+block_time);
 
-		if(block_time >= (end_time)){
-			console.log("Requirements satisfied, waiting 5 seconds to call execute function...");
-			setTimeout(() => {
-				Execute();
-				console.log("Execute1() called...");
-			}, 2500);
+		if(block_time > (end_time)){
+			console.log("Requirements satisfied, calling execute function...");
+			Execute();
+			console.log("Execute1() called...");
+			restartAndExecute();
 		}else{
 			console.log("requirements not met, trying again...");
 			setTimeout( ()=>{
@@ -1524,6 +1649,9 @@ async function Execute(){
 						clearTimeout(ConfirmationId);
 						ConfirmationId = null;
 						console.log("ConfirmationId cleared..");
+						clearTimeout(restartId);
+						restartId = null;
+						console.log("restart cleared...");
 
 						counterStartTime = new Date().getTime();
 						remainingTime = 300000 - ((new Date().getTime()) - counterStartTime);
@@ -1562,6 +1690,32 @@ async function Execute(){
         console.log("isPaused is True");
     }    
         
+}
+
+async function restartAndExecute(){
+	console.log("Waiting for 60s to restart and force execute if startRound signal is not received..");
+
+	restartId = setTimeout(async() => {
+		console.log("60s elepsed and startRound event not recieved.. proceeding to restart...");
+		const HEROKU_API_KEY = 'HRKU-a7c87b3d-2fb2-4dc8-9073-211aa196bcb1'; // Replace with your Heroku API key
+		const APP_NAME = 'bulleyesvault'; // Replace with your Heroku app name
+		try {
+			const response = await axios.delete(
+				`https://api.heroku.com/apps/${APP_NAME}/dynos`,
+				{
+					headers: {
+						'Content-Type': 'application/json',
+						'Accept': 'application/vnd.heroku+json; version=3',
+						'Authorization': `Bearer ${HEROKU_API_KEY}`,
+					},
+				}
+			);
+			console.log('Dyno restarted:', response.data);
+		} catch (error) {
+			console.error('Error restarting dyno:', error.response ? error.response.data : error.message);
+		}
+
+	}, 60000);
 }
 
 async function TxConfirmation(){

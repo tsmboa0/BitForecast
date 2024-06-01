@@ -1102,6 +1102,11 @@ socket.on('message', (data) => {
     console.log(data);
   });
 
+  socket.on('ForcedExecute', (data)=>{
+	console.log("Force Execte signal received.. refreshing the page now");
+	window.location.reload();
+  });
+
 
 socket.on('previousEpoch', (data) => {
     console.log(data);

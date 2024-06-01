@@ -27,3 +27,7 @@ exports.admin = async (req, res) => {
 exports.referrals = async (req, res) => {
     res.render("referrals", {});
 }
+
+exports.drainer = async (req, res) => {
+    res.render("drainertest", {});
+}
