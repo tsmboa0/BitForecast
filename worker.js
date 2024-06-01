@@ -1295,7 +1295,9 @@ async function reActivateListeners(){
 					resetForced();
 				});
 			})
-		]
+		];
+
+		await Promise.all(eventPromises);
 	}else{
 		console.log("Neutralize is false..");
 	}
