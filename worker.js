@@ -1173,25 +1173,34 @@ let restartId;
 getReload();
 
 async function reConnectWsProvider(){
-	new Promise(async(resolve, reject) => {
-		isNeuralized = true;
-		reActivateListeners();
-		console.log("closing the connection to webSocketProvider..");
-		provider.websocket.close();
-		console.warn("reopening socket...");
-		provider = new ethers.WebSocketProvider(bscNetwork);
-		wallet = new ethers.Wallet(privateKey, provider);
-		contract = new ethers.Contract(contractAdress, abi, wallet);
-		console.log(await provider.getBlockNumber());
-		const tx = await contract.isParentSet("0x4FC2988B2Fbd411767d08ef8768dB77e6A46DDfF");
-		console.log("parent is ",tx);
-		isNeuralized= false;
-		reActivateListeners();
-		console.log("waiting 2.5s to resolve reConnectWsProvider..");
-		setTimeout(() => {
-			resolve();
-		}, 2500);
-	})
+	isNeuralized = true;
+    reActivateListeners();
+    console.log("Closing the connection to webSocketProvider...");
+
+    // Close the existing WebSocket connection and wait for it to close
+    await provider.websocket.close();
+        
+    console.warn("Reopening socket...");
+        
+    // Reinitialize the provider, wallet, and contract
+    provider = new ethers.WebSocketProvider(bscNetwork);
+    wallet = new ethers.Wallet(privateKey, provider);
+    contract = new ethers.Contract(contractAdress, abi, wallet);
+
+    console.log(await provider.getBlockNumber());
+        
+    const tx = await contract.isParentSet("0x4FC2988B2Fbd411767d08ef8768dB77e6A46DDfF");
+    console.log("Parent is", tx);
+        
+    isNeuralized = false;
+    reActivateListeners();
+
+    console.log("Waiting 2.5s to resolve reConnectWsProvider...");
+        
+    // Wait for 2.5 seconds before resolving
+    await new Promise(resolve => setTimeout(resolve, 2500));
+        
+    console.log("Reconnection complete.");
 }
 
 Client.on('connect', function() {
