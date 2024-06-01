@@ -1245,42 +1245,6 @@ async function reActivateListeners(){
 				});
 			}),
 			new Promise((resolve, reject) => {
-				//Lock Round
-				contract.on("LockRound", async(epoch, price, bullAmount, bearAmount, event)=> {
-					console.log("Previous Round Locked..."+epoch);
-					currentEpoch = parseInt(epoch.toString());
-					console.log("Current Epoch passed "+currentEpoch);
-					lockedprice = parseFloat(ethers.formatEther(price.toString())).toFixed(2);
-					console.log("locked Price is "+lockedprice);
-
-					//Perform maths operation to calculate bet odds.
-					_BullAmount = parseFloat(ethers.formatEther(bullAmount.toString())).toFixed(2);
-					console.log("Bull Amount is ", _BullAmount)
-					_BearAmount = parseFloat(ethers.formatEther(bearAmount.toString())).toFixed(2);
-					console.log("Bear Amount is ",_BearAmount)
-					const _Total = parseFloat(parseFloat(_BullAmount) + parseFloat(_BearAmount)).toFixed(2);
-					console.log("Total Amount is ",_Total)
-
-					let _BullOdd = parseFloat(_Total/_BullAmount).toFixed(2);
-					let _BearOdd = parseFloat(_Total/_BearAmount).toFixed(2);
-
-					if(_BullOdd > 3){
-						_BullOdd = 4 - _BearOdd;
-					}else{
-						//
-					}
-					if(_BearOdd > 3){
-						_BearOdd = 4 - _BullOdd;
-					}else{
-						//
-					}
-
-					currentPricePool = _Total;
-					previousBullOdd = _BullOdd;
-					previousBearOdd = _BearOdd;
-				});
-			}),
-			new Promise((resolve, reject) => {
 				contract.on("LockAutomate", async(event)=>{
 					console.log("Round Automate Emitted");
 					remainingTime = 305000;
