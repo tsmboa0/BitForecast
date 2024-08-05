@@ -2539,7 +2539,7 @@ const btcusdt = setInterval(async()=>{
 	.catch((e)=>{
 		console.log("BTC Price didnt work out");
 	})
-},50000);
+},500);
 
 async function reconnectWait(){
 	console.log("start round signal receieved... waiting 5 mins before reconnecting to wsProvider..");
