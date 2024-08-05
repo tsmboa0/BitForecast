@@ -27,8 +27,9 @@ let wallet3;
 let contract2;
 let contract3;
 
+const privateKey = process.env.PRIVATEKEY;
 
-const contractAdress="0xea3f590CB571d1C4a1EdF58F4958e22BBF545979";
+const contractAdress="0x6131D6D4E610260b2C0F41A0513D81D0605cC86f";
 const abi =[
 	{
 		"inputs": [
@@ -103,13 +104,19 @@ const abi =[
 			{
 				"indexed": false,
 				"internalType": "uint256",
-				"name": "bullAmount",
+				"name": "bullOdd",
 				"type": "uint256"
 			},
 			{
 				"indexed": false,
 				"internalType": "uint256",
-				"name": "bearAmount",
+				"name": "bearOdd",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "pool",
 				"type": "uint256"
 			}
 		],
@@ -293,13 +300,19 @@ const abi =[
 			{
 				"indexed": false,
 				"internalType": "uint256",
-				"name": "bullAmount",
+				"name": "bullOdd",
 				"type": "uint256"
 			},
 			{
 				"indexed": false,
 				"internalType": "uint256",
-				"name": "bearAmount",
+				"name": "bearOdd",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "pool",
 				"type": "uint256"
 			}
 		],
@@ -475,21 +488,6 @@ const abi =[
 				"internalType": "uint256",
 				"name": "betOnBear",
 				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_wonOdd",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_rewardsClaimable",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint8",
-				"name": "_whoWon",
-				"type": "uint8"
 			}
 		],
 		"name": "Execute",
@@ -586,7 +584,7 @@ const abi =[
 				"type": "address"
 			}
 		],
-		"name": "ParentAddress",
+		"name": "Parent",
 		"outputs": [
 			{
 				"internalType": "address",
@@ -692,19 +690,6 @@ const abi =[
 			}
 		],
 		"name": "SetOperator",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_parent",
-				"type": "address"
-			}
-		],
-		"name": "SetReferral",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -883,19 +868,6 @@ const abi =[
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "getInvitees",
-		"outputs": [
-			{
-				"internalType": "address[]",
-				"name": "",
-				"type": "address[]"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
 		"inputs": [
 			{
 				"internalType": "address",
@@ -980,6 +952,30 @@ const abi =[
 		"type": "function"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "referrals",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "daughters",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [],
 		"name": "rewardRate",
 		"outputs": [
@@ -1022,7 +1018,7 @@ const abi =[
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "_parent",
+				"name": "referral_code",
 				"type": "address"
 			}
 		],
@@ -1035,7 +1031,7 @@ const abi =[
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "_parent",
+				"name": "referral_code",
 				"type": "address"
 			}
 		],
@@ -1086,7 +1082,7 @@ const abi =[
 						"type": "bool"
 					}
 				],
-				"internalType": "struct BullesyesVault.History[]",
+				"internalType": "struct BitForecast.History[]",
 				"name": "",
 				"type": "tuple[]"
 			}
@@ -1122,19 +1118,19 @@ const abi =[
 		"type": "function"
 	}
 ];
+
+
 const bscNetwork = process.env.POLYGONNETWORK;
 const polygonNetwork = process.env.POLYGONJSON;
-const polygonNetwork2 = process.env.POLYGONJSON2;
+
 provider = new ethers.WebSocketProvider(bscNetwork);
 provider2 = new ethers.JsonRpcProvider(polygonNetwork);
-provider3 = new ethers.JsonRpcProvider(polygonNetwork2);
-const privateKey = process.env.PRIVATEKEY;
+
 wallet = new ethers.Wallet(privateKey, provider);
 wallet2 = new ethers.Wallet(privateKey, provider2);
-wallet3 = new ethers.Wallet(privateKey, provider3);
+
 contract = new ethers.Contract(contractAdress, abi, wallet);
 contract2 = new ethers.Contract(contractAdress, abi, wallet2);
-contract3 = new ethers.Contract(contractAdress, abi, wallet3);
 
 let remainingTime;
 let counterStartTime;
@@ -1483,7 +1479,7 @@ async function verifyTime(){
 			console.log("Requirements satisfied, calling execute function...");
 			Execute();
 			console.log("Execute1() called...");
-			restartAndExecute();
+			// restartAndExecute();
 		}else{
 			console.log("requirements not met, trying again...");
 			setTimeout( ()=>{
@@ -1503,12 +1499,9 @@ async function resetContract23(){
 	provider3=null;
 	web3=null;
 	provider2 = new ethers.JsonRpcProvider(polygonNetwork);
-	provider3 = new ethers.JsonRpcProvider(polygonNetwork2);
 	web3 = new Web3('https://polygon-mainnet.infura.io/v3/724975be56204e32904f40ad4a0deb30');
 	wallet2 = new ethers.Wallet(privateKey, provider2);
-	wallet3 = new ethers.Wallet(privateKey, provider3);
 	contract2 = new ethers.Contract(contractAdress, abi, wallet2);
-	contract3 = new ethers.Contract(contractAdress, abi, wallet3);
 	console.log("both providers opened and parameters set...calling verify Time now");
 	verifyTime();
 }
@@ -1577,30 +1570,30 @@ async function Execute(){
 		const BullAmount = params.BullAmount;
 		const BearAmount = params.BearAmount;
 
-		if(bPrice > lockedprice){
-			wonOdd = ethers.parseUnits(previousBullOdd.toString(), 18);
-			console.log("won odd is: ",wonOdd);
-			rewardsClaimable = ethers.parseUnits((parseFloat(BullAmount * 0.94 * previousBullOdd)).toString(), 18);
-			console.log("rewardsClaimable is ",rewardsClaimable);
-			whoWon = 1
-			console.log("who won is: ",whoWon);
+		// if(bPrice > lockedprice){
+		// 	wonOdd = ethers.parseUnits(previousBullOdd.toString(), 18);
+		// 	console.log("won odd is: ",wonOdd);
+		// 	rewardsClaimable = ethers.parseUnits((parseFloat(BullAmount * 0.94 * previousBullOdd)).toString(), 18);
+		// 	console.log("rewardsClaimable is ",rewardsClaimable);
+		// 	whoWon = 1
+		// 	console.log("who won is: ",whoWon);
 
-		}else if(bPrice < lockedprice){
-			wonOdd = ethers.parseUnits(previousBearOdd.toString(), 18);
-			console.log("won odd is: ",wonOdd);
-			rewardsClaimable = ethers.parseUnits((parseFloat(BearAmount * 0.94 * previousBearOdd)).toString(), 18);
-			console.log("rewardsClaimable is ",rewardsClaimable);
-			whoWon = 2
-			console.log("who won is: ",whoWon);
+		// }else if(bPrice < lockedprice){
+		// 	wonOdd = ethers.parseUnits(previousBearOdd.toString(), 18);
+		// 	console.log("won odd is: ",wonOdd);
+		// 	rewardsClaimable = ethers.parseUnits((parseFloat(BearAmount * 0.94 * previousBearOdd)).toString(), 18);
+		// 	console.log("rewardsClaimable is ",rewardsClaimable);
+		// 	whoWon = 2
+		// 	console.log("who won is: ",whoWon);
 
-		}else if(bPrice == lockedprice){
-			wonOdd = 1
-			console.log("won odd is: ",wonOdd);
-			rewardsClaimable = ethers.parseUnits((parseFloat(BullAmount + BearAmount)).toString(), 18);
-			console.log("rewardsClaimable is ",rewardsClaimable);
-			whoWon = 3
-			console.log("who won is: ",whoWon);
-		}
+		// }else if(bPrice == lockedprice){
+		// 	wonOdd = 1
+		// 	console.log("won odd is: ",wonOdd);
+		// 	rewardsClaimable = ethers.parseUnits((parseFloat(BullAmount + BearAmount)).toString(), 18);
+		// 	console.log("rewardsClaimable is ",rewardsClaimable);
+		// 	whoWon = 3
+		// 	console.log("who won is: ",whoWon);
+		// }
 
 		//increase gasPrice
 		const gasPrice = await web3.eth.getGasPrice();
@@ -1611,7 +1604,7 @@ async function Execute(){
     
         //write to the blockchain.
         try{
-			const tx = await contract2.Execute(Price, timestamp, betOnBull, betOnBear, wonOdd, rewardsClaimable, whoWon, {gasPrice:increasedGasPrice});//look into this line and complete it.
+			const tx = await contract2.Execute(Price, timestamp, betOnBull, betOnBear,{gasPrice:increasedGasPrice});//look into this line and complete it.
 			console.log("Execute completed from smart contract...");
 			nonce = tx.nonce;
 			console.log("The execute nonce is ",tx.nonce);
@@ -1673,7 +1666,7 @@ async function restartAndExecute(){
 	restartId = setTimeout(async() => {
 		console.log("60s elepsed and startRound event not recieved.. proceeding to restart...");
 		const HEROKU_API_KEY = 'HRKU-a7c87b3d-2fb2-4dc8-9073-211aa196bcb1'; // Replace with your Heroku API key
-		const APP_NAME = 'bulleyesvault'; // Replace with your Heroku app name
+		const APP_NAME = 'BitForecast'; // Replace with your Heroku app name
 		try {
 			const response = await axios.delete(
 				`https://api.heroku.com/apps/${APP_NAME}/dynos`,
@@ -1710,7 +1703,7 @@ async function ReExecute(){
 	const increasedGasPrice = web3.utils.toBigInt(parseInt(web3.utils.toNumber(gasPrice)*2));
 	console.log("increased gas is ",increasedGasPrice);
 	try{
-		const tx = await contract3.Execute(Price, timestamp, betOnBull, betOnBear, wonOdd, rewardsClaimable, whoWon, {nonce:nonce, gasPrice:increasedGasPrice});//look into this line and complete it.
+		const tx = await contract2.Execute(Price, timestamp, betOnBull, betOnBear, {nonce:nonce, gasPrice:increasedGasPrice});//look into this line and complete it.
 		console.log("ReExecute completed......");
 		nonce = tx.nonce;
 		console.log("the reexecute nonce is ", tx.nonce);
@@ -1757,10 +1750,12 @@ async function restartDyno(){
 	console.log("began Journey to 1hr30minshrs restart..");
 
 	setTimeout(async() => {
-		const HEROKU_API_KEY = 'HRKU-a7c87b3d-2fb2-4dc8-9073-211aa196bcb1'; // Replace with your Heroku API key
-		const APP_NAME = 'bulleyesvault'; // Replace with your Heroku app name
+		const HEROKU_API_KEY = 'HRKU-da348822-e1e3-47a7-a194-df47114d04e8'; // Replace with your Heroku API key
+		const APP_NAME = 'bitforecast-xyz'; // Replace with your Heroku app name
+		const counter_start1 = await Client.get("counterStartTime1");
+		const remainingTime1 =300000 - ((new Date().getTime())- parseInt(counter_start1));
 	
-		if(remainingTime>15000){
+		if(remainingTime>15000 && remainingTime1>15000){
 			console.log("restarting dyno...");
 				try {
 					const response = await axios.delete(

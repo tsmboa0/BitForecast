@@ -1,0 +1,1488 @@
+<!DOCTYPE html>
+<html lang="en" style="--vh-true:6.09px;">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <style type="text/css">:root, :host {
+  --fa-font-solid: normal 900 1em/1 "Font Awesome 6 Solid";
+  --fa-font-regular: normal 400 1em/1 "Font Awesome 6 Regular";
+  --fa-font-light: normal 300 1em/1 "Font Awesome 6 Light";
+  --fa-font-thin: normal 100 1em/1 "Font Awesome 6 Thin";
+  --fa-font-duotone: normal 900 1em/1 "Font Awesome 6 Duotone";
+  --fa-font-brands: normal 400 1em/1 "Font Awesome 6 Brands";
+}
+
+svg:not(:root).svg-inline--fa, svg:not(:host).svg-inline--fa {
+  overflow: visible;
+  box-sizing: content-box;
+}
+
+.svg-inline--fa {
+  display: var(--fa-display, inline-block);
+  height: 1em;
+  overflow: visible;
+  vertical-align: -0.125em;
+}
+.svg-inline--fa.fa-2xs {
+  vertical-align: 0.1em;
+}
+.svg-inline--fa.fa-xs {
+  vertical-align: 0em;
+}
+.svg-inline--fa.fa-sm {
+  vertical-align: -0.0714285705em;
+}
+.svg-inline--fa.fa-lg {
+  vertical-align: -0.2em;
+}
+.svg-inline--fa.fa-xl {
+  vertical-align: -0.25em;
+}
+.svg-inline--fa.fa-2xl {
+  vertical-align: -0.3125em;
+}
+.svg-inline--fa.fa-pull-left {
+  margin-right: var(--fa-pull-margin, 0.3em);
+  width: auto;
+}
+.svg-inline--fa.fa-pull-right {
+  margin-left: var(--fa-pull-margin, 0.3em);
+  width: auto;
+}
+.svg-inline--fa.fa-li {
+  width: var(--fa-li-width, 2em);
+  top: 0.25em;
+}
+.svg-inline--fa.fa-fw {
+  width: var(--fa-fw-width, 1.25em);
+}
+
+.fa-layers svg.svg-inline--fa {
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.fa-layers-counter, .fa-layers-text {
+  display: inline-block;
+  position: absolute;
+  text-align: center;
+}
+
+.fa-layers {
+  display: inline-block;
+  height: 1em;
+  position: relative;
+  text-align: center;
+  vertical-align: -0.125em;
+  width: 1em;
+}
+.fa-layers svg.svg-inline--fa {
+  -webkit-transform-origin: center center;
+          transform-origin: center center;
+}
+
+.fa-layers-text {
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  -webkit-transform-origin: center center;
+          transform-origin: center center;
+}
+
+.fa-layers-counter {
+  background-color: var(--fa-counter-background-color, #ff253a);
+  border-radius: var(--fa-counter-border-radius, 1em);
+  box-sizing: border-box;
+  color: var(--fa-inverse, #fff);
+  line-height: var(--fa-counter-line-height, 1);
+  max-width: var(--fa-counter-max-width, 5em);
+  min-width: var(--fa-counter-min-width, 1.5em);
+  overflow: hidden;
+  padding: var(--fa-counter-padding, 0.25em 0.5em);
+  right: var(--fa-right, 0);
+  text-overflow: ellipsis;
+  top: var(--fa-top, 0);
+  -webkit-transform: scale(var(--fa-counter-scale, 0.25));
+          transform: scale(var(--fa-counter-scale, 0.25));
+  -webkit-transform-origin: top right;
+          transform-origin: top right;
+}
+
+.fa-layers-bottom-right {
+  bottom: var(--fa-bottom, 0);
+  right: var(--fa-right, 0);
+  top: auto;
+  -webkit-transform: scale(var(--fa-layers-scale, 0.25));
+          transform: scale(var(--fa-layers-scale, 0.25));
+  -webkit-transform-origin: bottom right;
+          transform-origin: bottom right;
+}
+
+.fa-layers-bottom-left {
+  bottom: var(--fa-bottom, 0);
+  left: var(--fa-left, 0);
+  right: auto;
+  top: auto;
+  -webkit-transform: scale(var(--fa-layers-scale, 0.25));
+          transform: scale(var(--fa-layers-scale, 0.25));
+  -webkit-transform-origin: bottom left;
+          transform-origin: bottom left;
+}
+
+.fa-layers-top-right {
+  top: var(--fa-top, 0);
+  right: var(--fa-right, 0);
+  -webkit-transform: scale(var(--fa-layers-scale, 0.25));
+          transform: scale(var(--fa-layers-scale, 0.25));
+  -webkit-transform-origin: top right;
+          transform-origin: top right;
+}
+
+.fa-layers-top-left {
+  left: var(--fa-left, 0);
+  right: auto;
+  top: var(--fa-top, 0);
+  -webkit-transform: scale(var(--fa-layers-scale, 0.25));
+          transform: scale(var(--fa-layers-scale, 0.25));
+  -webkit-transform-origin: top left;
+          transform-origin: top left;
+}
+
+.fa-1x {
+  font-size: 1em;
+}
+
+.fa-2x {
+  font-size: 2em;
+}
+
+.fa-3x {
+  font-size: 3em;
+}
+
+.fa-4x {
+  font-size: 4em;
+}
+
+.fa-5x {
+  font-size: 5em;
+}
+
+.fa-6x {
+  font-size: 6em;
+}
+
+.fa-7x {
+  font-size: 7em;
+}
+
+.fa-8x {
+  font-size: 8em;
+}
+
+.fa-9x {
+  font-size: 9em;
+}
+
+.fa-10x {
+  font-size: 10em;
+}
+
+.fa-2xs {
+  font-size: 0.625em;
+  line-height: 0.1em;
+  vertical-align: 0.225em;
+}
+
+.fa-xs {
+  font-size: 0.75em;
+  line-height: 0.0833333337em;
+  vertical-align: 0.125em;
+}
+
+.fa-sm {
+  font-size: 0.875em;
+  line-height: 0.0714285718em;
+  vertical-align: 0.0535714295em;
+}
+
+.fa-lg {
+  font-size: 1.25em;
+  line-height: 0.05em;
+  vertical-align: -0.075em;
+}
+
+.fa-xl {
+  font-size: 1.5em;
+  line-height: 0.0416666682em;
+  vertical-align: -0.125em;
+}
+
+.fa-2xl {
+  font-size: 2em;
+  line-height: 0.03125em;
+  vertical-align: -0.1875em;
+}
+
+.fa-fw {
+  text-align: center;
+  width: 1.25em;
+}
+
+.fa-ul {
+  list-style-type: none;
+  margin-left: var(--fa-li-margin, 2.5em);
+  padding-left: 0;
+}
+.fa-ul > li {
+  position: relative;
+}
+
+.fa-li {
+  left: calc(var(--fa-li-width, 2em) * -1);
+  position: absolute;
+  text-align: center;
+  width: var(--fa-li-width, 2em);
+  line-height: inherit;
+}
+
+.fa-border {
+  border-color: var(--fa-border-color, #eee);
+  border-radius: var(--fa-border-radius, 0.1em);
+  border-style: var(--fa-border-style, solid);
+  border-width: var(--fa-border-width, 0.08em);
+  padding: var(--fa-border-padding, 0.2em 0.25em 0.15em);
+}
+
+.fa-pull-left {
+  float: left;
+  margin-right: var(--fa-pull-margin, 0.3em);
+}
+
+.fa-pull-right {
+  float: right;
+  margin-left: var(--fa-pull-margin, 0.3em);
+}
+
+.fa-beat {
+  -webkit-animation-name: fa-beat;
+          animation-name: fa-beat;
+  -webkit-animation-delay: var(--fa-animation-delay, 0);
+          animation-delay: var(--fa-animation-delay, 0);
+  -webkit-animation-direction: var(--fa-animation-direction, normal);
+          animation-direction: var(--fa-animation-direction, normal);
+  -webkit-animation-duration: var(--fa-animation-duration, 1s);
+          animation-duration: var(--fa-animation-duration, 1s);
+  -webkit-animation-iteration-count: var(--fa-animation-iteration-count, infinite);
+          animation-iteration-count: var(--fa-animation-iteration-count, infinite);
+  -webkit-animation-timing-function: var(--fa-animation-timing, ease-in-out);
+          animation-timing-function: var(--fa-animation-timing, ease-in-out);
+}
+
+.fa-bounce {
+  -webkit-animation-name: fa-bounce;
+          animation-name: fa-bounce;
+  -webkit-animation-delay: var(--fa-animation-delay, 0);
+          animation-delay: var(--fa-animation-delay, 0);
+  -webkit-animation-direction: var(--fa-animation-direction, normal);
+          animation-direction: var(--fa-animation-direction, normal);
+  -webkit-animation-duration: var(--fa-animation-duration, 1s);
+          animation-duration: var(--fa-animation-duration, 1s);
+  -webkit-animation-iteration-count: var(--fa-animation-iteration-count, infinite);
+          animation-iteration-count: var(--fa-animation-iteration-count, infinite);
+  -webkit-animation-timing-function: var(--fa-animation-timing, cubic-bezier(0.28, 0.84, 0.42, 1));
+          animation-timing-function: var(--fa-animation-timing, cubic-bezier(0.28, 0.84, 0.42, 1));
+}
+
+.fa-fade {
+  -webkit-animation-name: fa-fade;
+          animation-name: fa-fade;
+  -webkit-animation-delay: var(--fa-animation-delay, 0);
+          animation-delay: var(--fa-animation-delay, 0);
+  -webkit-animation-direction: var(--fa-animation-direction, normal);
+          animation-direction: var(--fa-animation-direction, normal);
+  -webkit-animation-duration: var(--fa-animation-duration, 1s);
+          animation-duration: var(--fa-animation-duration, 1s);
+  -webkit-animation-iteration-count: var(--fa-animation-iteration-count, infinite);
+          animation-iteration-count: var(--fa-animation-iteration-count, infinite);
+  -webkit-animation-timing-function: var(--fa-animation-timing, cubic-bezier(0.4, 0, 0.6, 1));
+          animation-timing-function: var(--fa-animation-timing, cubic-bezier(0.4, 0, 0.6, 1));
+}
+
+.fa-beat-fade {
+  -webkit-animation-name: fa-beat-fade;
+          animation-name: fa-beat-fade;
+  -webkit-animation-delay: var(--fa-animation-delay, 0);
+          animation-delay: var(--fa-animation-delay, 0);
+  -webkit-animation-direction: var(--fa-animation-direction, normal);
+          animation-direction: var(--fa-animation-direction, normal);
+  -webkit-animation-duration: var(--fa-animation-duration, 1s);
+          animation-duration: var(--fa-animation-duration, 1s);
+  -webkit-animation-iteration-count: var(--fa-animation-iteration-count, infinite);
+          animation-iteration-count: var(--fa-animation-iteration-count, infinite);
+  -webkit-animation-timing-function: var(--fa-animation-timing, cubic-bezier(0.4, 0, 0.6, 1));
+          animation-timing-function: var(--fa-animation-timing, cubic-bezier(0.4, 0, 0.6, 1));
+}
+
+.fa-flip {
+  -webkit-animation-name: fa-flip;
+          animation-name: fa-flip;
+  -webkit-animation-delay: var(--fa-animation-delay, 0);
+          animation-delay: var(--fa-animation-delay, 0);
+  -webkit-animation-direction: var(--fa-animation-direction, normal);
+          animation-direction: var(--fa-animation-direction, normal);
+  -webkit-animation-duration: var(--fa-animation-duration, 1s);
+          animation-duration: var(--fa-animation-duration, 1s);
+  -webkit-animation-iteration-count: var(--fa-animation-iteration-count, infinite);
+          animation-iteration-count: var(--fa-animation-iteration-count, infinite);
+  -webkit-animation-timing-function: var(--fa-animation-timing, ease-in-out);
+          animation-timing-function: var(--fa-animation-timing, ease-in-out);
+}
+
+.fa-shake {
+  -webkit-animation-name: fa-shake;
+          animation-name: fa-shake;
+  -webkit-animation-delay: var(--fa-animation-delay, 0);
+          animation-delay: var(--fa-animation-delay, 0);
+  -webkit-animation-direction: var(--fa-animation-direction, normal);
+          animation-direction: var(--fa-animation-direction, normal);
+  -webkit-animation-duration: var(--fa-animation-duration, 1s);
+          animation-duration: var(--fa-animation-duration, 1s);
+  -webkit-animation-iteration-count: var(--fa-animation-iteration-count, infinite);
+          animation-iteration-count: var(--fa-animation-iteration-count, infinite);
+  -webkit-animation-timing-function: var(--fa-animation-timing, linear);
+          animation-timing-function: var(--fa-animation-timing, linear);
+}
+
+.fa-spin {
+  -webkit-animation-name: fa-spin;
+          animation-name: fa-spin;
+  -webkit-animation-delay: var(--fa-animation-delay, 0);
+          animation-delay: var(--fa-animation-delay, 0);
+  -webkit-animation-direction: var(--fa-animation-direction, normal);
+          animation-direction: var(--fa-animation-direction, normal);
+  -webkit-animation-duration: var(--fa-animation-duration, 2s);
+          animation-duration: var(--fa-animation-duration, 2s);
+  -webkit-animation-iteration-count: var(--fa-animation-iteration-count, infinite);
+          animation-iteration-count: var(--fa-animation-iteration-count, infinite);
+  -webkit-animation-timing-function: var(--fa-animation-timing, linear);
+          animation-timing-function: var(--fa-animation-timing, linear);
+}
+
+.fa-spin-reverse {
+  --fa-animation-direction: reverse;
+}
+
+.fa-pulse,
+.fa-spin-pulse {
+  -webkit-animation-name: fa-spin;
+          animation-name: fa-spin;
+  -webkit-animation-direction: var(--fa-animation-direction, normal);
+          animation-direction: var(--fa-animation-direction, normal);
+  -webkit-animation-duration: var(--fa-animation-duration, 1s);
+          animation-duration: var(--fa-animation-duration, 1s);
+  -webkit-animation-iteration-count: var(--fa-animation-iteration-count, infinite);
+          animation-iteration-count: var(--fa-animation-iteration-count, infinite);
+  -webkit-animation-timing-function: var(--fa-animation-timing, steps(8));
+          animation-timing-function: var(--fa-animation-timing, steps(8));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fa-beat,
+.fa-bounce,
+.fa-fade,
+.fa-beat-fade,
+.fa-flip,
+.fa-pulse,
+.fa-shake,
+.fa-spin,
+.fa-spin-pulse {
+    -webkit-animation-delay: -1ms;
+            animation-delay: -1ms;
+    -webkit-animation-duration: 1ms;
+            animation-duration: 1ms;
+    -webkit-animation-iteration-count: 1;
+            animation-iteration-count: 1;
+    transition-delay: 0s;
+    transition-duration: 0s;
+  }
+}
+@-webkit-keyframes fa-beat {
+  0%, 90% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+  45% {
+    -webkit-transform: scale(var(--fa-beat-scale, 1.25));
+            transform: scale(var(--fa-beat-scale, 1.25));
+  }
+}
+@keyframes fa-beat {
+  0%, 90% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+  45% {
+    -webkit-transform: scale(var(--fa-beat-scale, 1.25));
+            transform: scale(var(--fa-beat-scale, 1.25));
+  }
+}
+@-webkit-keyframes fa-bounce {
+  0% {
+    -webkit-transform: scale(1, 1) translateY(0);
+            transform: scale(1, 1) translateY(0);
+  }
+  10% {
+    -webkit-transform: scale(var(--fa-bounce-start-scale-x, 1.1), var(--fa-bounce-start-scale-y, 0.9)) translateY(0);
+            transform: scale(var(--fa-bounce-start-scale-x, 1.1), var(--fa-bounce-start-scale-y, 0.9)) translateY(0);
+  }
+  30% {
+    -webkit-transform: scale(var(--fa-bounce-jump-scale-x, 0.9), var(--fa-bounce-jump-scale-y, 1.1)) translateY(var(--fa-bounce-height, -0.5em));
+            transform: scale(var(--fa-bounce-jump-scale-x, 0.9), var(--fa-bounce-jump-scale-y, 1.1)) translateY(var(--fa-bounce-height, -0.5em));
+  }
+  50% {
+    -webkit-transform: scale(var(--fa-bounce-land-scale-x, 1.05), var(--fa-bounce-land-scale-y, 0.95)) translateY(0);
+            transform: scale(var(--fa-bounce-land-scale-x, 1.05), var(--fa-bounce-land-scale-y, 0.95)) translateY(0);
+  }
+  57% {
+    -webkit-transform: scale(1, 1) translateY(var(--fa-bounce-rebound, -0.125em));
+            transform: scale(1, 1) translateY(var(--fa-bounce-rebound, -0.125em));
+  }
+  64% {
+    -webkit-transform: scale(1, 1) translateY(0);
+            transform: scale(1, 1) translateY(0);
+  }
+  100% {
+    -webkit-transform: scale(1, 1) translateY(0);
+            transform: scale(1, 1) translateY(0);
+  }
+}
+@keyframes fa-bounce {
+  0% {
+    -webkit-transform: scale(1, 1) translateY(0);
+            transform: scale(1, 1) translateY(0);
+  }
+  10% {
+    -webkit-transform: scale(var(--fa-bounce-start-scale-x, 1.1), var(--fa-bounce-start-scale-y, 0.9)) translateY(0);
+            transform: scale(var(--fa-bounce-start-scale-x, 1.1), var(--fa-bounce-start-scale-y, 0.9)) translateY(0);
+  }
+  30% {
+    -webkit-transform: scale(var(--fa-bounce-jump-scale-x, 0.9), var(--fa-bounce-jump-scale-y, 1.1)) translateY(var(--fa-bounce-height, -0.5em));
+            transform: scale(var(--fa-bounce-jump-scale-x, 0.9), var(--fa-bounce-jump-scale-y, 1.1)) translateY(var(--fa-bounce-height, -0.5em));
+  }
+  50% {
+    -webkit-transform: scale(var(--fa-bounce-land-scale-x, 1.05), var(--fa-bounce-land-scale-y, 0.95)) translateY(0);
+            transform: scale(var(--fa-bounce-land-scale-x, 1.05), var(--fa-bounce-land-scale-y, 0.95)) translateY(0);
+  }
+  57% {
+    -webkit-transform: scale(1, 1) translateY(var(--fa-bounce-rebound, -0.125em));
+            transform: scale(1, 1) translateY(var(--fa-bounce-rebound, -0.125em));
+  }
+  64% {
+    -webkit-transform: scale(1, 1) translateY(0);
+            transform: scale(1, 1) translateY(0);
+  }
+  100% {
+    -webkit-transform: scale(1, 1) translateY(0);
+            transform: scale(1, 1) translateY(0);
+  }
+}
+@-webkit-keyframes fa-fade {
+  50% {
+    opacity: var(--fa-fade-opacity, 0.4);
+  }
+}
+@keyframes fa-fade {
+  50% {
+    opacity: var(--fa-fade-opacity, 0.4);
+  }
+}
+@-webkit-keyframes fa-beat-fade {
+  0%, 100% {
+    opacity: var(--fa-beat-fade-opacity, 0.4);
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    -webkit-transform: scale(var(--fa-beat-fade-scale, 1.125));
+            transform: scale(var(--fa-beat-fade-scale, 1.125));
+  }
+}
+@keyframes fa-beat-fade {
+  0%, 100% {
+    opacity: var(--fa-beat-fade-opacity, 0.4);
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    -webkit-transform: scale(var(--fa-beat-fade-scale, 1.125));
+            transform: scale(var(--fa-beat-fade-scale, 1.125));
+  }
+}
+@-webkit-keyframes fa-flip {
+  50% {
+    -webkit-transform: rotate3d(var(--fa-flip-x, 0), var(--fa-flip-y, 1), var(--fa-flip-z, 0), var(--fa-flip-angle, -180deg));
+            transform: rotate3d(var(--fa-flip-x, 0), var(--fa-flip-y, 1), var(--fa-flip-z, 0), var(--fa-flip-angle, -180deg));
+  }
+}
+@keyframes fa-flip {
+  50% {
+    -webkit-transform: rotate3d(var(--fa-flip-x, 0), var(--fa-flip-y, 1), var(--fa-flip-z, 0), var(--fa-flip-angle, -180deg));
+            transform: rotate3d(var(--fa-flip-x, 0), var(--fa-flip-y, 1), var(--fa-flip-z, 0), var(--fa-flip-angle, -180deg));
+  }
+}
+@-webkit-keyframes fa-shake {
+  0% {
+    -webkit-transform: rotate(-15deg);
+            transform: rotate(-15deg);
+  }
+  4% {
+    -webkit-transform: rotate(15deg);
+            transform: rotate(15deg);
+  }
+  8%, 24% {
+    -webkit-transform: rotate(-18deg);
+            transform: rotate(-18deg);
+  }
+  12%, 28% {
+    -webkit-transform: rotate(18deg);
+            transform: rotate(18deg);
+  }
+  16% {
+    -webkit-transform: rotate(-22deg);
+            transform: rotate(-22deg);
+  }
+  20% {
+    -webkit-transform: rotate(22deg);
+            transform: rotate(22deg);
+  }
+  32% {
+    -webkit-transform: rotate(-12deg);
+            transform: rotate(-12deg);
+  }
+  36% {
+    -webkit-transform: rotate(12deg);
+            transform: rotate(12deg);
+  }
+  40%, 100% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+}
+@keyframes fa-shake {
+  0% {
+    -webkit-transform: rotate(-15deg);
+            transform: rotate(-15deg);
+  }
+  4% {
+    -webkit-transform: rotate(15deg);
+            transform: rotate(15deg);
+  }
+  8%, 24% {
+    -webkit-transform: rotate(-18deg);
+            transform: rotate(-18deg);
+  }
+  12%, 28% {
+    -webkit-transform: rotate(18deg);
+            transform: rotate(18deg);
+  }
+  16% {
+    -webkit-transform: rotate(-22deg);
+            transform: rotate(-22deg);
+  }
+  20% {
+    -webkit-transform: rotate(22deg);
+            transform: rotate(22deg);
+  }
+  32% {
+    -webkit-transform: rotate(-12deg);
+            transform: rotate(-12deg);
+  }
+  36% {
+    -webkit-transform: rotate(12deg);
+            transform: rotate(12deg);
+  }
+  40%, 100% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+}
+@-webkit-keyframes fa-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+@keyframes fa-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+.fa-rotate-90 {
+  -webkit-transform: rotate(90deg);
+          transform: rotate(90deg);
+}
+
+.fa-rotate-180 {
+  -webkit-transform: rotate(180deg);
+          transform: rotate(180deg);
+}
+
+.fa-rotate-270 {
+  -webkit-transform: rotate(270deg);
+          transform: rotate(270deg);
+}
+
+.fa-flip-horizontal {
+  -webkit-transform: scale(-1, 1);
+          transform: scale(-1, 1);
+}
+
+.fa-flip-vertical {
+  -webkit-transform: scale(1, -1);
+          transform: scale(1, -1);
+}
+
+.fa-flip-both,
+.fa-flip-horizontal.fa-flip-vertical {
+  -webkit-transform: scale(-1, -1);
+          transform: scale(-1, -1);
+}
+
+.fa-rotate-by {
+  -webkit-transform: rotate(var(--fa-rotate-angle, none));
+          transform: rotate(var(--fa-rotate-angle, none));
+}
+
+.fa-stack {
+  display: inline-block;
+  vertical-align: middle;
+  height: 2em;
+  position: relative;
+  width: 2.5em;
+}
+
+.fa-stack-1x,
+.fa-stack-2x {
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: var(--fa-stack-z-index, auto);
+}
+
+.svg-inline--fa.fa-stack-1x {
+  height: 1em;
+  width: 1.25em;
+}
+.svg-inline--fa.fa-stack-2x {
+  height: 2em;
+  width: 2.5em;
+}
+
+.fa-inverse {
+  color: var(--fa-inverse, #fff);
+}
+
+.sr-only,
+.fa-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.sr-only-focusable:not(:focus),
+.fa-sr-only-focusable:not(:focus) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.svg-inline--fa .fa-primary {
+  fill: var(--fa-primary-color, currentColor);
+  opacity: var(--fa-primary-opacity, 1);
+}
+
+.svg-inline--fa .fa-secondary {
+  fill: var(--fa-secondary-color, currentColor);
+  opacity: var(--fa-secondary-opacity, 0.4);
+}
+
+.svg-inline--fa.fa-swap-opacity .fa-primary {
+  opacity: var(--fa-secondary-opacity, 0.4);
+}
+
+.svg-inline--fa.fa-swap-opacity .fa-secondary {
+  opacity: var(--fa-primary-opacity, 1);
+}
+
+.svg-inline--fa mask .fa-primary,
+.svg-inline--fa mask .fa-secondary {
+  fill: black;
+}
+
+.fad.fa-inverse,
+.fa-duotone.fa-inverse {
+  color: var(--fa-inverse, #fff);
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.blinking {
+  animation: blink 1s infinite;
+}
+
+</style>
+
+<link rel="icon" href="/Home/bulleyesicon.png">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#000000">
+<meta name="description" content="Pancakeswap predictions alternative. A peer-to-peer wagering dApp on BSC and DogeChain. Fair, accurate prediction gaming. Simple rules to play, too! Bet up or down and win if you guessed correctly">
+<meta name="keywords" content="prediction gaming, predictions gaming, bnb predictions, wagers, bsc, binance smart chain, dogechain, doge chain, pcs alternative, pancakeswap alternative, doge">
+<link rel="apple-touch-icon" href="/Home/bulleyesicon.png">
+<title>BitForecast | Play On StratoVM</title>
+<link href="" rel="stylesheet">
+<!-- <link href="/BTC Prediction _ DogeBets_files/main.6ae9ec4f.chunk.css" rel="stylesheet"> -->
+<!-- <link rel="stylesheet" href="https://dogebets.gg/static/css/main.6ae9ec4f.chunk.css" rel="stylesheet"> -->
+<!-- <link rel="stylesheet" href="https://dogebets.gg/static/css/2.6184cd23.chunk.css" rel="stylesheet"> -->
+
+<link href="/Home/2.6184cd23.chunk.css" rel="stylesheet">
+<link href="/Home/main.6ae9ec4f.chunk.css" rel="stylesheet">
+<link href="/Home/custom.css" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+
+<style data-styled="active" data-styled-version="5.3.3"></style>
+<script id="tradingview-widget-script" type="text/javascript" async="" src="/BTC Prediction _ DogeBets_files/tv.js.download"></script>
+<link rel="canonical" href="" data-react-helmet="true">
+<meta name="description" content="Make great profits with betting BNB, BTC and DOGE on BSC or DogeChain. Predictions Play it Now !" data-react-helmet="true">
+<meta property="og:title" content="BTC Prediction | BitForecast" data-rh="true" data-react-helmet="true">
+<meta property="og:description" content="Make great profits with betting BNB, BTC and DOGE on BSC or DogeChain. Predictions Play it Now !" data-rh="true" data-react-helmet="true">
+</head>
+<body onload="getAllParams()">
+
+  <!-- <noscript>You need to enable JavaScript to run this app.</noscript> -->
+  <div id="root">
+    <div style="background-color:;" id="Navbar" class="Navbar Mobile">
+      <div class="LeftSide ">
+        <div id="menu_button" onclick="document.getElementById('menu_dropdown').style.display='block';" class="MenuButton">
+          <span>
+            <svg  aria-hidden="true" focusable="false" data-prefix="fas" data-icon="align-left" class="svg-inline--fa fa-align-left text-white" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M256 96H32C14.33 96 0 81.67 0 64C0 46.33 14.33 32 32 32H256C273.7 32 288 46.33 288 64C288 81.67 273.7 96 256 96zM256 352H32C14.33 352 0 337.7 0 320C0 302.3 14.33 288 32 288H256C273.7 288 288 302.3 288 320C288 337.7 273.7 352 256 352zM0 192C0 174.3 14.33 160 32 160H416C433.7 160 448 174.3 448 192C448 209.7 433.7 224 416 224H32C14.33 224 0 209.7 0 192zM416 480H32C14.33 480 0 465.7 0 448C0 430.3 14.33 416 32 416H416C433.7 416 448 430.3 448 448C448 465.7 433.7 480 416 480z"></path>
+            </svg>
+          </span>
+        </div>
+        <div class="GroupLogoTimer">
+          <div class="DogeLogoContainer">
+            <a aria-current="page" class="active" href="/">
+              <img class="DogeLogo" src="/Home/bitforecast.png" alt="khal doggo">
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="GroupConnectTimer">
+        <div  class="TimerContainerSpecial">
+          <div class="TimerContainer">
+            <!-- <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="clock" class="svg-inline--fa fa-clock fa-1x DogeClock" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512zM232 256C232 264 236 271.5 242.7 275.1L338.7 339.1C349.7 347.3 364.6 344.3 371.1 333.3C379.3 322.3 376.3 307.4 365.3 300L280 243.2V120C280 106.7 269.3 96 255.1 96C242.7 96 231.1 106.7 231.1 120L232 256z"></path> -->
+            </svg>
+            <p id="counting" style="color: ;display: none;">Round Ends in: <span id="mins"></span> <span class="timeSeparators"> m:</span> <span id="secs"></span> <span class="timeSeparators"> s</span></p>
+            <p id="executing">Executing Contract...</p>
+          </div>
+        </div>
+        <button id="connect_button" style="display: none;" onclick="document.getElementById('disconnectModal').style.display='block';document.getElementById('modalOverlay').style.display='block';" class="ConnectButton"></button>
+        <button id="not_connected" onclick="connect()" class="ConnectButton">CONNECT</button>
+
+        <div id="modalOverlay" style="display: none;" class="Popup Overlay"></div>
+
+        <div id="disconnectModal" style="display: none;" class="ConnectionPopup Disconnect ">
+          <button class="PopupClose" onclick="document.getElementById('disconnectModal').style.display='none';document.getElementById('modalOverlay').style.display='none';">
+            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="xmark" class="svg-inline--fa fa-xmark " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"></path>
+            </svg>
+          </button>
+          <div id="buttons" class="noselect">
+            <!-- <button onclick="disconnect()" style="background-color:rgb(255, 119, 119);padding:20px;margin: 20px;margin-left: 40px;" class="Disconnect">Disconnect</button> -->
+            <button onclick="switchToBSCNetwork()" style="background-color:rgb(102, 181, 88);padding:20px;margin: 20px;margin-left: 120px;" class="ChangeNet">Change network</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div style="display: none;" id="menu_dropdown" class="Sidebar">
+      <ul class="MenuItems lg:mx-6">
+        <li class="Item First">
+          <button onclick="document.getElementById('menu_dropdown').style.display='none';" class="Close">
+            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="square-xmark" class="svg-inline--fa fa-square-xmark fa-2x " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+              <path fill="currentColor" d="M384 32C419.3 32 448 60.65 448 96V416C448 451.3 419.3 480 384 480H64C28.65 480 0 451.3 0 416V96C0 60.65 28.65 32 64 32H384zM143 208.1L190.1 255.1L143 303C133.7 312.4 133.7 327.6 143 336.1C152.4 346.3 167.6 346.3 176.1 336.1L223.1 289.9L271 336.1C280.4 346.3 295.6 346.3 304.1 336.1C314.3 327.6 314.3 312.4 304.1 303L257.9 255.1L304.1 208.1C314.3 199.6 314.3 184.4 304.1 175C295.6 165.7 280.4 165.7 271 175L223.1 222.1L176.1 175C167.6 165.7 152.4 165.7 143 175C133.7 184.4 133.7 199.6 143 208.1V208.1z"></path>
+            </svg>
+          </button>
+        </li>
+        <li class="Item">
+          <a class=" Secondary Prediction" href="/play-on-stratovm/">
+            <div class="Description"> Play on StratoVM</div>
+          </a>
+        </li>
+        <li class="Item">
+          <a class=" Secondary Prediction" href="/play-on-polygon/">
+            <div class="Description"> Play on Polygon</div>
+          </a>
+        </li>
+        <!-- <li class="Item"> -->
+          <!-- <a class=" Secondary Prediction" href="/btchpn/"> -->
+            <!-- <div class="Description"> BTC on HyperonChain</div> -->
+          <!-- </a> -->
+        <!-- </li> -->
+        <li class="Item">
+          <a class="Socials Primary" href="/referrals/">
+            <div class="Description">
+              <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="user-group" class="svg-inline--fa fa-user-group " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
+                <path fill="currentColor" d="M224 256c70.7 0 128-57.31 128-128S294.7 0 224 0C153.3 0 96 57.31 96 128S153.3 256 224 256zM274.7 304H173.3c-95.73 0-173.3 77.6-173.3 173.3C0 496.5 15.52 512 34.66 512H413.3C432.5 512 448 496.5 448 477.3C448 381.6 370.4 304 274.7 304zM479.1 320h-73.85C451.2 357.7 480 414.1 480 477.3C480 490.1 476.2 501.9 470 512h138C625.7 512 640 497.6 640 479.1C640 391.6 568.4 320 479.1 320zM432 256C493.9 256 544 205.9 544 144S493.9 32 432 32c-25.11 0-48.04 8.555-66.72 22.51C376.8 76.63 384 101.4 384 128c0 35.52-11.93 68.14-31.59 94.71C372.7 243.2 400.8 256 432 256z"></path>
+              </svg> Referral Program
+            </div>
+          </a>
+        </li>
+        <li class="Item">
+          <a class="Socials Primary" href="/socials/">
+            <div class="Description">
+              <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="user-group" class="svg-inline--fa fa-user-group " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
+                <path fill="currentColor" d="M224 256c70.7 0 128-57.31 128-128S294.7 0 224 0C153.3 0 96 57.31 96 128S153.3 256 224 256zM274.7 304H173.3c-95.73 0-173.3 77.6-173.3 173.3C0 496.5 15.52 512 34.66 512H413.3C432.5 512 448 496.5 448 477.3C448 381.6 370.4 304 274.7 304zM479.1 320h-73.85C451.2 357.7 480 414.1 480 477.3C480 490.1 476.2 501.9 470 512h138C625.7 512 640 497.6 640 479.1C640 391.6 568.4 320 479.1 320zM432 256C493.9 256 544 205.9 544 144S493.9 32 432 32c-25.11 0-48.04 8.555-66.72 22.51C376.8 76.63 384 101.4 384 128c0 35.52-11.93 68.14-31.59 94.71C372.7 243.2 400.8 256 432 256z"></path>
+              </svg> Socials
+            </div>
+          </a>
+        </li>
+        <li class="Item">
+          <a class="Socials Primary" href="/faq/">
+            <div class="Description">
+              <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle-question" class="svg-inline--fa fa-circle-question " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                <path fill="currentColor" d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256s256-114.6 256-256S397.4 0 256 0zM256 400c-18 0-32-14-32-32s13.1-32 32-32c17.1 0 32 14 32 32S273.1 400 256 400zM325.1 258L280 286V288c0 13-11 24-24 24S232 301 232 288V272c0-8 4-16 12-21l57-34C308 213 312 206 312 198C312 186 301.1 176 289.1 176h-51.1C225.1 176 216 186 216 198c0 13-11 24-24 24s-24-11-24-24C168 159 199 128 237.1 128h51.1C329 128 360 159 360 198C360 222 347 245 325.1 258z"></path>
+              </svg> FAQ
+            </div>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+
+    <div class="Toastify"></div>
+    <div class="sc-gsDKAQ kkOZNv bg-darkFour">
+      <div style="transform: none;background-color:;">
+        <div class="GameStatus">
+          <div id="cards" class="Headline Desktop">
+            <a href="/history-svm/">
+              <div  class="NavigationButton">
+                <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="clock-rotate-left" class="svg-inline--fa fa-clock-rotate-left w-6" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C201.7 512 151.2 495 109.7 466.1C95.2 455.1 91.64 436 101.8 421.5C111.9 407 131.8 403.5 146.3 413.6C177.4 435.3 215.2 448 256 448C362 448 448 362 448 256C448 149.1 362 64 256 64C202.1 64 155 85.46 120.2 120.2L151 151C166.1 166.1 155.4 192 134.1 192H24C10.75 192 0 181.3 0 168V57.94C0 36.56 25.85 25.85 40.97 40.97L74.98 74.98C121.3 28.69 185.3 0 255.1 0L256 0zM256 128C269.3 128 280 138.7 280 152V246.1L344.1 311C354.3 320.4 354.3 335.6 344.1 344.1C335.6 354.3 320.4 354.3 311 344.1L239 272.1C234.5 268.5 232 262.4 232 256V152C232 138.7 242.7 128 256 128V128z"></path>
+                </svg>History
+              </div>
+            </a>
+            <div  class="GameCarousel">
+              <a href="/play-on-polygon/">
+                <div  class="Previous">
+                  <svg class="Chevron" fill="currentColor" viewBox="0 0 161.21 161.21" xmlns="http://www.w3.org/2000/svg"><path d="m71.009 27.775 46.733 48.405c1.6346 1.6305 1.6346 7.6214 0 9.2519l-46.733 48.405c-3.8695 4.0079-18.206-1.9697-14.266-5.909l42.116-47.122-40.444-47.122c-2.5025-3.3083 9.7479-8.8177 12.595-5.909z" fill-rule="evenodd" stroke-width="8.346"></path>
+                  </svg>
+                </div>
+              </a>
+              <div class="CentralElement">
+                <div class="Currency">
+                  <img src="/BTC Prediction _ DogeBets_files/BTC.8d4da80f.svg">
+                </div>
+                <div id="Divide"></div>
+                <div class="Chain">
+                  <img src="/Home/svmlogo.avif">
+                </div>
+              </div>
+              <a href="/play-on-polygon/">
+                <div  class="Next">
+                  <svg class="Chevron" fill="currentColor" viewBox="0 0 161.21 161.21" xmlns="http://www.w3.org/2000/svg"><path d="m71.009 27.775 46.733 48.405c1.6346 1.6305 1.6346 7.6214 0 9.2519l-46.733 48.405c-3.8695 4.0079-18.206-1.9697-14.266-5.909l42.116-47.122-40.444-47.122c-2.5025-3.3083 9.7479-8.8177 12.595-5.909z" fill-rule="evenodd" stroke-width="8.346"></path>
+                  </svg>
+                </div>
+              </a>
+            </div>
+            <button class="NavigationButton">
+              <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chart-column" class="svg-inline--fa fa-chart-column w-6" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 32C49.67 32 64 46.33 64 64V400C64 408.8 71.16 416 80 416H480C497.7 416 512 430.3 512 448C512 465.7 497.7 480 480 480H80C35.82 480 0 444.2 0 400V64C0 46.33 14.33 32 32 32zM160 224C177.7 224 192 238.3 192 256V320C192 337.7 177.7 352 160 352C142.3 352 128 337.7 128 320V256C128 238.3 142.3 224 160 224zM288 320C288 337.7 273.7 352 256 352C238.3 352 224 337.7 224 320V160C224 142.3 238.3 128 256 128C273.7 128 288 142.3 288 160V320zM352 192C369.7 192 384 206.3 384 224V320C384 337.7 369.7 352 352 352C334.3 352 320 337.7 320 320V224C320 206.3 334.3 192 352 192zM480 320C480 337.7 465.7 352 448 352C430.3 352 416 337.7 416 320V96C416 78.33 430.3 64 448 64C465.7 64 480 78.33 480 96V320z"></path>
+              </svg>Chart
+            </button>
+          </div>
+          <div class="ContractStatus Desktop">
+            <div style="font-size: 3.4em;"></div>
+          </div>
+        </div>
+
+         
+
+        <!-- start of Desktop version -->
+
+               <!-- prediction starts -->
+  <h1 id="paused" style="display: none; color: whitesmoke;margin-left: 70px;"><b> Contract Paused... </b></h1>
+
+
+  <div id="Predict" style="margin-top: 30px;display: none;" class="PredictionContentDesktop">
+    <div class="container mx-auto">
+      <div id="glider" style="margin: auto;width: 80%;" class="owl-carousel Cards">
+        <div  class="Card Previous Desktop">
+
+          <div id="ExecutionNotice1" style="display: none;">
+            <p class="glowing" style="font-size: 2.8em;">Executing</p>
+            <div class="w-full container">
+              <div class="box mx-auto">
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+              </div>
+            </div>
+          </div>
+
+          <div id="previousBlock" style="display: none;">
+            <div id="previousEpoch" class="Header">#0000
+              <div class="Separator"></div>
+            </div>
+            
+            <div class="">
+              <div class="">
+                <div class="w-1/3 xs:w-1/3 center">
+                  <img id="previous-round-img" style="margin-left: 85px;" src="/BTC Prediction _ DogeBets_files/DOGE_BETS_BEARISH.5238e253.webp" alt="bearwon"  class="w-1/3 xs:w-1/3">
+                </div>
+              </div>
+            </div>
+            
+            <div style="margin-top: 20px" class="flex flex-col bg-darkFour rounded-md text-center items-center py-2 px-5 space-y-1 xs:px-2">
+              <div class="text-white xs:text-md">
+                <p  class="Price">Locked: <span id="previousLockedPrice" class="text-white font-bold">---</span></p>
+              </div>
+              <div class="text-white">
+                <p  class="Price">Closed: <span id="closedPrice" class="text-white font-bold">---</span></p>
+              </div>
+              <div class="Separator" style="width: 66%;"></div>
+              <p class="Difference font-bold" id="roundDifference" style="color: rgb(255, 119, 119);">--</p>
+            </div>
+    
+    
+            <div class="Enclosure">
+              <p id="Payout" class="text-lg">Payout: <span id="outcome" class="font-bold">--</span></p>
+              <p id="Disclaimer">
+                <button><svg enable-background="new 0 0 1000 1000" viewBox="0 0 1e3 1e3" xml:space="preserve" xmlns="http://www.w3.org/2000/svg"><metadata> Svg Vector Icons : http://www.onlinewebfonts.com/icon </metadata><g transform="translate(0 512) scale(.1 -.1)"><path d="m2472 2684.9c-2525.7-2527.6-2393.6-2386-2359.2-2563.9 11.5-59.3 55.5-114.8 254.5-317.6 133.9-135.9 266-258.4 294.7-273.7 65.1-34.5 189.4-34.5 269.8 0 36.4 15.3 857.2 824.7 1974.7 1944 1052.4 1054.3 1936.4 1928.7 1965.1 1944s86.1 26.8 130.1 26.8 101.4-11.5 130.1-26.8 912.7-889.7 1965.1-1944c1052.3-1054.2 1936.3-1928.7 1965-1944 67-34.5 212.4-34.5 279.4 0 28.7 15.3 160.7 137.8 292.7 273.6 212.4 214.3 244.9 254.5 256.4 325.3 28.7 174.1 141.6 51.7-2361.2 2556.3l-2326.7 2328.7h-401.8l-2328.7-2328.7z"></path><path d="m4898.3 2765.3c-61.2-21-459.2-409.5-1938.3-1888.6l-1861.8-1861.7v-3618.3l42.1-84.2 44-86.1h2026.2l45.9 84.2 44 84.2v2104.8l47.8 80.4c89.9 156.9 522.33 684.77 1660.8 690.47 1039 5.7 1487-531.67 1573.1-602.47 22.9-19.1 59.3-63.1 80.4-99.5 40.2-63.2 40.2-179.09 40.2-1117.5v-1054.3l44-84.2 42.1-86.1h2030l44 86.1 42.1 84.2v3618.3l-1869.3 1869.4c-2081.8 2079.9-1938.3 1951.7-2137.3 1880.9zm-210.5-1272.1c59.3-30.6 156.9-147.3 191.3-229.6 19.1-40.2 32.5-126.3 34.4-204.7 1.9-109.1-5.7-149.2-44-214.3-59.3-105.2-178-170.3-273.6-151.2-220 40.2-388.4 354-323.4 600.8 28.7 101.4 120.6 208.6 200.9 229.6 63.2 17.2 149.3 5.7 214.4-30.6zm947.2-5.8c195.2-137.8 177.9-510.9-30.6-704.1-235.3-216.2-510.9-36.4-482.2 313.8 11.5 149.2 89.9 300.4 193.2 377 95.7 68.8 233.4 74.6 319.6 13.3zm-1536.5-441.2c302.3-243 212.4-803.6-122.5-765.4-227.7 24.9-294.99 134.01-332.9 366.6-28.164 233.71 49.8 352.9 97.6 398.8 72.7 72.7 78.5 74.6 179.9 67 80.3-7.6 122.4-23 177.9-67zm2160.2 32.6c177.9-107.2 197.1-440.1 38.3-654.4-57.4-78.4-183.7-149.2-266-149.2s-181.8 65.1-231.5 149.2c-19.1 32.5-40.2 111-45.9 174.1-30.6 336.8 269.8 623.8 505.1 480.3zm-1085.5-628.65c156.13-35.466 142.28-10.406 310.6-124.45 63.1-128.2 139.7-262.1 168.4-298.5 30.6-38.3 133.9-111 239.2-172.2 233.5-132 283.2-451.3 292.8-615.9 9.6-149.3-36.4-256.4-156.9-367.4-145.4-133.9-287-147.3-639.1-67-277.4 63.1-465 65-702.2 7.6-93.8-24.9-239.2-47.8-319.5-53.6-133.9-9.6-156.9-5.7-252.6 40.2-195.2 95.7-311.9 321.4-260.2 507.1 28.7 111 111 455.2 271.7 539.4 214.3 112.9 283.2 189.4 413.3 455.4 104.34 106.91 219.9 120.8 388.3 153.4 86.1 17.2 137.1 28.452 246.2-4.0482z"></path></g></svg>
+                </button>(<b>6% </b> BitForecastHouse Fee)
+              </p>
+            </div>
+    
+    <div>
+      <div class="Separator"></div>
+      <div class="PrizePoolExperimental ">Prize pool:<span style="display: flex; align-items: center;">
+        <div id="previousPricePool" class="Figure">--</div>
+        <div class="NetworkCurrencySymbol active">
+          <img src="/Home/svmlogo.avif" alt="BNB">
+        </div>
+        <div class="FiatCurrencySymbol inactive">
+          <div>
+            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="dollar-sign" class="svg-inline--fa fa-dollar-sign " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M160 0C177.7 0 192 14.33 192 32V67.68C193.6 67.89 195.1 68.12 196.7 68.35C207.3 69.93 238.9 75.02 251.9 78.31C268.1 82.65 279.4 100.1 275 117.2C270.7 134.3 253.3 144.7 236.1 140.4C226.8 137.1 198.5 133.3 187.3 131.7C155.2 126.9 127.7 129.3 108.8 136.5C90.52 143.5 82.93 153.4 80.92 164.5C78.98 175.2 80.45 181.3 82.21 185.1C84.1 189.1 87.79 193.6 95.14 198.5C111.4 209.2 136.2 216.4 168.4 225.1L171.2 225.9C199.6 233.6 234.4 243.1 260.2 260.2C274.3 269.6 287.6 282.3 295.8 299.9C304.1 317.7 305.9 337.7 302.1 358.1C295.1 397 268.1 422.4 236.4 435.6C222.8 441.2 207.8 444.8 192 446.6V480C192 497.7 177.7 512 160 512C142.3 512 128 497.7 128 480V445.1C127.6 445.1 127.1 444.1 126.7 444.9L126.5 444.9C102.2 441.1 62.07 430.6 35 418.6C18.85 411.4 11.58 392.5 18.76 376.3C25.94 360.2 44.85 352.9 60.1 360.1C81.9 369.4 116.3 378.5 136.2 381.6C168.2 386.4 194.5 383.6 212.3 376.4C229.2 369.5 236.9 359.5 239.1 347.5C241 336.8 239.6 330.7 237.8 326.9C235.9 322.9 232.2 318.4 224.9 313.5C208.6 302.8 183.8 295.6 151.6 286.9L148.8 286.1C120.4 278.4 85.58 268.9 59.76 251.8C45.65 242.4 32.43 229.7 24.22 212.1C15.89 194.3 14.08 174.3 17.95 153C25.03 114.1 53.05 89.29 85.96 76.73C98.98 71.76 113.1 68.49 128 66.73V32C128 14.33 142.3 0 160 0V0z"></path>
+            </svg>
+          </div>
+          <div class="Tooltip">--</div>
+        </div></span>
+      </div>
+    </div>
+          </div>
+          
+        </div>
+
+  <!-- this is a dummy part -->
+
+  <div id="" class="Card Next Desktop">
+
+    <div id="ExecutionNotice2" style="display: none;">
+      <p class="glowing" style="font-size: 2.8em;">Executing</p>
+      <div class="w-full container">
+        <div class="box mx-auto">
+          <div class="square"></div>
+          <div class="square"></div>
+          <div class="square"></div>
+          <div class="square"></div>
+          <div class="square"></div>
+          <div class="square"></div>
+          <div class="square"></div>
+          <div class="square"></div>
+          <div class="square"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="currentBlock" style="display:none ;">
+      <div id="currentEpoch" class="Header">#0000
+        <div class="Separator"></div>
+      </div>
+      <div class="flex flex-col space-y-3">
+        <div class="flex flex-col space-y-2 items-center">
+          <button style="border-radius: 40px;" id="binance-container" onclick="" class="Bull">
+            <div class="group flex gap-10x space-x-5 items-center">
+              <div class="w-1/3 xs:w-1/3">
+                <img id="binance-price-img" src="/BTC Prediction _ DogeBets_files/DOGE_BETS_CIRCLE_UP.10fa57bc.webp" alt="up" width="75%">
+              </div>
+              <div class="PriceContainer">
+                <div id="CurrentPrice">
+                  <b><p id="binance-price" style="color: rgb(255, 119, 119);">----</p></b>
+                </div>
+                <div id="Difference">
+                  <b><p id="binance-price-diff" style="color: rgb(255, 119, 119);">---- </p>( <span id="binance-price-percentage">---</span> )</b>
+                </div>
+              </div>
+            </div>
+          </button>
+          <div>
+            <div class="Separator"></div>
+            <div class="PrizePoolExperimental ">Locked Price :
+              <span style="display: flex; align-items: center;">
+                <div id="locked-Price" style="margin-left: 10px;" class="Figure"> --4-</div>
+              </span>
+            </div>
+          </div>
+          <div class="Separator"></div>
+  
+          <div class="Prizes">
+            <p style="margin-left: 85px;">Payouts</p>
+            <div style="margin-top: 20px;" class="group flex gap-10x space-x-5 items-center">
+              <div class="SideWrapper">
+                <div class="Side">
+                  <svg enable-background="new 0 0 122.88 104.57" viewBox="0 0 122.88 104.57" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" class="Icon fill-current text-mainGreen"><style type="text/css">.st0{fill-rule:evenodd;clip-rule:evenodd;}</style><path class="st0" d="m83.91 29.65c1.96 0.37 3.11 1.8 3.68 3.97 23.12 0.7 21.37-18.82 17.57-33.62 16.21 13.08 19.9 35.7-0.68 46.93 8.25 0.24 12.89 4.63 18.41 5.85-4.54 0.56-7.69 13.24-24.45 5.84-0.35-0.1-0.69-0.16-1.02-0.19-0.99-0.08-1.88 0.17-2.66 0.74-0.54 2.85-5.2 7.9-9.35 13.49-1.77 2.38-1.73 3.07-1.82 6.15-0.07 2.46 0 4.99-0.14 7.47 1.6 3.41 1.67 6.5 0.28 9.28-1.8 4.76-5.35 6.48-10.02 6.25-2.11 3.65-7.16 2.89-12.27 2.05-5.11 0.85-10.15 1.6-12.27-2.05-4.67 0.23-8.22-1.49-10.02-6.25-1.4-2.78-1.32-5.88 0.28-9.28-0.14-2.49-0.07-5.01-0.14-7.47-0.09-3.08-0.05-3.77-1.82-6.15-4.15-5.6-8.81-10.65-9.35-13.49-0.78-0.57-1.66-0.82-2.66-0.74-0.33 0.03-0.67 0.09-1.02 0.19-16.75 7.4-19.9-5.28-24.44-5.84 5.52-1.22 10.15-5.61 18.41-5.85-20.38-11.12-16.71-34.01-0.68-46.93-3.81 14.79-5.55 34.32 17.57 33.62 0.57-2.17 1.72-3.59 3.68-3.97 10.89-0.45 17.14-2.61 23.71-2.58 5.73 0.03 12.49 2.24 21.22 2.58z"></path>
+                  </svg>
+                  <p class="previousBullOdd" id="previousBullOdd" style="color: var(--color-bull-green);">--- </p>
+                </div>
+                <p id="myBetBull" class="EntryNotice Bull" style="display:none;font-size: small;">Bet: bull</p>
+              </div>
+              <div class="SideWrapper">
+                <div  class="Side">
+                  <svg width="42.799mm" height="40.17mm" viewBox="0 0 161.76 151.82" xmlns="http://www.w3.org/2000/svg" class="Icon fill-current text-mainRed"><defs><clippath id="a"><rect width="162" height="152"></rect></clippath></defs><g transform="translate(-.00068237)" clip-path="url(#a)"><g transform="translate(-.021)" data-name="Capa 2"><path d="m161.44 27.41c-0.5-1.95-1-3.92-1.6-5.82-1.69-5.06-3.47-10.09-6.52-14.52-4.68-6.78-11.61-8.77-19.2-5.59-4.1093 1.7835-7.7306 4.527-10.56 8-1.7594 2.2792-4.6825 3.329-7.49 2.69-1.1999-0.28212-2.3384-0.78024-3.36-1.47-7.65-4.93-15.9-7.38-25-6.3-4.2167 0.56257-8.4881 0.58273-12.71 0.06-2.6217-0.30843-5.2665-0.37204-7.9-0.19-6.56 0.37-12.43 2.85-17.92 6.35-4.32 2.75-7.93 2.21-11.3-1.57-0.85378-0.97082-1.7654-1.8892-2.73-2.75-4.1-3.61-8.68-6.15-14.45-6.3-0.65 0.06-1.42 0.08-2.19 0.22-5.28 0.92-8.73 4.29-11.23 8.78-3.0713 5.5599-5.3533 11.52-6.78 17.71-0.41832 1.4369-0.56417 2.9394-0.43 4.43 0.84 5.52 4.3 9.4 8.58 12.6 3.62 2.69 4.62 6.2 2.78 10.33-1.1327 2.4346-2.1341 4.9282-3 7.47-4.26 13.03-3.87 25.46 4.4 37.09 9.77 13.78 20.89 26.18 35.37 35 10.45 6.39 21.31 12.1 32 18.07 0.49195 0.18836 1.0407 0.15929 1.51-0.08 7-3.82 14-7.77 21.12-11.5 20.07-10.58 35.93-25.65 48.13-44.7 3.3497-5.4036 5.107-11.643 5.07-18 0.16-8.35-2.24-16.11-5.75-23.6-1.8642-3.53-0.67533-7.9006 2.72-10 3.01-2.1339 5.4875-4.9331 7.24-8.18 1.4902-2.4704 1.9227-5.4369 1.2-8.23z" fill="current" data-name="Trazado 1041"></path></g></g>
+                  </svg>
+                  <p class="previousBearOdd" id="previousBearOdd" style="color: var(--color-bear-red);">--- </p>
+                </div>
+                <p id="myBetBear" class="EntryNotice Bear" style="display:none;font-size:small;">Bet: bear</p>
+              </div>
+            </div>
+          </div>
+    
+         <!-- <button id="" class="Bear">
+            <div class="group flex gap-10x space-x-5 items-center">
+              <div class="w-1/3 xs:w-1/3">
+                <img src="/BTC Prediction _ DogeBets_files/DOGE_BETS_CIRCLE_DOWN.eb917c42.webp" alt="down" width="75%">
+              </div>
+              <div class="w-1/2 uppercase">
+                <span class="text-base md:text-xl font-bold">DOWN</span>
+                <p class="Payout text-lg">1.94x</p>
+              </div>
+            </div>
+          </button> -->
+  
+        </div>
+        <div>
+          <div class="Separator"></div>
+          <div style="background-color: ;color: ;" class="PrizePoolExperimental ">Prize pool:
+            <span style="display: flex; align-items: center;">
+              <div id="currentPricePool" class="Figure">---</div>
+              <div class="NetworkCurrencySymbol active">
+                <img src="/Home/svmlogo.avif" alt="BNB">
+              </div>
+              <div class="FiatCurrencySymbol inactive">
+                <div>
+                  <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="dollar-sign" class="svg-inline--fa fa-dollar-sign " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M160 0C177.7 0 192 14.33 192 32V67.68C193.6 67.89 195.1 68.12 196.7 68.35C207.3 69.93 238.9 75.02 251.9 78.31C268.1 82.65 279.4 100.1 275 117.2C270.7 134.3 253.3 144.7 236.1 140.4C226.8 137.1 198.5 133.3 187.3 131.7C155.2 126.9 127.7 129.3 108.8 136.5C90.52 143.5 82.93 153.4 80.92 164.5C78.98 175.2 80.45 181.3 82.21 185.1C84.1 189.1 87.79 193.6 95.14 198.5C111.4 209.2 136.2 216.4 168.4 225.1L171.2 225.9C199.6 233.6 234.4 243.1 260.2 260.2C274.3 269.6 287.6 282.3 295.8 299.9C304.1 317.7 305.9 337.7 302.1 358.1C295.1 397 268.1 422.4 236.4 435.6C222.8 441.2 207.8 444.8 192 446.6V480C192 497.7 177.7 512 160 512C142.3 512 128 497.7 128 480V445.1C127.6 445.1 127.1 444.1 126.7 444.9L126.5 444.9C102.2 441.1 62.07 430.6 35 418.6C18.85 411.4 11.58 392.5 18.76 376.3C25.94 360.2 44.85 352.9 60.1 360.1C81.9 369.4 116.3 378.5 136.2 381.6C168.2 386.4 194.5 383.6 212.3 376.4C229.2 369.5 236.9 359.5 239.1 347.5C241 336.8 239.6 330.7 237.8 326.9C235.9 322.9 232.2 318.4 224.9 313.5C208.6 302.8 183.8 295.6 151.6 286.9L148.8 286.1C120.4 278.4 85.58 268.9 59.76 251.8C45.65 242.4 32.43 229.7 24.22 212.1C15.89 194.3 14.08 174.3 17.95 153C25.03 114.1 53.05 89.29 85.96 76.73C98.98 71.76 113.1 68.49 128 66.73V32C128 14.33 142.3 0 160 0V0z"></path>
+                  </svg>
+                </div>
+                <div class="Tooltip">---</div>
+              </div>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- dummy section ends -->
+  
+  <div>
+  <div id="next_bet" class="Card Next Desktop">
+
+    <div id="ExecutionNotice3" style="display: none;">
+      <p class="glowing" style="font-size: 2.8em;">Executing</p>
+      <div class="w-full container">
+        <div class="box mx-auto">
+          <div class="square"></div>
+          <div class="square"></div>
+          <div class="square"></div>
+          <div class="square"></div>
+          <div class="square"></div>
+          <div class="square"></div>
+          <div class="square"></div>
+          <div class="square"></div>
+          <div class="square"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="nextBlock" style="display: none;">
+      <div id="nextEpoch" class="Header">#0000
+        <div class="Separator"></div>
+      </div>
+      <div class="flex flex-col space-y-3">
+        <div class="flex flex-col space-y-2 items-center">
+          <button id="bullish" onclick="placebetNow()" class="Bull">
+            <div class="group flex gap-10x space-x-5 items-center">
+              <div class="w-1/3 xs:w-1/3">
+                <img src="/BTC Prediction _ DogeBets_files/DOGE_BETS_CIRCLE_UP.10fa57bc.webp" alt="up" width="75%">
+              </div>
+              <div class="w-1/2 uppercase">
+                <span class="text-base md:text-xl font-bold">UP</span>
+                <p id="currentBullOdd" class="Payout text-lg">---</p>
+              </div>
+            </div>
+          </button>
+          <div class="WageringOn bg-darkFour rounded-xl text-center justify-center font-bold text-mainYellow">
+            <p>Wagering On:</p>
+            <div class="inline-block m-auto">
+              <img class="PredictionCurrencySymbol" src="/BTC Prediction _ DogeBets_files/BTC.8d4da80f.svg" alt="BTCimg">
+            </div>
+          </div>
+          <button onclick="placebetbear()" class="Bear">
+            <div class="group flex gap-10x space-x-5 items-center">
+              <div class="w-1/3 xs:w-1/3">
+                <img src="/BTC Prediction _ DogeBets_files/DOGE_BETS_CIRCLE_DOWN.eb917c42.webp" alt="down" width="75%">
+              </div>
+              <div class="w-1/2 uppercase">
+                <span class="text-base md:text-xl font-bold">DOWN</span>
+                <p id="currentBearOdd" class="Payout text-lg">----</p>
+              </div>
+            </div>
+          </button>
+        </div>
+        <div>
+          <div class="Separator"></div>
+          <div class="PrizePoolExperimental ">Prize pool:
+            <span style="display: flex; align-items: center;">
+              <div id="nextPricePool" class="Figure">----</div>
+              <div class="NetworkCurrencySymbol active">
+                <img src="/Home/svmlogo.avif" alt="BNB">
+              </div>
+              <div class="FiatCurrencySymbol inactive">
+                <div>
+                  <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="dollar-sign" class="svg-inline--fa fa-dollar-sign " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M160 0C177.7 0 192 14.33 192 32V67.68C193.6 67.89 195.1 68.12 196.7 68.35C207.3 69.93 238.9 75.02 251.9 78.31C268.1 82.65 279.4 100.1 275 117.2C270.7 134.3 253.3 144.7 236.1 140.4C226.8 137.1 198.5 133.3 187.3 131.7C155.2 126.9 127.7 129.3 108.8 136.5C90.52 143.5 82.93 153.4 80.92 164.5C78.98 175.2 80.45 181.3 82.21 185.1C84.1 189.1 87.79 193.6 95.14 198.5C111.4 209.2 136.2 216.4 168.4 225.1L171.2 225.9C199.6 233.6 234.4 243.1 260.2 260.2C274.3 269.6 287.6 282.3 295.8 299.9C304.1 317.7 305.9 337.7 302.1 358.1C295.1 397 268.1 422.4 236.4 435.6C222.8 441.2 207.8 444.8 192 446.6V480C192 497.7 177.7 512 160 512C142.3 512 128 497.7 128 480V445.1C127.6 445.1 127.1 444.1 126.7 444.9L126.5 444.9C102.2 441.1 62.07 430.6 35 418.6C18.85 411.4 11.58 392.5 18.76 376.3C25.94 360.2 44.85 352.9 60.1 360.1C81.9 369.4 116.3 378.5 136.2 381.6C168.2 386.4 194.5 383.6 212.3 376.4C229.2 369.5 236.9 359.5 239.1 347.5C241 336.8 239.6 330.7 237.8 326.9C235.9 322.9 232.2 318.4 224.9 313.5C208.6 302.8 183.8 295.6 151.6 286.9L148.8 286.1C120.4 278.4 85.58 268.9 59.76 251.8C45.65 242.4 32.43 229.7 24.22 212.1C15.89 194.3 14.08 174.3 17.95 153C25.03 114.1 53.05 89.29 85.96 76.73C98.98 71.76 113.1 68.49 128 66.73V32C128 14.33 142.3 0 160 0V0z"></path>
+                  </svg>
+                </div>
+                <div class="Tooltip">----</div>
+              </div>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+           <!-- This is the section to place bets -->
+
+           <!-- Bull Section  -->
+
+<div id="place_bet" style="display: none;" class="Card SetPosition Desktop">
+  <div class="Header Controls">
+    <div id="BetChosen" style="background-color: rgb(102, 181, 88);">
+      <!-- <img src="/BTC Prediction _ DogeBets_files/paws_up_transparent_tiny.4fa5a7f5.webp" alt="bull"> -->
+      <p style="color: black;align-self: center;">UP</p>
+    </div>
+    <p></p>
+  </div>
+  <div class="Separator"></div>
+  <div class="BetControls">
+    <div class="UpperSection">
+      <div class="flex justify-between">
+        <div onclick="document.getElementById('percentInput0').stepDown();percentageValue(document.getElementById('percentInput0').value);" class="BetPercentButton Decrease">
+          <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle-chevron-down" class="svg-inline--fa fa-circle-chevron-down " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 0C114.6 0 0 114.6 0 256c0 141.4 114.6 256 256 256s256-114.6 256-256C512 114.6 397.4 0 256 0zM390.6 246.6l-112 112C272.4 364.9 264.2 368 256 368s-16.38-3.125-22.62-9.375l-112-112c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L256 290.8l89.38-89.38c12.5-12.5 32.75-12.5 45.25 0S403.1 234.1 390.6 246.6z"></path>
+          </svg>
+        </div>
+        <label  class="BetSize Percent">
+          <input id="percentInput0" oninput="percentageValue(document.getElementById('percentInput0').value)"  class="Percent" type="number" step="1" min="0" max="100" value="0">
+          <span  class="text-white">%</span>
+        </label>
+        <div onclick="document.getElementById('percentInput0').stepUp();percentageValue(document.getElementById('percentInput0').value);" class="BetPercentButton Increase">
+          <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle-chevron-up" class="svg-inline--fa fa-circle-chevron-up text-base" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 0C114.6 0 0 114.6 0 256c0 141.4 114.6 256 256 256s256-114.6 256-256C512 114.6 397.4 0 256 0zM390.6 310.6c-12.5 12.5-32.75 12.5-45.25 0L256 221.3L166.6 310.6c-12.5 12.5-32.75 12.5-45.25 0s-12.5-32.75 0-45.25l112-112C239.6 147.1 247.8 144 256 144s16.38 3.125 22.62 9.375l112 112C403.1 277.9 403.1 298.1 390.6 310.6z"></path>
+          </svg>
+        </div>
+      </div>
+      <div class="Group Percentages xs:space-x-1">
+        <button  class="Misc FixedPercentage" onclick="percentageValue(10)">10%</button>
+        <button  class="Misc FixedPercentage" onclick="percentageValue(25)">25%</button>
+        <button  class="Misc FixedPercentage" onclick="percentageValue(50)">50%</button>
+        <button  class="Misc FixedPercentage" onclick="percentageValue(75)">75%</button>
+        <button  class="Misc FixedPercentage Max" onclick="percentageValue(100)">MAX</button>
+      </div>
+    </div>
+    <div class="Separator"></div>
+  
+  
+    <div class="LowerSection">
+      <div class="BetSizesContainer">
+        <label class="BetSize Direct">
+          <input onfocus="document.getElementById('bullBetAmount0').value=''" onchange="getConversionRate(this.value)" id="bullBetAmount0" class="BetSize Direct" type="number" min="0" step="0.1" max="1700" value=1.0>
+          <span class="text-white font-bold" style="padding-left: 0.15em;">
+            <div class="NetworkCurrencySymbol active">
+              <!-- <img src="/static/media/BNBblack.c70cb4d8.svg" alt="BNB"> -->
+              <p>$SVM</p>
+            </div>
+          </span>
+        </label>
+        <span>=</span>
+        <label class="BetSize Direct Fiat">
+          <p style="padding-left: 7px;" id="bullBetAmountFiat" class= "BetSize Direct Fiat">3.00</p>
+          <span style="margin-left: 5px;padding-right: 7px;" class="font-bold">$</span>
+        </label>
+      </div>
+      <div class="Separator"></div>
+      <div  class="Balance">
+        <p >Balance: </p>
+        <p id="bnbBalanceBull"></p>
+      </div>
+      <!-- <strong style="color: whitesmoke;font-size: small">Low balance? Click <a style="text-decoration: underline;color: #f6d180" href="https://bridge.securechain.ai/" target="_blank">here</a> to bridge your asset to $POLYGON</strong> -->
+      <div>
+        <div class="GasSettings">
+          <button  class="SettingsToggle">
+            <svg enable-background="new 0 0 512 512" viewBox="0 0 512 512" xml:space="preserve" xmlns="http://www.w3.org/2000/svg"><path d="m474.68 107.26 0.39-0.47-107.78-87.32-33.97 41.89 55.71 45.11c-26.74 16.5-43.39 47.71-37.55 82.5 4.03 24.24 20.71 45.18 42.29 56.89 24.13 13.13 45.29 11.92 64.08 5.24l-0.39 166.58c0 3.68-0.71 7.24-2.11 10.53-1.34 3.16-3.32 6.08-5.84 8.58-2.42 2.42-5.34 4.42-8.5 5.74-6.63 2.82-14.32 2.82-21 0-3.13-1.32-6.08-3.32-8.58-5.84-2.42-2.42-4.39-5.32-5.74-8.47-1.39-3.29-2.11-6.84-2.11-10.53l0.63-53.89c0-10.89-2.13-21.47-6.37-31.47-4.08-9.63-9.92-18.32-17.29-25.63-7.39-7.39-16.08-13.26-25.68-17.37-10-4.21-20.61-6.37-31.5-6.37h-26.95v-215.59c0-29.74-24.16-53.89-53.89-53.89h-188.64c-29.76-0.01-53.89 24.15-53.89 53.89v377.26c0 29.76 24.13 53.89 53.89 53.89h188.63c29.74 0 53.89-24.13 53.89-53.89v-107.79h26.95c3.66 0 7.18 0.74 10.53 2.11 3.13 1.37 6.05 3.32 8.58 5.84 2.42 2.42 4.37 5.37 5.74 8.53 1.39 3.32 2.11 6.84 2.11 10.47l-0.66 53.89c0 10.95 2.13 21.53 6.37 31.47 4.05 9.68 9.89 18.32 17.26 25.63 7.42 7.47 16.08 13.32 25.71 17.37 10 4.26 20.55 6.37 31.5 6.37s21.5-2.11 31.47-6.37c9.66-4.03 18.32-9.87 25.63-17.26 7.42-7.42 13.29-16.05 17.37-25.68 4.24-10 6.37-20.58 6.37-31.53l0.66-242.52c0-28.53-14.95-53.48-37.32-67.9zm-232.15 40.95h-188.64v-80.84h188.63v80.84zm188.63 53.9c-14.89 0-26.95-12.08-26.95-26.95 0-14.84 12.05-26.95 26.95-26.95 14.87 0 26.95 12.11 26.95 26.95 0 14.87-12.08 26.95-26.95 26.95z"></path>
+            </svg>
+            <p >GAS ( <span class="gasPrice">1 GWEI</span> )</p>
+          </button>
+        </div>
+      </div>
+      <div class="BetButtons">
+        <button onclick="RevertNextBet()" class="BetButton CancelBet">Cancel</button>
+        <button onclick="user_BetBull()" class="BetButton PlaceBet">Place Bet</button>
+      </div>
+    </div>
+  </div>
+  </div>
+
+             <!-- Bear Section  -->
+
+             <div id="place_bet_bear" style="background-color: ; display: none;" class="Card SetPosition Desktop">
+              <div class="Header Controls">
+                <div id="BetChosen" style="background-color: rgb(255, 119, 119);">
+                  <!-- <img src="/BTC Prediction _ DogeBets_files/paws_up_transparent_tiny.4fa5a7f5.webp" alt="bull"> -->
+                  <p style="color: black;align-self: center;">DOWN</p>
+                </div>
+                <p></p>
+              </div>
+              <div class="Separator"></div>
+              <div class="BetControls">
+                <div class="UpperSection">
+                  <div class="flex justify-between">
+                    <div onclick="document.getElementById('percentInput1').stepDown();percentageValue(document.getElementById('percentInput1').value);" class="BetPercentButton Decrease">
+                      <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle-chevron-down" class="svg-inline--fa fa-circle-chevron-down " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 0C114.6 0 0 114.6 0 256c0 141.4 114.6 256 256 256s256-114.6 256-256C512 114.6 397.4 0 256 0zM390.6 246.6l-112 112C272.4 364.9 264.2 368 256 368s-16.38-3.125-22.62-9.375l-112-112c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L256 290.8l89.38-89.38c12.5-12.5 32.75-12.5 45.25 0S403.1 234.1 390.6 246.6z"></path>
+                      </svg>
+                    </div>
+                    <label class="BetSize Percent">
+                      <input id="percentInput1" oninput="percentageValue(document.getElementById('percentInput1').value)" class="Percent" type="number" step="1" min="0" max="100" value="0">
+                      <span class="text-white">%</span>
+                    </label>
+                    <div onclick="document.getElementById('percentInput1').stepUp();percentageValue(document.getElementById('percentInput1').value);" class="BetPercentButton Increase">
+                      <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle-chevron-up" class="svg-inline--fa fa-circle-chevron-up text-base" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 0C114.6 0 0 114.6 0 256c0 141.4 114.6 256 256 256s256-114.6 256-256C512 114.6 397.4 0 256 0zM390.6 310.6c-12.5 12.5-32.75 12.5-45.25 0L256 221.3L166.6 310.6c-12.5 12.5-32.75 12.5-45.25 0s-12.5-32.75 0-45.25l112-112C239.6 147.1 247.8 144 256 144s16.38 3.125 22.62 9.375l112 112C403.1 277.9 403.1 298.1 390.6 310.6z"></path>
+                      </svg>
+                    </div>
+                  </div>
+                  <div class="Group Percentages xs:space-x-1">
+                    <button  class="Misc FixedPercentage" onclick="percentageValue(10)">10%</button>
+                    <button  class="Misc FixedPercentage" onclick="percentageValue(25)">25%</button>
+                    <button  class="Misc FixedPercentage" onclick="percentageValue(50)">50%</button>
+                    <button  class="Misc FixedPercentage" onclick="percentageValue(75)">75%</button>
+                    <button  class="Misc FixedPercentage Max" onclick="percentageValue(100)">MAX</button>
+                  </div>
+                </div>
+                <div class="Separator"></div>
+              
+              
+                <div class="LowerSection">
+                  <div class="BetSizesContainer">
+                    <label class="BetSize Direct">
+                      <input onfocus="document.getElementById('bearBetAmount0').value=''" onchange="getConversionRate(document.getElementById('bearBetAmount0').value)" id="bearBetAmount0" class="BetSize Direct" type="number" step="1" min="1" value="1">
+                      <span class="text-white font-bold" style="padding-left: 0.15em;">
+                        <div class="NetworkCurrencySymbol active">
+                          <!-- <img src="/static/media/BNBblack.c70cb4d8.svg" alt="BNB"> -->
+                          <p>$SVM</p>
+                        </div>
+                      </span>
+                    </label>
+                    <span>=</span>
+                    <label class="BetSize Direct Fiat">
+                      <p style="padding-left: 7px;" id="bearBetAmountFiat" class="BetSize Direct Fiat">3.00</p>
+                      <span style="margin-left: 5px;padding-right: 7px;" class="font-bold">$</span>
+                    </label>
+                  </div>
+                  <div class="Separator"></div>
+                  <div  class="Balance">
+                    <p >Balance: </p>
+                    <p id="bnbBalanceBear"></p>
+                  </div>
+                        <!-- <strong style="color: whitesmoke;font-size: small">Low balance? Click <a style="text-decoration: underline;color: #f6d180" href="https://bridge.securechain.ai/" target="_blank">here</a> to bridge your asset to $POLYGON</strong> -->
+                  <div>
+                    <div class="GasSettings">
+                      <button  class="SettingsToggle">
+                        <svg enable-background="new 0 0 512 512" viewBox="0 0 512 512" xml:space="preserve" xmlns="http://www.w3.org/2000/svg"><path d="m474.68 107.26 0.39-0.47-107.78-87.32-33.97 41.89 55.71 45.11c-26.74 16.5-43.39 47.71-37.55 82.5 4.03 24.24 20.71 45.18 42.29 56.89 24.13 13.13 45.29 11.92 64.08 5.24l-0.39 166.58c0 3.68-0.71 7.24-2.11 10.53-1.34 3.16-3.32 6.08-5.84 8.58-2.42 2.42-5.34 4.42-8.5 5.74-6.63 2.82-14.32 2.82-21 0-3.13-1.32-6.08-3.32-8.58-5.84-2.42-2.42-4.39-5.32-5.74-8.47-1.39-3.29-2.11-6.84-2.11-10.53l0.63-53.89c0-10.89-2.13-21.47-6.37-31.47-4.08-9.63-9.92-18.32-17.29-25.63-7.39-7.39-16.08-13.26-25.68-17.37-10-4.21-20.61-6.37-31.5-6.37h-26.95v-215.59c0-29.74-24.16-53.89-53.89-53.89h-188.64c-29.76-0.01-53.89 24.15-53.89 53.89v377.26c0 29.76 24.13 53.89 53.89 53.89h188.63c29.74 0 53.89-24.13 53.89-53.89v-107.79h26.95c3.66 0 7.18 0.74 10.53 2.11 3.13 1.37 6.05 3.32 8.58 5.84 2.42 2.42 4.37 5.37 5.74 8.53 1.39 3.32 2.11 6.84 2.11 10.47l-0.66 53.89c0 10.95 2.13 21.53 6.37 31.47 4.05 9.68 9.89 18.32 17.26 25.63 7.42 7.47 16.08 13.32 25.71 17.37 10 4.26 20.55 6.37 31.5 6.37s21.5-2.11 31.47-6.37c9.66-4.03 18.32-9.87 25.63-17.26 7.42-7.42 13.29-16.05 17.37-25.68 4.24-10 6.37-20.58 6.37-31.53l0.66-242.52c0-28.53-14.95-53.48-37.32-67.9zm-232.15 40.95h-188.64v-80.84h188.63v80.84zm188.63 53.9c-14.89 0-26.95-12.08-26.95-26.95 0-14.84 12.05-26.95 26.95-26.95 14.87 0 26.95 12.11 26.95 26.95 0 14.87-12.08 26.95-26.95 26.95z"></path>
+                        </svg>
+                        <p >GAS ( <span class="gasPrice">1 GWEI</span> )</p>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="BetButtons">
+                    <button onclick="RevertNextBet()" class="BetButton CancelBet">Cancel</button>
+                    <button onclick="user_BetBear()" class="BetButton PlaceBet">Place Bet</button>
+                  </div>
+                </div>
+              </div>
+              </div>
+  
+  <!-- place bet section ends -->
+
+  </div>
+  
+  <div class="Card Stoplight Desktop">
+    <div id="historyFull" class="h-full">
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- <div class="w-full container mx-auto flex justify-center">
+  <a href="" class="text-center bg-blueTwo text-mainYellow font-bold px-1 py-2 rounded-lg w-full md:w-1/5">Referral Program</a>
+</div>
+</div>
+
+<div class="History" style="margin: 30px;width: 90%;">
+   <div class="Page"> -->
+    <!-- <div style="color: #f6d180;">
+      <p style="color: #f6d180;" class="text-white font-bold relative">Copy the referral link below and share it with your friends!</p>
+      <h4 style="color: #f6d180;" id="connected-wallet-code" class="text-white font-bold relative" style="margin-bottom:8px;display: none;">Your Referral Link Is: <span title="copy" style="color: #1848CC;text-decoration: underline;" id="referral-code"></span></h4>
+      <h4 style="color: #f6d180;" id="not-connected-wallet-code" class="text-white font-bold relative">Please Connect your wallet to display your referral link</h4>
+      <div style="color: #f6d180;" id="not-referred">
+      </div>
+      <h4 style="color: #f6d180;" id="referred" style="display: none;" class="text-white relative"></h4>
+    </div> -->
+    <!-- </div> -->
+<!-- </div>  -->
+
+<div class="w-full container mx-auto flex justify-center">
+  <a href="" class="text-center bg-blueTwo text-mainYellow font-bold px-1 py-2 rounded-lg w-full md:w-1/5">See Chart</a>
+</div>
+
+      <!-- prediction ends -->
+
+      <div id="chart" style="display: none;" class="DesktopChart">
+        <div style="transform: none;">
+          <div  class="bg-darkThree rounded-lg p-3 w-full mt-2 mb-3 mx-auto h-98 flex flex-col">
+            <div class="h-full">
+              <article id="tradingview-widget-0.8356015468499596" style="width: 100%; height: 100%;">
+                <div id="tradingview_3b60a-wrapper" style="position: relative; box-sizing: content-box; font-family: -apple-system, BlinkMacSystemFont, &quot;Trebuchet MS&quot;, Roboto, Ubuntu, sans-serif; margin: 0px auto !important; padding: 0px !important; width: 100%; height: 100%;">
+                  <iframe title="advanced chart TradingView widget" lang="en" id="tradingview_3b60a" frameborder="0" allowtransparency="true" scrolling="no" allowfullscreen="true" src="https://s.tradingview.com/widgetembed/?hideideas=1&amp;overrides=%7B%7D&amp;enabled_features=%5B%5D&amp;disabled_features=%5B%5D&amp;locale=en#%7B%22symbol%22%3A%22BINANCE%3ABTCUSDT%22%2C%22frameElementId%22%3A%22tradingview_3b60a%22%2C%22interval%22%3A%225%22%2C%22hide_side_toolbar%22%3A%221%22%2C%22allow_symbol_change%22%3A%221%22%2C%22save_image%22%3A%221%22%2C%22studies%22%3A%22%5B%5D%22%2C%22theme%22%3A%22Dark%22%2C%22style%22%3A%221%22%2C%22timezone%22%3A%22Etc%2FUTC%22%2C%22studies_overrides%22%3A%22%7B%7D%22%2C%22utm_source%22%3A%22dogebets.gg%22%2C%22utm_medium%22%3A%22widget%22%2C%22utm_campaign%22%3A%22chart%22%2C%22utm_term%22%3A%22BINANCE%3ABTCUSDT%22%2C%22page-uri%22%3A%22dogebets.gg%2Fprediction%2Fbsc%2Fbtc%22%7D" style="width: 100%; height: 100%; margin: 0px !important; padding: 0px !important;">
+                  </iframe>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+        <div class="w-full container mx-auto flex justify-center">
+          <a href="#cards" class="text-center bg-blueTwo text-mainYellow font-bold px-1 py-2 rounded-lg w-full md:w-1/5">See Cards</a>
+        </div>
+      </div>
+
+
+
+<!-- <div id="chart" class="DesktopChart"> -->
+  <!-- <div style="transform: none;"> -->
+  <!-- </div> -->
+<!-- </div> -->
+</div>
+</div>
+</div>
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script> -->
+<!-- <script src="/Home/ethers.min.js" type="application/javascript"></script> -->
+<script src="/Home/ethers.min.js" type="application/javascript"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="/Home/carousel.js"></script>
+<script src="/svm.js" type="text/javascript"></script>
+
+<script>
+  $("#glider").owlCarousel({
+    loop: false,
+    margin:15,
+    center:false,
+    autoWidth:true,
+    items:1,
+    autoplay:false,
+    startPosition:0,
+    rewind:true,
+    // autoplayTimeout:400000,
+    // autoplayHoverPause:true,
+    responsive:{
+      0:{
+        items:1,
+      },
+      800:{
+        items:1,
+      },
+      1200:{
+        items:1
+      },
+      1400:{
+        items:3
+      }
+    }
+  })
+</script>
+
+<script>
+  function RevertNextBet(){
+    document.getElementById('next_bet').style.display='block';
+    document.getElementById('place_bet').style.display='none';
+    document.getElementById('place_bet_bear').style.display='none';
+  }
+</script>
+
+
+<script src="/Home/2.debc85e5.chunk.js.download"></script>
+<script src="/Home/main.6aba9ec3.chunk.js.download"></script>
+<style>.tradingview-widget-copyright {font-size: 13px !important; line-height: 32px !important; text-align: center !important; vertical-align: middle !important; font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif !important; color: #B2B5BE !important;} .tradingview-widget-copyright .blue-text {color: #2962FF !important;} .tradingview-widget-copyright a {text-decoration: none !important; color: #B2B5BE !important;} .tradingview-widget-copyright a:visited {color: #B2B5BE !important;} .tradingview-widget-copyright a:hover .blue-text {color: #1E53E5 !important;} .tradingview-widget-copyright a:active .blue-text {color: #1848CC !important;} .tradingview-widget-copyright a:visited .blue-text {color: #2962FF !important;}
+</style>
+</body>
+</html>

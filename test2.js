@@ -1,7 +1,7 @@
 const axios = require('axios');
 
 const HEROKU_API_KEY = 'HRKU-a7c87b3d-2fb2-4dc8-9073-211aa196bcb1'; // Replace with your Heroku API key
-const APP_NAME = 'bulleyesvault'; // Replace with your Heroku app name
+const APP_NAME = 'BitForecast'; // Replace with your Heroku app name
 
 const restartDyno = async () => {
     console.log("restarting dyno...");

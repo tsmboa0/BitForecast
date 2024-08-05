@@ -1,5 +1,5 @@
 
- const contractAdress="0xea3f590CB571d1C4a1EdF58F4958e22BBF545979";
+ const contractAdress="0x6131D6D4E610260b2C0F41A0513D81D0605cC86f";
  const abi =[
 	{
 		"inputs": [
@@ -74,13 +74,19 @@
 			{
 				"indexed": false,
 				"internalType": "uint256",
-				"name": "bullAmount",
+				"name": "bullOdd",
 				"type": "uint256"
 			},
 			{
 				"indexed": false,
 				"internalType": "uint256",
-				"name": "bearAmount",
+				"name": "bearOdd",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "pool",
 				"type": "uint256"
 			}
 		],
@@ -264,13 +270,19 @@
 			{
 				"indexed": false,
 				"internalType": "uint256",
-				"name": "bullAmount",
+				"name": "bullOdd",
 				"type": "uint256"
 			},
 			{
 				"indexed": false,
 				"internalType": "uint256",
-				"name": "bearAmount",
+				"name": "bearOdd",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "pool",
 				"type": "uint256"
 			}
 		],
@@ -446,21 +458,6 @@
 				"internalType": "uint256",
 				"name": "betOnBear",
 				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_wonOdd",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_rewardsClaimable",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint8",
-				"name": "_whoWon",
-				"type": "uint8"
 			}
 		],
 		"name": "Execute",
@@ -557,7 +554,7 @@
 				"type": "address"
 			}
 		],
-		"name": "ParentAddress",
+		"name": "Parent",
 		"outputs": [
 			{
 				"internalType": "address",
@@ -663,19 +660,6 @@
 			}
 		],
 		"name": "SetOperator",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_parent",
-				"type": "address"
-			}
-		],
-		"name": "SetReferral",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -854,19 +838,6 @@
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "getInvitees",
-		"outputs": [
-			{
-				"internalType": "address[]",
-				"name": "",
-				"type": "address[]"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
 		"inputs": [
 			{
 				"internalType": "address",
@@ -951,6 +922,30 @@
 		"type": "function"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "referrals",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "daughters",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [],
 		"name": "rewardRate",
 		"outputs": [
@@ -993,7 +988,7 @@
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "_parent",
+				"name": "referral_code",
 				"type": "address"
 			}
 		],
@@ -1006,7 +1001,7 @@
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "_parent",
+				"name": "referral_code",
 				"type": "address"
 			}
 		],
@@ -1057,7 +1052,7 @@
 						"type": "bool"
 					}
 				],
-				"internalType": "struct BullesyesVault.History[]",
+				"internalType": "struct BitForecast.History[]",
 				"name": "",
 				"type": "tuple[]"
 			}

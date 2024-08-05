@@ -1,5 +1,5 @@
 
-const contractAdress="0xea3f590CB571d1C4a1EdF58F4958e22BBF545979";
+const contractAdress="0x6131D6D4E610260b2C0F41A0513D81D0605cC86f";
 const abi =[
 	{
 		"inputs": [
@@ -74,13 +74,19 @@ const abi =[
 			{
 				"indexed": false,
 				"internalType": "uint256",
-				"name": "bullAmount",
+				"name": "bullOdd",
 				"type": "uint256"
 			},
 			{
 				"indexed": false,
 				"internalType": "uint256",
-				"name": "bearAmount",
+				"name": "bearOdd",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "pool",
 				"type": "uint256"
 			}
 		],
@@ -264,13 +270,19 @@ const abi =[
 			{
 				"indexed": false,
 				"internalType": "uint256",
-				"name": "bullAmount",
+				"name": "bullOdd",
 				"type": "uint256"
 			},
 			{
 				"indexed": false,
 				"internalType": "uint256",
-				"name": "bearAmount",
+				"name": "bearOdd",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "pool",
 				"type": "uint256"
 			}
 		],
@@ -446,21 +458,6 @@ const abi =[
 				"internalType": "uint256",
 				"name": "betOnBear",
 				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_wonOdd",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_rewardsClaimable",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint8",
-				"name": "_whoWon",
-				"type": "uint8"
 			}
 		],
 		"name": "Execute",
@@ -557,7 +554,7 @@ const abi =[
 				"type": "address"
 			}
 		],
-		"name": "ParentAddress",
+		"name": "Parent",
 		"outputs": [
 			{
 				"internalType": "address",
@@ -663,19 +660,6 @@ const abi =[
 			}
 		],
 		"name": "SetOperator",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_parent",
-				"type": "address"
-			}
-		],
-		"name": "SetReferral",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -854,19 +838,6 @@ const abi =[
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "getInvitees",
-		"outputs": [
-			{
-				"internalType": "address[]",
-				"name": "",
-				"type": "address[]"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
 		"inputs": [
 			{
 				"internalType": "address",
@@ -951,6 +922,30 @@ const abi =[
 		"type": "function"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "referrals",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "daughters",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [],
 		"name": "rewardRate",
 		"outputs": [
@@ -993,7 +988,7 @@ const abi =[
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "_parent",
+				"name": "referral_code",
 				"type": "address"
 			}
 		],
@@ -1006,7 +1001,7 @@ const abi =[
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "_parent",
+				"name": "referral_code",
 				"type": "address"
 			}
 		],
@@ -1057,7 +1052,7 @@ const abi =[
 						"type": "bool"
 					}
 				],
-				"internalType": "struct BullesyesVault.History[]",
+				"internalType": "struct BitForecast.History[]",
 				"name": "",
 				"type": "tuple[]"
 			}
@@ -1110,7 +1105,10 @@ const abi =[
                        document.getElementById('not_connected').style.display='none';
                        document.getElementById('connect_button').style.display='block';
                        document.getElementById('connect_button').innerText=(address).substring(0,5)+'...'+(address).substring((address.length)-5, (address).length);
-                       document.getElementById("referral-code").innerText="https://www.bulleyesvault.live/?ref="+address;
+                       
+					   document.getElementById("not-connected-wallet-code").style.display='none';
+			   		   document.getElementById("connected-wallet-code").style.display='block';
+						document.getElementById("referral-code").innerText="https://www.bitforecast.xyz/?ref="+address;
            
                        //detect network.
                        const network = await provider.getNetwork();
@@ -1122,7 +1120,7 @@ const abi =[
                             try{
                                 const isparentset = await contract.isParentSet(address);
                                 console.log(isparentset);
-                                const parentAddy = await contract.ParentAddress(address);
+                                const parentAddy = await contract.Parent(address);
                                 if(isparentset == true){
                                     document.getElementById("not-referred").style.display='none';
                                     document.getElementById("referred").style.display='block';
@@ -1130,7 +1128,7 @@ const abi =[
                                 }else{
                                     //                              
                                 }
-                                const invitees = await contract.getInvitees();
+                                const invitees = await contract.daughters();
                                 console.log("Invitees gotten from blockchain...");
 
                                 if (invitees.length>0){
@@ -1174,7 +1172,7 @@ const abi =[
                             }
                        }else{
                            //blinking...
-                           document.getElementById('connect_button').classList.add('blinking');
+                        //    document.getElementById('connect_button').classList.add('blinking');
                        }
                    }catch(e){
                        //Do nothing for now.
@@ -1197,7 +1195,9 @@ const abi =[
                const address = await signer.getAddress();
                const balance = await provider.getBalance(address);
                document.getElementById('connect_button').innerText=(address).substring(0,5)+'...'+(address).substring((address.length)-5, (address).length);
-			   document.getElementById("referral-code").innerText="https://www.bulleyesvault.live/?ref="+address;
+			   document.getElementById("referral-code").innerText="https://www.bitforecast.xyz/?ref="+address;
+			   document.getElementById("not-connected-wallet-code").style.display='none';
+			   document.getElementById("connected-wallet-code").style.display='block';
                // document.getElementById('bnbBalance').innerText= balance+' BNB';
            }catch(e){
                //
@@ -1212,7 +1212,7 @@ const abi =[
                document.getElementById('connect_button').classList.remove('blinking');
            }else{
                //blinking...
-               document.getElementById('connect_button').classList.add('blinking');
+            //    document.getElementById('connect_button').classList.add('blinking');
            }
          })
    }
@@ -1229,7 +1229,9 @@ const abi =[
                document.getElementById('not_connected').style.display='none';
                document.getElementById('connect_button').style.display='block';
                document.getElementById('connect_button').innerText=(address).substring(0,5)+'...'+(address).substring((address.length)-5, (address).length);
-			   document.getElementById("referral-code").innerText="https://www.bulleyesvault.live/?ref="+address;
+			   document.getElementById("referral-code").innerText="https://www.bitforecast.xyz/?ref="+address;
+			   document.getElementById("not-connected-wallet-code").style.display='none';
+			   document.getElementById("connected-wallet-code").style.display='block';
                document.getElementById('connect-history').style.display='none';
                window.location.reload;
                // document.getElementById('bnbBalance').innerText= balance+' BNB';
@@ -1239,7 +1241,7 @@ const abi =[
                    document.getElementById('connect_button').classList.remove('blinking');
                }else{
                    //Add Blinking
-                   document.getElementById('connect_button').classList.add('blinking');
+                //    document.getElementById('connect_button').classList.add('blinking');
                }
            }catch (error){
                alert(error+"Please Connect to MetaMask");
