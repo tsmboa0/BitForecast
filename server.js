@@ -2601,12 +2601,12 @@ provider_polygon.websocket.on('open', ()=>{
 
 provider_polygon.websocket.on('close', async()=>{
 	console.warn("wss closed..");
-	reConnectWsProvider()
+	// reConnectWsProvider()
 });
 
 provider_polygon.websocket.on('error', async()=>{
 	console.warn("wss errored..");
-	reConnectWsProvider()
+	// reConnectWsProvider()
 });
 // Websocket on, close and err for SVM
 provider_svm.websocket.on('open', ()=>{

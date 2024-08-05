@@ -1220,7 +1220,7 @@ provider.websocket.on('error', async()=>{
 
 provider.websocket.on('close', async()=>{
 	console.warn(" SVM worker disconnected from websocketprovider.. attempting to reconnect...");
-	reConnectWsProvider();
+	// reConnectWsProvider();
 })
 
 async function reActivateListeners(){
