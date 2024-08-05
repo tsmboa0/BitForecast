@@ -2410,7 +2410,8 @@ async function getReload(){
 	currentPricePool1 = lock_round1.currentPricePool;
 	previousBullOdd1 = lock_round1.previousBullOdd;
 	previousBearOdd1 = lock_round1.previousBearOdd;
-	console.log('current price pool1 is ',currentPricePool1);
+	// console.log('current price pool1 is ',currentPricePool1);
+	console.log('locked price is ',lockedprice1);
 
 	const bet_odds1 = await Client.hgetall("Betodds1");
 	currentBullOdd1 = bet_odds1.currentBullOdd;
@@ -2423,7 +2424,9 @@ async function getReload(){
 	previousLockedPrice1 = end_round1.previousLockedPrice;
 	previousEpoch1 = end_round1.previousEpoch;
 	wonOdd1 = end_round1.wonOdd;
-	console.log('previous price pool1 is ',previousPricePool1);
+	// console.log('previous price pool1 is ',previousPricePool1);
+	console.log('previous locked price is ',previousLockedPrice1);
+	historyTab1();
 
 	const is_paused1 = await Client.get("isPaused1");
 	if(is_paused1=='true'){
@@ -2993,6 +2996,7 @@ async function historyTab() {
 //historyTab for SVM Network
 async function historyTab1() {
 	    //
+		console.log('inside the history1 block');
 		let result1;
 		if (lockedprice1 > previousLockedPrice1) {
 			result1 = 1;
@@ -3001,6 +3005,8 @@ async function historyTab1() {
 		} else if (lockedprice1 === previousLockedPrice1) {
 			result1 = 3;
 		}
+
+		console.log('the history result is ',result1);
 		const dict1 = {
 			"result": result1,
 			"epoch": previousEpoch1,

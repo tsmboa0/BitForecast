@@ -1615,17 +1615,17 @@ async function Execute(){
 			console.log(" SVM Execute completed from smart contract...");
 			nonce = tx.nonce;
 			console.log(" SVM The execute nonce is ",tx.nonce);
-			TxConfirmation();
+			// TxConfirmation();
             // Wrap both promises in an array
             const promises = [
                 new Promise((resolve, reject) => {
                     contract.once("StartRound", async(epoch, roundTimestamp, event) => {
                         console.log(" SVM StartRound event received....");
-						clearTimeout(ConfirmationId);
-						ConfirmationId = null;
+						// clearTimeout(ConfirmationId);
+						// ConfirmationId = null;
 						console.log(" SVM ConfirmationId cleared..");
-						clearTimeout(restartId);
-						restartId = null;
+						// clearTimeout(restartId);
+						// restartId = null;
 						console.log(" SVM restart cleared...");
 
 						counterStartTime = new Date().getTime();
@@ -1700,7 +1700,7 @@ async function TxConfirmation(){
 	ConfirmationId = setTimeout(()=>{
 		//code ..
 		console.log(" SVM 30s elapsed and no startRound signal gotten. Proceeding to ReExecute...");
-		ReExecute();
+		// ReExecute();
 	},30000);
 }
 
