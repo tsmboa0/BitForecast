@@ -1617,7 +1617,7 @@ async function Execute(){
     
         //write to the blockchain.
         try{
-			const tx = await contract2.Execute(Price, timestamp, betOnBull, betOnBear,{gasPrice:increasedGasPrice});//look into this line and complete it.
+			const tx = await contract2.Execute(Price, timestamp, betOnBull, betOnBear);//{gasPrice:increasedGasPrice} look into this line and complete it.
 			console.log("Execute completed from smart contract...");
 			nonce = tx.nonce;
 			console.log("The execute nonce is ",tx.nonce);
