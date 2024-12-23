@@ -1124,13 +1124,13 @@ const abi =[
 const bscNetwork = process.env.POLYGONNETWORK;
 const polygonNetwork = process.env.POLYGONJSON;
 
-// provider = new ethers.WebSocketProvider(bscNetwork);
+provider = new ethers.WebSocketProvider(bscNetwork);
 provider2 = new ethers.JsonRpcProvider(polygonNetwork);
 
-// wallet = new ethers.Wallet(privateKey, provider);
+wallet = new ethers.Wallet(privateKey, provider);
 wallet2 = new ethers.Wallet(privateKey, provider2);
 
-// contract = new ethers.Contract(contractAdress, abi, wallet);
+contract = new ethers.Contract(contractAdress, abi, wallet);
 contract2 = new ethers.Contract(contractAdress, abi, wallet2);
 
 let remainingTime;
