@@ -1225,7 +1225,7 @@ function checkMetaMask() {
           window.ethereum.request({
             method: "wallet_addEthereumChain",
   params: [{
-    chainId: "0x89",
+    chainId: "0x13882",
     rpcUrls: ["https://polygon-rpc.com/"],
     chainName: "Polygon Mainnet",
     nativeCurrency: {
@@ -1371,7 +1371,7 @@ function wrapOrderedList(lines) {
           document.getElementById('connect_button').innerText=(address).substring(0,5)+'...'+(address).substring((address.length)-5, (address).length);
           // document.getElementById('bnbBalance').innerText= balance+' BNB';
 
-          if(network.chainId==137){
+          if(network.chainId==80002){
               //Remove blinking...
               document.getElementById('connect_button').classList.remove('blinking');
           }else{

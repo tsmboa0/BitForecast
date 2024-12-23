@@ -1302,7 +1302,7 @@ if(window.ethereum){
     
       window.ethereum.on('chainChanged', (chainId)=>{
         //code here
-        if(chainId==93747){
+        if(chainId==80002){
             //Remove blinking...
             document.getElementById('connect_button').classList.remove('blinking');
         }else{
@@ -1348,7 +1348,7 @@ async function Check(){
                 const network = await provider.getNetwork();
 				console.log("isparent set is ");
 				console.log("The chainId is ", network.chainId);
-                if(network.chainId==93747){
+                if(network.chainId==80002){
 					console.log("Tryingggggggg...");
 					const isparentset = await contract.isParentSet(address);
                     console.log("isparent set is ",isparentset);
@@ -1506,7 +1506,7 @@ async function executeLogic() {
             document.getElementById('connect_button').innerText=(address).substring(0,5)+'...'+(address).substring((address.length)-5, (address).length);
             // document.getElementById('bnbBalance').innerText= balance+' BNB';
 
-            if(network.chainId==93747){
+            if(network.chainId==80002){
                 //Remove blinking...
                 document.getElementById('connect_button').classList.remove('blinking');
             }else{
@@ -1549,7 +1549,7 @@ async function executeLogic() {
             const address =await signer.getAddress();
             const balance =await provider.getBalance(address);
             const balance_ = parseFloat((ethers.utils.formatEther(balance)).toString()).toFixed(3);
-            if(network.chainId==93747){
+            if(network.chainId==80002){
                 Promise.all([
                     document.getElementById('next_bet').style.display='none',
                     document.getElementById('place_bet').style.display='block'
@@ -1585,7 +1585,7 @@ async function executeLogic() {
             const address =await  signer.getAddress();
             const balance = await provider.getBalance(address);
             const balance_ = parseFloat((ethers.utils.formatEther(balance)).toString()).toFixed(3);
-            if(network.chainId==93747){
+            if(network.chainId==80002){
                 Promise.all([
                     document.getElementById('next_bet').style.display='none',
                     document.getElementById('place_bet_bear').style.display='block'
@@ -1648,7 +1648,7 @@ async function executeLogic() {
             const address =await  signer.getAddress();
             const balance = await provider.getBalance(address);
             const balance_ = parseFloat((ethers.utils.formatEther(balance)).toString()).toFixed(3);
-            if(network.chainId==93747){
+            if(network.chainId==80002){
 				if(document.getElementById('place_bet').style.display=='block'){
 					document.getElementById('percentInput0').value = value;
 				}else if(document.getElementById('place_bet_bear').style.display=='block'){
@@ -1679,7 +1679,7 @@ async function executeLogic() {
         }else{
             const param = {value: ethers.utils.parseUnits(value, 18)};
 
-            if(network.chainId==93747){
+            if(network.chainId==80002){
 				let storedReferralCode = localStorage.getItem('referralCodeSVM');
 				if (storedReferralCode) {
 					console.log('Stored Referral Code:', storedReferralCode);
@@ -1757,7 +1757,7 @@ async function executeLogic() {
         }else{
             const param = {value: ethers.utils.parseUnits(value, 18)};
 
-            if(network.chainId==93747){
+            if(network.chainId==80002){
 				let storedReferralCode = localStorage.getItem('referralCodeSVM');
 				if (storedReferralCode) {
 					console.log('Stored Referral Code:', storedReferralCode);
@@ -1829,7 +1829,7 @@ async function executeLogic() {
             const address =await  signer.getAddress();
             const balance = await provider.getBalance(address);
             const balance_ = parseFloat((ethers.utils.formatEther(balance)).toString()).toFixed(3);
-            if(network.chainId==93747){
+            if(network.chainId==80002){
 				const mybet = await contract.Bets(epoch,address);
 				console.log("myBet is "+mybet.position);
 				if(mybet.position===1){

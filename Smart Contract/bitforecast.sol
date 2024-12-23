@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: MIT
-
 pragma solidity ^0.8.19;
 
 // Contex
@@ -119,21 +118,21 @@ abstract contract Pausable is Context {
 
 contract BitForecast is Ownable, Pausable, ReentrancyGuard, EtherTransfer{
 
-   struct InternalRound {
-    uint256 bullAmount;
-    uint256 bearAmount;
-    int256 lockprice;
-    int256 endprice;
-    uint32 startTimestamp;
-    uint32 lockTimestamp;
-    uint256 rewardsClaimable;
-    uint256 wonOdd;
-    bool isbullwon;
-    bool isbearwon;
-    bool istie;
-    bool closed;
-    bool canceled;
-}
+    struct InternalRound {
+        uint256 bullAmount;
+        uint256 bearAmount;
+        int256 lockprice;
+        int256 endprice;
+        uint32 startTimestamp;
+        uint32 lockTimestamp;
+        uint256 rewardsClaimable;
+        uint256 wonOdd;
+        bool isbullwon;
+        bool isbearwon;
+        bool istie;
+        bool closed;
+        bool canceled;
+    }
 
 // User Bet Info
 

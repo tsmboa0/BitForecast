@@ -1,4 +1,4 @@
-const contractAdress="0x6131D6D4E610260b2C0F41A0513D81D0605cC86f";
+const contractAdress="0x88b65350f05198f569c56b8ae1b62cea16e9b826";
 const abi =[
 	{
 		"inputs": [
@@ -1103,7 +1103,7 @@ async function Check(){
     
                 //detect network.
                 const network = await provider.getNetwork();
-                if(network.chainId==137){
+                if(network.chainId==80002){
                     //Remove blinking...
                     document.getElementById('connect_button').classList.remove('blinking');
                 }else{
@@ -1141,7 +1141,7 @@ if(window.ethereum){
     
       window.ethereum.on('chainChanged', (chainId)=>{
         //code here
-        if(chainId==137){
+        if(chainId==80002){
             //Remove blinking...
             document.getElementById('connect_button').classList.remove('blinking');
         }else{
@@ -1165,7 +1165,7 @@ async function connect(){
             document.getElementById('connect_button').innerText=(address).substring(0,5)+'...'+(address).substring((address.length)-5, (address).length);
             // document.getElementById('bnbBalance').innerText= balance+' BNB';
 
-            if(network.chainId==137){
+            if(network.chainId==80002){
                 //Remove blinking...
                 document.getElementById('connect_button').classList.remove('blinking');
             }else{
@@ -1185,7 +1185,7 @@ async function connect(){
       try {
         await window.ethereum.request({
           method: 'wallet_switchEthereumChain',
-          params: [{ chainId: '0x89' }], // Corrected to '0x38' for BSC mainnet
+          params: [{ chainId: '0x13882' }], // Corrected to '0x38' for BSC mainnet
         });
         document.getElementById('disconnectModal').style.display='none';
       } catch (error) {
@@ -1205,7 +1205,7 @@ async function connect(){
         const value = document.getElementById('fundsValue').value;
         const param = {value: ethers.utils.parseUnits(value.toString(), 18)};
 
-        if(network.chainId==137){
+        if(network.chainId==80002){
             try{
                 const tx = await contract.FundsInject(param);
                 await contract.on("InjectFunds", (sender, event) => {
@@ -1232,7 +1232,7 @@ async function connect(){
         const param = {value: value};
         console.log(param.value);
 
-        if(network.chainId==137){
+        if(network.chainId==80002){
             try{
                 const tx = await contract.FundsExtract(param.value);
             }catch(err){
@@ -1253,7 +1253,7 @@ async function connect(){
         const network = await provider.getNetwork();
         const contract = new ethers.Contract(contractAdress, abi, signer);
 
-        if(network.chainId==137){
+        if(network.chainId==80002){
             try{
                 const tx = await contract.Pause();
                 await contract.on("ContractPaused_", (epoch, event)=>{
@@ -1278,7 +1278,7 @@ async function connect(){
         const network = await provider.getNetwork();
         const contract = new ethers.Contract(contractAdress, abi, signer);
 
-        if(network.chainId==137){
+        if(network.chainId==80002){
             try{
                 const tx = await contract.Unpause();
                 await contract.on("ContractUnpaused_", (epoch, event)=>{
@@ -1304,7 +1304,7 @@ async function connect(){
         const operatorAddress = document.getElementById('operatorAddress').value;
         const contract = new ethers.Contract(contractAdress, abi, signer);
 
-        if(network.chainId==137){
+        if(network.chainId==80002){
             try{
                 const tx = await contract.SetOperator(operatorAddress);
                 document.getElementById('setOperatorModal').style.display='none';
@@ -1328,7 +1328,7 @@ async function connect(){
         const newRate = document.getElementById('newRewardRate').value;
         const contract = new ethers.Contract(contractAdress, abi, signer);
 
-        if(network.chainId==137){
+        if(network.chainId==80002){
             try{
                 const tx = await contract.SetRewardRate(newRate);
                 document.getElementById('setRewardRateModal').style.display='none';
@@ -1352,7 +1352,7 @@ async function connect(){
         const user = document.getElementById('blacklistAdd').value;
         const contract = new ethers.Contract(contractAdress, abi, signer);
 
-        if(network.chainId==137){
+        if(network.chainId==80002){
             try{
                 const tx = await contract.BlackListInsert(user);
                 document.getElementById('blacklistModal').style.display='none';
@@ -1376,7 +1376,7 @@ async function connect(){
         const user = document.getElementById('blacklistRemove').value;
         const contract = new ethers.Contract(contractAdress, abi, signer);
 
-        if(network.chainId==137){
+        if(network.chainId==80002){
             try{
                 const tx = await contract.BlackListRemove(user);
                 document.getElementById('blacklistRemoveModal').style.display='none';
@@ -1401,7 +1401,7 @@ async function connect(){
         const amount = ethers.utils.parseEther(document.getElementById('rewardAmount').value.toString());
         const contract = new ethers.Contract(contractAdress, abi, signer);
 
-        if(network.chainId==137){
+        if(network.chainId==80002){
             try{
                 const tx = await contract.RewardUser(user,amount);
                 document.getElementById('rewardUserModal').style.display='none';
@@ -1425,7 +1425,7 @@ async function connect(){
         const epoch = document.getElementById('cancelEpoch').value;
         const contract = new ethers.Contract(contractAdress, abi, signer);
 
-        if(network.chainId==137){
+        if(network.chainId==80002){
             try{
                 const tx = await contract.RoundCancel(epoch, true, true);
                 await contract.on("CancelRound", (epoch, event)=>{
@@ -1450,7 +1450,7 @@ async function connect(){
         const network = await provider.getNetwork();
         const contract = new ethers.Contract(contractAdress, abi, signer);
 
-        if(network.chainId==137){
+        if(network.chainId==80002){
             try{
                 const tx = await contract.RoundStart();
                 await contract.on("StartRound", (epoch, roundTimestamp, event)=>{
@@ -1476,7 +1476,7 @@ async function connect(){
         const timestamp = document.getElementById('timestamp').value;
         const contract = new ethers.Contract(contractAdress, abi, signer);
 
-        if(network.chainId==137){
+        if(network.chainId==80002){
             try{
                 const tx = await contract.RoundLock(price, timestamp);
                 await contract.on("LockAutomate", (event)=>{
@@ -1501,7 +1501,7 @@ async function connect(){
         const min = ethers.utils.parseEther(document.getElementById('minBetAmount').value.toString());
         const contract = new ethers.Contract(contractAdress, abi, signer);
 
-        if(network.chainId==137){
+        if(network.chainId==80002){
             try{
                 const tx = await contract.SetMinBetAmount(min);
                 await contract.on("MinBetAmountUpdated", (currentEpoch, minBetAmount, event)=>{
@@ -1527,7 +1527,7 @@ async function connect(){
         const interval = document.getElementById('roundInterval').value;
         const contract = new ethers.Contract(contractAdress, abi, signer);
 
-        if(network.chainId==137){
+        if(network.chainId==80002){
             try{
                 const tx = await contract.SetRoundInterval(interval);
                 await contract.on("RoundIntervalUpdated", (newInterval, event)=>{
@@ -1555,7 +1555,7 @@ async function connect(){
             const network = await provider.getNetwork();
             const contract = new ethers.Contract(contractAdress, abi, signer);
     
-            if(network.chainId==137){
+            if(network.chainId==80002){
                 try{
                     const tx = await contract.minBetAmount();
                     alert("Minimum Bet amount is "+(ethers.utils.formatEther(tx))+'BNB');
@@ -1581,7 +1581,7 @@ async function connect(){
         const epoch = document.getElementById('roundEpoch').value;
         const contract = new ethers.Contract(contractAdress, abi, signer);
 
-        if(network.chainId==137){
+        if(network.chainId==80002){
             try{
                 const tx = await contract._Rounds(epoch);
                 alert(
@@ -1618,7 +1618,7 @@ async function connect(){
         const addr = document.getElementById('betsAddress').value;
         const contract = new ethers.Contract(contractAdress, abi, signer);
 
-        if(network.chainId==137){
+        if(network.chainId==80002){
             try{
                 const tx = await contract.Bets(epoch,addr);
                 alert(
@@ -1645,7 +1645,7 @@ async function connect(){
         const network = await provider.getNetwork();
         const contract = new ethers.Contract(contractAdress, abi, signer);
 
-        if(network.chainId==137){
+        if(network.chainId==80002){
             try{
                 const tx = await contract.currentEpoch();
                 alert("The Current epoch is #"+tx);
@@ -1667,7 +1667,7 @@ async function connect(){
         const network = await provider.getNetwork();
         const contract = new ethers.Contract(contractAdress, abi, signer);
 
-        if(network.chainId==137){
+        if(network.chainId==80002){
             try{
                 const tx = await contract.operatorAddress();
                 alert("The Operator Address is: "+tx);
@@ -1689,7 +1689,7 @@ async function connect(){
         const network = await provider.getNetwork();
         const contract = new ethers.Contract(contractAdress, abi, signer);
 
-        if(network.chainId==137){
+        if(network.chainId==80002){
             try{
                 const tx = await contract.owner();
                 alert("The Owner Address is: "+tx);
@@ -1711,7 +1711,7 @@ async function connect(){
         const network = await provider.getNetwork();
         const contract = new ethers.Contract(contractAdress, abi, signer);
 
-        if(network.chainId==137){
+        if(network.chainId==80002){
             try{
                 const tx = await contract.minimumRewardRate();
                 alert("The Minimum Reward Rate is: "+tx);
@@ -1733,7 +1733,7 @@ async function connect(){
         const network = await provider.getNetwork();
         const contract = new ethers.Contract(contractAdress, abi, signer);
 
-        if(network.chainId==137){
+        if(network.chainId==80002){
             try{
                 const tx = await contract.rewardRate();
                 alert("The Reward Rate is: "+tx);
@@ -1755,7 +1755,7 @@ async function connect(){
         const network = await provider.getNetwork();
         const contract = new ethers.Contract(contractAdress, abi, signer);
 
-        if(network.chainId==137){
+        if(network.chainId==80002){
             try{
                 const tx = await contract.roundInterval();
                 alert("The Round Interval is: "+tx+"s");
@@ -1778,7 +1778,7 @@ async function connect(){
         const addr = document.getElementById('userBetsAddress').value;
         const contract = new ethers.Contract(contractAdress, abi, signer);
 
-        if(network.chainId==137){
+        if(network.chainId==80002){
             try{
                 const tx = await contract.UserBets(addr);
                 alert(tx)
@@ -1804,7 +1804,7 @@ async function connect(){
         const timestamp = Math.floor((new Date().getTime())/1000);
         const contract = new ethers.Contract(contractAdress, abi, signer);
 
-        if(network.chainId==137){
+        if(network.chainId==80002){
             try{
                 const tx = await contract.ForceExecute(price, timestamp, bull, bear);
                 await contract.on("StartRound", (epoch, roundTimestamp, event)=>{
@@ -1831,7 +1831,7 @@ async function connect(){
         const othersWallet = document.getElementById('othersWallet').value;
         const contract = new ethers.Contract(contractAdress, abi, signer);
 
-        if(network.chainId==137){
+        if(network.chainId==80002){
             try{
                 const tx = await contract.SetWallets('0x64772107fC23f7370C90EA0aBd29ee6117B97f77', ownerWallet, othersWallet);
             }catch(err){

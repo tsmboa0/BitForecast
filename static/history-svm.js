@@ -1,5 +1,5 @@
 
-const contractAdress="0x6131D6D4E610260b2C0F41A0513D81D0605cC86f";
+const contractAdress="0x88b65350f05198f569c56b8ae1b62cea16e9b826";
 const abi =[
 	{
 		"inputs": [
@@ -1108,7 +1108,7 @@ const abi =[
            
                        //detect network.
                        const network = await provider.getNetwork();
-                       if(network.chainId==93747){
+                       if(network.chainId==80002){
                            //Remove blinking...
                            document.getElementById('connect_button').classList.remove('blinking');
 
@@ -1441,7 +1441,7 @@ const abi =[
        
          window.ethereum.on('chainChanged', (chainId)=>{
            //code here
-           if(chainId==93747){
+           if(chainId==80002){
                //Remove blinking...
                document.getElementById('connect_button').classList.remove('blinking');
            }else{
@@ -1467,7 +1467,7 @@ const abi =[
                window.location.reload;
                // document.getElementById('bnbBalance').innerText= balance+' BNB';
    
-               if(network.chainId==93747){
+               if(network.chainId==80002){
                    //Remove blinking...
                    document.getElementById('connect_button').classList.remove('blinking');
                }else{
@@ -1492,7 +1492,7 @@ const abi =[
            const myAddress = await signer.getAddress();
            const filter = contract.filters.Claim(myAddress);
    
-           if(network.chainId==93747){
+           if(network.chainId==80002){
                try{
                    const txcn = await contract.claimAllRound();
                    const receipt = await txcn;
@@ -1526,7 +1526,7 @@ const abi =[
        const myAddress = await signer.getAddress();
        const filter = contract.filters.Claim(myAddress,null,null);
 
-       if(network.chainId==93747){
+       if(network.chainId==80002){
            try{
                const txcn = await contract.user_claimRound(epoch);
                const receipt = await txcn;

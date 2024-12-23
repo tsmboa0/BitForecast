@@ -29,7 +29,8 @@ let contract3;
 
 const privateKey = process.env.PRIVATEKEY;
 
-const contractAdress="0x6131D6D4E610260b2C0F41A0513D81D0605cC86f";
+const contractAdress="0x88b65350f05198f569c56b8ae1b62cea16e9b826";
+
 const abi =[
 	{
 		"inputs": [
@@ -1160,11 +1161,6 @@ let lockedprice;
 let isNeuralized=false;
 let restartId;
 
-// async function connectRedis(){
-	// await Client.connect();
-// }
-
-// connectRedis();
 
 getReload();
 
@@ -1217,55 +1213,72 @@ provider.websocket.on('close', async()=>{
 	// reConnectWsProvider();
 })
 
-async function reActivateListeners(){
-	if(!isNeuralized){
-		const eventPromises = [
-			new Promise((resolve, reject) => {
-				contract.on("StartRound", async(epoch, roundTimestamp, event)=>{
-					console.log("A new Round Just started "+epoch);
-					console.log("Round Timestamp is "+roundTimestamp);
-					console.log((roundTimestamp.toString()));
-					blockStartTime = parseInt(roundTimestamp.toString());
-					endTime = (parseInt(roundTimestamp.toString())*1000 +(304000));
-					console.log("endtime done "+endTime);
-					// nextEpoch = parseInt(epoch.toString());
-					console.log("nextEpoch Passed.");
-					console.log("A new round has started at time "+endTime);
-					
-					//set values to redis
-					await Client.hset("StartRound", {
-						'endTime': endTime,
-						'nextEpoch': nextEpoch,
-						'blockStartTime': blockStartTime
-					});
-				});
-			}),
-			new Promise((resolve, reject) => {
-				contract.on("LockAutomate", async(event)=>{
-					console.log("Round Automate Emitted");
-					remainingTime = 305000;
-					getSignal();
-					await Client.set("LockAutomateSignal", 'true');
-				})
-			}),
-			new Promise((resolve, reject) => {
-				contract.on("ExecuteForced", async(event)=>{
-					console.log("Force Execution signal received...");
-					await Client.set("LockAutomateSignal", 'true');
-					resetForced();
-				});
-			})
-		];
+async function StartRoundW(data) {
+	console.log("A new Round Just started "+data[0]);
+	console.log("Round Timestamp is "+data[1]);
+	console.log((data[1].toString()));
 
-		await Promise.all(eventPromises);
-	}else{
-		console.log("Neutralize is false..");
-	}
+	//Post Execute settings
+	clearTimeout(ConfirmationId);
+	ConfirmationId = null;
+	console.log("ConfirmationId cleared..");
+	clearTimeout(restartId);
+	restartId = null;
+	console.log("restart cleared...");
+	counterStartTime = new Date().getTime();
+	remainingTime = 300000 - ((new Date().getTime()) - counterStartTime);
+	blockStartTime = parseInt(data[1].toString());
+	endTime = (parseInt(data[1].toString())*1000 +(304000));
+	console.log("endtime done "+endTime);
+	//push to redis
+	await Client.set("counterStartTime", counterStartTime);
+	console.log("counterStartTime set for new round...");
+	console.log("A new round has started at time "+endTime);
+	
+	//set values to redis
+	await Client.hset("StartRound", {
+		'endTime': endTime,
+		'nextEpoch': nextEpoch,
+		'blockStartTime': blockStartTime
+	});
+};
 
-	console.log("exiting reActivateListners...");
+async function LockAutomateW() {
+	console.log("Round Automate Emitted");
+	remainingTime = 305000;
+	getSignal();
+	await Client.set("LockAutomateSignal", 'true');
 }
 
-reActivateListeners();
+async function ExecuteForcedW() {
+	console.log("Force Execution signal received...");
+	await Client.set("LockAutomateSignal", 'true');
+	resetForced();
+};
+
+// async function reActivateListeners(){
+// 	if(!isNeuralized){
+// 		const eventPromises = [
+// 			new Promise((resolve, reject) => {
+				
+// 			}),
+// 			new Promise((resolve, reject) => {
+				
+// 			}),
+// 			new Promise((resolve, reject) => {
+				
+// 			})
+// 		];
+
+// 		await Promise.all(eventPromises);
+// 	}else{
+// 		console.log("Neutralize is false..");
+// 	}
+
+// 	console.log("exiting reActivateListners...");
+// }
+
+// reActivateListeners();
 
 
 
@@ -1453,12 +1466,12 @@ function generateValidRandomPair(minRatio, maxRatio) {
 
 //cron operation. Calls Execute function every 5 minutes.
 function getSignal(){
-    console.log("Inside the getSignal... waiting for the next 5 mins to launch resetContract23..");
+    console.log("Inside the getSignal... waiting for the next 5 mins to launch VerifyTime..");
 
     setTimeout(()=>{
-        console.log("Inside the first setTimeout... launching resetContract23..");
-        resetContract23();
-        console.log("resetcontract23 called..");
+        console.log("Inside the first setTimeout... launching verifyTime..");
+        verifyTime();
+        console.log("verifyTime called..");
     }, remainingTime);
 }
 
@@ -1544,8 +1557,8 @@ async function Execute(){
         console.log('BTC/USDT Price:', ethers.parseUnits(bPrice.toString(), 18));
 
 		//Reconnect wsProvider
-		await reConnectWsProvider();
-		console.log("wsProvider reconnected..");
+		// await reConnectWsProvider();
+		// console.log("wsProvider reconnected..");
     
         // Example: Generate a pair of random numbers between 0.5 and 1.5 with a maximum difference of 0.5
         const [randomNumber1, randomNumber2] = generateValidRandomPair((_minHouseBetRatio / 100), 1);
@@ -1611,28 +1624,6 @@ async function Execute(){
 			TxConfirmation();
             // Wrap both promises in an array
             const promises = [
-                new Promise((resolve, reject) => {
-                    contract.once("StartRound", async(epoch, roundTimestamp, event) => {
-                        console.log("StartRound event received....");
-						clearTimeout(ConfirmationId);
-						ConfirmationId = null;
-						console.log("ConfirmationId cleared..");
-						clearTimeout(restartId);
-						restartId = null;
-						console.log("restart cleared...");
-
-						counterStartTime = new Date().getTime();
-						remainingTime = 300000 - ((new Date().getTime()) - counterStartTime);
-
-						blockStartTime = parseInt(roundTimestamp.toString());
-						endTime = (parseInt(roundTimestamp.toString())*1000 +(304000));
-						console.log("endtime done "+endTime);
-						//push to redis
-						await Client.set("counterStartTime", counterStartTime);
-						console.log("counterStartTime set for new round...");
-                        resolve();
-                    });
-                }),
                 tx.wait()
             ];
 
@@ -1643,10 +1634,6 @@ async function Execute(){
           }
         catch(e){
             console.log(e);
-			// console.warn("Execute failed..retring it in 10s");
-			// setTimeout(async()=>{
-				// Execute()
-			// },10000)
         };
      })
       .catch((error) => {
@@ -1746,57 +1733,62 @@ async function ReExecute(){
 	};
 }
 
-async function restartDyno(){
-	console.log("began Journey to 1hr30minshrs restart..");
+// async function restartDyno(){
+// 	console.log("began Journey to 1hr30minshrs restart..");
 
-	setTimeout(async() => {
-		const HEROKU_API_KEY = 'HRKU-da348822-e1e3-47a7-a194-df47114d04e8'; // Replace with your Heroku API key
-		const APP_NAME = 'bitforecast-xyz'; // Replace with your Heroku app name
-		const counter_start1 = await Client.get("counterStartTime1");
-		const remainingTime1 =300000 - ((new Date().getTime())- parseInt(counter_start1));
+// 	setTimeout(async() => {
+// 		const HEROKU_API_KEY = 'HRKU-da348822-e1e3-47a7-a194-df47114d04e8'; // Replace with your Heroku API key
+// 		const APP_NAME = 'bitforecast-xyz'; // Replace with your Heroku app name
+// 		const counter_start1 = await Client.get("counterStartTime1");
+// 		const remainingTime1 =300000 - ((new Date().getTime())- parseInt(counter_start1));
 	
-		if(remainingTime>15000 && remainingTime1>15000){
-			console.log("restarting dyno...");
-				try {
-					const response = await axios.delete(
-						`https://api.heroku.com/apps/${APP_NAME}/dynos`,
-						{
-							headers: {
-								'Content-Type': 'application/json',
-								'Accept': 'application/vnd.heroku+json; version=3',
-								'Authorization': `Bearer ${HEROKU_API_KEY}`,
-							},
-						}
-					);
-					console.log('Dyno restarted:', response.data);
-				} catch (error) {
-					console.error('Error restarting dyno:', error.response ? error.response.data : error.message);
-				}
-		}else{
-			console.log("remainingTime less than 15s... retrying in the next 15s..");
-			setTimeout(async() => {
-				console.log("restarting dyno...");
-				try {
-					const response = await axios.delete(
-						`https://api.heroku.com/apps/${APP_NAME}/dynos`,
-						{
-							headers: {
-								'Content-Type': 'application/json',
-								'Accept': 'application/vnd.heroku+json; version=3',
-								'Authorization': `Bearer ${HEROKU_API_KEY}`,
-							},
-						}
-					);
-					console.log('Dyno restarted:', response.data);
-				} catch (error) {
-					console.error('Error restarting dyno:', error.response ? error.response.data : error.message);
-				}
-			}, 20000);
-		}
-	}, 7200000);
+// 		if(remainingTime>15000 && remainingTime1>15000){
+// 			console.log("restarting dyno...");
+// 				try {
+// 					const response = await axios.delete(
+// 						`https://api.heroku.com/apps/${APP_NAME}/dynos`,
+// 						{
+// 							headers: {
+// 								'Content-Type': 'application/json',
+// 								'Accept': 'application/vnd.heroku+json; version=3',
+// 								'Authorization': `Bearer ${HEROKU_API_KEY}`,
+// 							},
+// 						}
+// 					);
+// 					console.log('Dyno restarted:', response.data);
+// 				} catch (error) {
+// 					console.error('Error restarting dyno:', error.response ? error.response.data : error.message);
+// 				}
+// 		}else{
+// 			console.log("remainingTime less than 15s... retrying in the next 15s..");
+// 			setTimeout(async() => {
+// 				console.log("restarting dyno...");
+// 				try {
+// 					const response = await axios.delete(
+// 						`https://api.heroku.com/apps/${APP_NAME}/dynos`,
+// 						{
+// 							headers: {
+// 								'Content-Type': 'application/json',
+// 								'Accept': 'application/vnd.heroku+json; version=3',
+// 								'Authorization': `Bearer ${HEROKU_API_KEY}`,
+// 							},
+// 						}
+// 					);
+// 					console.log('Dyno restarted:', response.data);
+// 				} catch (error) {
+// 					console.error('Error restarting dyno:', error.response ? error.response.data : error.message);
+// 				}
+// 			}, 20000);
+// 		}
+// 	}, 7200000);
 
-}
+// }
 
-restartDyno();
+// restartDyno();
 
 console.log("Worker Started...");
+module.exports = {
+	StartRoundW,
+	LockAutomateW,
+	ExecuteForcedW,
+  };

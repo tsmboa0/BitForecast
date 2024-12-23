@@ -1,3 +1,107 @@
+
+function main(stream) {
+	// If stream is configured with metadata in the body, the data may be nested under "data" key
+	const data = stream.data ? stream.data : stream;
+	const relevantTopics = [
+	  "0x056defe433649236ff1219e2f238f61b5479cc812d273b9177ca6ae5a7c010e4",
+	  "0xfb688a8651573cda72bf570210f029fe53a509861c3d99d572100895d1c91eaa",
+	  "0x97d80af1e17fecbdc8ffad7d0ff8a1b8b3e4999857da8b12692490c5af307dbf",
+	  "0xd9a4b08a912d999d16ca771fc9d41c9d713cb7cab5ebc1a4362aa41896abd165",
+	  "0x06f520dc079ee5acbc43faa6fead620f2a7be361e9c5b86014f95bb18a1cdda0",
+	  "0x03176945bb121d84b7e9557d5bd803f220a2d316c5b826ffa535c0dfacaa69a4",
+	  "0xc526a8dcb45e3cc5f262175cb8dfdba5231e38728cc60a9aa2e41c9b3d842735"
+	]
+  
+	function filterRelevantTopics(logs){
+	  return logs.filter((log)=>{
+		return relevantTopics.some((topic)=>
+		  log.topics[0] === topic
+		)
+	  })
+	}
+  
+	var relevantLogs = [];
+	
+	try{
+	  var logs = data[0][0];
+	  if (logs[0].address === "0x0000000000000000000000000000000000001010"){
+		if (logs.length > 0){
+		  relevantLogs = filterRelevantTopics(logs)
+  
+		  return relevantLogs > 0 ? relevantLogs : null
+		}
+	  }
+	  return logs[0]
+	}catch(e){
+	  return {error:e}
+	}
+  }
+
+
+
+  function main(stream) {
+	// If stream is configured with metadata in the body, the data may be nested under "data" key
+	const data = stream.data ? stream.data : stream;
+	const relevantTopics = [
+	  "0x056defe433649236ff1219e2f238f61b5479cc812d273b9177ca6ae5a7c010e4",
+	  "0xfb688a8651573cda72bf570210f029fe53a509861c3d99d572100895d1c91eaa",
+	  "0x97d80af1e17fecbdc8ffad7d0ff8a1b8b3e4999857da8b12692490c5af307dbf",
+	  "0xd9a4b08a912d999d16ca771fc9d41c9d713cb7cab5ebc1a4362aa41896abd165",
+	  "0x06f520dc079ee5acbc43faa6fead620f2a7be361e9c5b86014f95bb18a1cdda0",
+	  "0x03176945bb121d84b7e9557d5bd803f220a2d316c5b826ffa535c0dfacaa69a4",
+	  "0xc526a8dcb45e3cc5f262175cb8dfdba5231e38728cc60a9aa2e41c9b3d842735"
+	]
+  
+	function filterRelevantTopics(logs){
+	  return logs.filter((log)=>{
+		return relevantTopics.some((topic)=>
+		  log.topics[0] === topic
+		)
+	  })
+	}
+  
+	var relevantLogs = [];
+	
+	try{
+	  data.forEach((block)=>{
+			block.forEach((reciept)=>{
+				reciept.forEach((log)=>{
+					// var logs = data[0][0];
+					if (log[0].address ){
+						if (log.length > 0){
+							relevantLogs = filterRelevantTopics(log)
+						}
+					}
+				})
+		})
+	  })
+
+	return relevantLogs > 0 ? relevantLogs : null
+	}catch(e){
+	  return {error:e}
+	}
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // SVM Worker.....
 
 const express = require('express');
