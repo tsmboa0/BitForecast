@@ -1668,8 +1668,8 @@ async function executeLogic() {
 		const myAddress = await signer.getAddress();
 		const filter = contract.filters.BetBull(myAddress,null,null);
 
-        if(value<5){
-            alert("Bet Amount cannot be less than 5 MATIC. Please increase your stake");
+        if(value<0.00001){
+            alert("Bet Amount cannot be less than 0.00001 MATIC. Please increase your stake");
         }else{
             const param = {value: ethers.utils.parseUnits(value, 18)};
 
@@ -1746,8 +1746,8 @@ async function executeLogic() {
 		const myAddress = await signer.getAddress();
 		const filter = contract.filters.BetBear(myAddress,null,null);
 
-        if(value<5){
-            alert("Bet Amount cannot be less than 5 MATIC. Please increase your stake");
+        if(value<0.00001){
+            alert("Bet Amount cannot be less than 0.00001 MATIC. Please increase your stake");
         }else{
             const param = {value: ethers.utils.parseUnits(value, 18)};
 

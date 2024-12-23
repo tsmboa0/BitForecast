@@ -1150,11 +1150,6 @@ const abi_polygon =[
 ];
 
 // https://2b5f-105-113-65-106.ngrok-free.app/api/server/database?action=webhook 
-const bscNetwork = process.env.POLYGONNETWORK;
-provider_polygon = new ethers.WebSocketProvider(bscNetwork);
-const privateKey = process.env.PRIVATEKEY;
-wallet_polygon = new ethers.Wallet(privateKey, provider_polygon);
-contract_polygon = new ethers.Contract(contractAdress_polygon, abi_polygon, wallet_polygon);
 
 const contractInterface = new ethers.Interface(abi_polygon);
 
@@ -1326,24 +1321,24 @@ setInterval(async()=>{
 },300000);
 
 // BitCoin Price every half second.
-// const btcusdt = setInterval(async()=>{
-// 	// console.log("Live BTCUSDT price signal received");
-// 	//
-// 	await axios.get('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT')
-// 	.then(async(response) => {
-// 		// Extract and use the price from the response
-// 		// console.log("price stage passed.")
-// 		const btc_usdt = response.data.price;
-// 		// console.log("the BTCUSDT Price is "+btc_usdt);
+const btcusdt = setInterval(async()=>{
+	// console.log("Live BTCUSDT price signal received");
+	//
+	await axios.get('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT')
+	.then(async(response) => {
+		// Extract and use the price from the response
+		// console.log("price stage passed.")
+		const btc_usdt = response.data.price;
+		// console.log("the BTCUSDT Price is "+btc_usdt);
 
-// 		//emit price to frontend.
-// 		io.emit("btc_usdt", btc_usdt);
-// 		// console.log("LivePrice Emitted...");
-// 	})
-// 	.catch((e)=>{
-// 		console.log("BTC Price didnt work out");
-// 	})
-// },500);
+		//emit price to frontend.
+		io.emit("btc_usdt", btc_usdt);
+		// console.log("LivePrice Emitted...");
+	})
+	.catch((e)=>{
+		console.log("BTC Price didnt work out");
+	})
+},500);
 
 // async function reconnectWait(){
 // 	console.log("start round signal receieved... waiting 5 mins before reconnecting to wsProvider..");
@@ -1371,19 +1366,6 @@ async function reConnectWsProvider(){
 	reActivateListeners();
 }
 
-provider_polygon.websocket.on('open', ()=>{
-	console.warn("welcome to your webSocket connection..")
-})
-
-provider_polygon.websocket.on('close', async()=>{
-	console.warn("wss closed..");
-	// reConnectWsProvider()
-});
-
-provider_polygon.websocket.on('error', async()=>{
-	console.warn("wss errored..");
-	// reConnectWsProvider()
-});
 
 async function LockAutomate(){
 	console.log("Round Automate Emitted");
@@ -1549,25 +1531,8 @@ async function ExecuteForced(){
 
 
 //Min bet Amount Updated
-contract_polygon.on("MinBetAmountUpdated", (epoch, minBetAmount, event)=>{
-	//
-	_minHouseBetRatio = parseInt(minBetAmount.toString());
-});
 
-contract_polygon.on("ContractPaused_", async(epoch, event)=>{
-	//
-	isPaused=true;
-	// await Client.set("ispaused", 'true');
-	io.emit("contractPaused", isPaused);
-});
 
-//Contract Unpaused
-contract_polygon.on("ContractUnpaused_", async(epoch, event)=>{
-	//
-	isPaused=false;
-	await Client.set("ispaused", 'false');
-	io.emit("contractUnpaused", isPaused);
-});
 
 //Execute Forced
 
@@ -1616,8 +1581,6 @@ async function historyTab() {
 		
 		console.log("not redis history length is :"+history_Tab.length);
 }
-
-  
 
 
 //static files
