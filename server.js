@@ -22,8 +22,8 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
 // Use the middleware to enforce
-// app.use(sslRedirect.HTTPS({ trustProtoHeader: true }));
-// console.log("Hello middleware");
+app.use(sslRedirect.HTTPS({ trustProtoHeader: true }));
+console.log("Hello middleware");
 
 const Client = new Redis(process.env.REDISCLOUD_URL);
 
@@ -1349,22 +1349,22 @@ const btcusdt = setInterval(async()=>{
 // }
 
 
-async function reConnectWsProvider(){
-	console.log("closing the connection to webSocketProvider..");
-	isNeutralize = true;
-	reActivateListeners();
-	provider_polygon.websocket.close();
-	console.warn("reopening socket...");
-	provider_polygon = new ethers.WebSocketProvider(bscNetwork);
-	wallet_polygon = new ethers.Wallet(privateKey, provider_polygon);
-	contract_polygon = new ethers.Contract(contractAdress_polygon, abi_polygon, wallet_polygon);
-	console.log(await provider_polygon.getBlockNumber());
-	const tx = await contract_polygon.isParentSet("0x4FC2988B2Fbd411767d08ef8768dB77e6A46DDfF");
-	console.log("parent is ",tx);
-	isNeutralize = false;
+// async function reConnectWsProvider(){
+// 	console.log("closing the connection to webSocketProvider..");
+// 	isNeutralize = true;
+// 	reActivateListeners();
+// 	provider_polygon.websocket.close();
+// 	console.warn("reopening socket...");
+// 	provider_polygon = new ethers.WebSocketProvider(bscNetwork);
+// 	wallet_polygon = new ethers.Wallet(privateKey, provider_polygon);
+// 	contract_polygon = new ethers.Contract(contractAdress_polygon, abi_polygon, wallet_polygon);
+// 	console.log(await provider_polygon.getBlockNumber());
+// 	const tx = await contract_polygon.isParentSet("0x4FC2988B2Fbd411767d08ef8768dB77e6A46DDfF");
+// 	console.log("parent is ",tx);
+// 	isNeutralize = false;
 
-	reActivateListeners();
-}
+// 	reActivateListeners();
+// }
 
 
 async function LockAutomate(){

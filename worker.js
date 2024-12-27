@@ -12,7 +12,7 @@ require('events').EventEmitter.defaultMaxListeners = 15;
 const Client = new Redis(process.env.REDISCLOUD_URL);
 let web3;
 
-web3 = new Web3('https://polygon-mainnet.infura.io/v3/724975be56204e32904f40ad4a0deb30');
+web3 = new Web3('https://rpc-amoy.polygon.technology/');
 
 // const Client = redis.createClient();
 
